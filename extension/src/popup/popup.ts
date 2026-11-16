@@ -5,6 +5,7 @@ import type { ActApproval } from '../core/act-approvals.js';
 import { getRuntimeApi } from '../core/webext-polyfill.js';
 import { renderActApprovals } from './act-approvals-view.js';
 import { renderAccountGuards, type SyncedGuardItem } from './guard-view.js';
+import { buildSaveConfigPayload, tokenPlaceholder } from './pairing-form.js';
 
 interface PopupStateResponse {
   ok: boolean;
@@ -97,6 +98,10 @@ function renderState(res: PopupStateResponse): void {
     brokerInput.value = res.config.brokerUrl;
   }
 
+  el<HTMLInputElement>('pairing-token-input').placeholder = tokenPlaceholder(
+    Boolean(res.config?.hasToken ?? res.bridge?.hasToken),
+  );
+
   renderAccountGuards(res.accountGuards ?? [], (site) => {
     void sendPopupCommand({ cmd: 'resolve_guard', site }).then(() => refreshState());
   });
@@ -188,13 +193,15 @@ el<HTMLButtonElement>('refresh-btn').addEventListener('click', () => {
 
 el<HTMLFormElement>('pairing-form').addEventListener('submit', (event) => {
   event.preventDefault();
-  const brokerUrl = el<HTMLInputElement>('broker-url-input').value.trim();
-  const pairingToken = el<HTMLInputElement>('pairing-token-input').value.trim();
+  const tokenInput = el<HTMLInputElement>('pairing-token-input');
+  const payload = buildSaveConfigPayload(el<HTMLInputElement>('broker-url-input').value, tokenInput.value);
   const feedback = el<HTMLParagraphElement>('form-feedback');
 
   void (async () => {
     try {
-      await sendPopupCommand({ cmd: 'save_config', brokerUrl, pairingToken });
+      await sendPopupCommand({ ...payload });
+      // The token now lives in extension storage; never leave it on screen.
+      tokenInput.value = '';
       feedback.textContent = 'Saved pairing config. Reconnecting to broker.';
       await new Promise((r) => setTimeout(r, 350));
       await refreshState();
