@@ -15,9 +15,9 @@ Run a read-only check of the workspace, TypeScript `>= 7.0.2` build, contract ch
    node scripts/skill_contract.mjs --check
    node scripts/sync_host_bundles.mjs --check
    ```
-2. Probe live broker status without failing if idle:
+2. Probe the live broker without failing if idle. `doctor` checks that the broker is reachable, the pairing token is present and accepted, the extension is paired, and that protocol and extension versions match; each failed check carries a `fix`. It never prints the token:
    ```bash
-   node cli/dist/browser-agent.js daemon status --json || true
+   node cli/dist/browser-agent.js doctor --json || true
    ```
 3. Summarize a concise health table:
    - TypeScript compiler version (`>= 7.0.2`) and `npm test` status

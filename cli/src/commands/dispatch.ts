@@ -2,6 +2,7 @@ import { DEFAULT_BROKER_HOST, DEFAULT_BROKER_PORT } from '../../../shared/rpc-en
 import { callBrokerRpc, fetchBrokerHealth, queryCacheWithFallback } from '../daemon/client.js';
 import { loadOrCreatePairingToken, resolvePairingFilePath } from '../daemon/pairing.js';
 import { redactToken } from '../daemon/request-guard.js';
+import { runDoctor } from './doctor.js';
 import { startBrokerServer } from '../daemon/ws-broker.js';
 import { runMcpStdioLoop } from '../mcp/stdio-server.js';
 
@@ -52,6 +53,7 @@ function getHelpText(): string {
     '  daemon start [--port 4347] [--fixtures]',
     '  daemon status [--json]',
     '  daemon token [--reveal] [--json]',
+    '  doctor [--port 4347] [--json]',
     '  capabilities [--json]',
     '  observe [--tab <id>] [--url <url>] [--max-nodes <n>] [--json]',
     '  act --op <click_ref|fill_ref> --ref <n> --page-id <id> --epoch <n> --lease-id <id> [--tab <id>] [--value <text>] [--json]',
@@ -136,6 +138,11 @@ export async function dispatchCli(argv: string[]): Promise<number> {
       });
       return 0;
     }
+  }
+
+  if (cmd === 'doctor') {
+    const report = await runDoctor(brokerCfg);
+    return outJson(report, report.ok ? 0 : 1);
   }
 
   if (cmd === 'capabilities') {
