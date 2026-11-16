@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca864246e89af2c36d610f7955 # v4.4.0
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d27597364c9af683 # v5.6.0
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - run: python3 scripts/self_check.py --require-build
