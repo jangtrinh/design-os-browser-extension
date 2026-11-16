@@ -162,3 +162,31 @@ describe('Guard helpers and token output (pilot gap 7)', () => {
     }
   });
 });
+
+describe('popup pairing form keeps the token off screen', () => {
+  it('sends a trimmed token only when one was typed', async () => {
+    const { buildSaveConfigPayload } = await import('../extension/src/popup/pairing-form.js');
+    expect(buildSaveConfigPayload(' ws://127.0.0.1:4347/ws ', ` ${TOKEN} `)).toEqual({
+      cmd: 'save_config',
+      brokerUrl: 'ws://127.0.0.1:4347/ws',
+      pairingToken: TOKEN,
+    });
+    // A blank field after the popup cleared it must keep the saved token, not erase it.
+    const blank = buildSaveConfigPayload('ws://127.0.0.1:4347/ws', '   ');
+    expect(blank).toEqual({ cmd: 'save_config', brokerUrl: 'ws://127.0.0.1:4347/ws' });
+    expect('pairingToken' in blank).toBe(false);
+  });
+
+  it('uses a masked input and says when a token is already saved', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { tokenPlaceholder, TOKEN_PLACEHOLDER_SAVED, TOKEN_PLACEHOLDER_EMPTY } = await import(
+      '../extension/src/popup/pairing-form.js'
+    );
+    const html = readFileSync(new URL('../extension/src/popup/popup.html', import.meta.url), 'utf8');
+    const input = html.match(/<input\s+id="pairing-token-input"[^>]*>/s)?.[0] ?? '';
+    expect(input).toMatch(/type="password"/);
+    expect(tokenPlaceholder(true)).toBe(TOKEN_PLACEHOLDER_SAVED);
+    expect(tokenPlaceholder(false)).toBe(TOKEN_PLACEHOLDER_EMPTY);
+    expect(TOKEN_PLACEHOLDER_SAVED).not.toContain(TOKEN);
+  });
+});

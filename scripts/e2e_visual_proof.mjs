@@ -224,6 +224,14 @@ async function main() {
     }
     assert(await isExtensionAttached(port), 'Extension MV3 service worker must connect over ws://127.0.0.1:4347/ws');
 
+    // The pairing token must not stay visible in the popup after a successful connect.
+    const tokenField = await popupPage.evaluate(() => {
+      const input = document.getElementById('pairing-token-input');
+      return { type: input?.getAttribute('type'), empty: input?.value === '' };
+    });
+    assert.equal(tokenField.type, 'password', 'Pairing token input must be a masked password field');
+    assert.equal(tokenField.empty, true, 'Pairing token input must be cleared after a successful connect');
+
     // Verify popup craft-floor metrics at 375px width
     const uiProbe = await popupPage.evaluate(() => {
       const overflow = document.documentElement.scrollWidth > window.innerWidth;
