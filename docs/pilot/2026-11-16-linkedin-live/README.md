@@ -24,6 +24,8 @@ A pilot of `design-os-browser-extension` v0.2.0 (commit `b3ce888`) on Jang Trinh
 | 4 | People search "design system" + profile lookup | `linkedin search --category people --query 'design system' --url …`, `linkedin profile --url <result>` | **FAIL** (adapter) / **PARTIAL** (observe) | `search` returned `items: []`. `observe` saw about 14 result profiles (28 profile links, 2 per card) with names and headlines. `profile` on the first result returned `fullName` = slug and `headline: "· 1st"`. |
 | 5 | Query the cache | `linkedin cache --sql …` | **PASS** (mechanics) | The SELECT-only cache works and is fast (~0.1 s): 2 profiles, 1 post, 2 search runs, 0 companies/jobs/threads, 0 copilot items. The persisted content is the same wrong or empty data as above. The 8 `events` rows come from the earlier logged-out smoke test, not this pilot. |
 
+Note on task 3: the post opened was the top-impression post from the 7-day analytics list (759 impressions, 20 engagements), not the newest item on recent activity (`urn:li:activity:7527725342086721537`). The comment finding is the same either way: no reader exists and none of the snapshots showed comment nodes.
+
 ## Environment
 
 - Box Linux, Node v24.22.1, TypeScript 7.0.2, built with `npm run build`.
