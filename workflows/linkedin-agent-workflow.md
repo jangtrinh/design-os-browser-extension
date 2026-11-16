@@ -1,6 +1,6 @@
 # LinkedIn Agent Interaction Workflow (`design-os-browser-extension`)
 
-End-to-end operational workflow for AI coding & automation agents operating LinkedIn inside the user's real signed-in Chrome/Arc/Brave/Firefox session via `browser-agent` CLI (`--json`) or the 14-tool MCP `stdio` server.
+End-to-end operational workflow for AI coding & automation agents operating LinkedIn inside the user's real signed-in Chrome/Arc/Brave/Firefox session via `browser-agent` CLI (`--json`) or the 22-tool MCP `stdio` server. Multi-site read-only operations and automated routine queries are routed through the Shared Browser Layer (`dos.reader.v1`, `reader_*` tools) under shared pacing and popup Account Guard protection.
 
 ```mermaid
 flowchart TD

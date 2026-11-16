@@ -120,8 +120,8 @@ export class ReaderRuntime {
     return site ? this.pacing.getStatus(site) : this.pacing.listAllStatuses();
   }
 
-  guardStatus(site?: ReaderSiteId) {
-    return site ? this.guard.getGuard(site) : this.guard.listGuards();
+  guardStatus(site?: ReaderSiteId | string, targetUrl?: string) {
+    return site ? this.guard.getGuard(site, targetUrl) : this.guard.listGuards();
   }
 
   getEvidence(evidenceId: string) {
@@ -202,8 +202,8 @@ export class ReaderRuntime {
       const cachedRow = this.store.getLatest(input.site, input.view, targetKey);
       const cachedAgeS = cachedRow ? Math.max(0, Math.floor((nowMs - cachedRow.captured_ms) / 1000)) : 0;
 
-      if (this.guard.getGuard(input.site).state === 'PAUSED') {
-        return this.serveGuardPaused(input.site, input.view, target, targetKey, maxAgeS, cachedRow, cachedAgeS, caller, this.guard.getGuard(input.site).reason ?? 'Account guard paused.');
+      if (this.guard.getGuard(input.site, target).state === 'PAUSED') {
+        return this.serveGuardPaused(input.site, input.view, target, targetKey, maxAgeS, cachedRow, cachedAgeS, caller, this.guard.getGuard(input.site, target).reason ?? 'Account guard paused.');
       }
       if (cachedRow && (maxAgeS < 0 || cachedAgeS < maxAgeS)) {
         const stale = maxAgeS >= 0 ? cachedAgeS >= maxAgeS : cachedAgeS >= composite.descriptor.defaultMaxAgeS;
@@ -267,11 +267,12 @@ export class ReaderRuntime {
     const activeHandler = handler!;
     const target = input.target?.trim() || activeHandler.resolveTargetUrl(params) || '';
     const targetKey = deriveTargetKey(input.site, input.view, target, params);
+    const paramAllowedHosts = Array.isArray(params.allowed_hosts) ? params.allowed_hosts.map(String) : [];
     const urlCheck = validateReaderTargetUrl({
       site: input.site,
       targetUrl: target,
       allowFixtureLoopback: this.allowFixtureLoopback,
-      configuredAllowedHosts: [...activeHandler.descriptor.allowedHosts, ...this.configuredAllowedHosts],
+      configuredAllowedHosts: [...activeHandler.descriptor.allowedHosts, ...this.configuredAllowedHosts, ...paramAllowedHosts],
     });
     if (!urlCheck.ok) {
       return this.failEnvelope(input.site, input.view, target, targetKey, caller, 'BLOCKED_POLICY', urlCheck.code ?? 'BLOCKED_POLICY', urlCheck.message ?? 'URL rejected');
@@ -283,7 +284,7 @@ export class ReaderRuntime {
     const cachedAgeS = cachedRow ? Math.max(0, Math.floor((nowMs - cachedRow.captured_ms) / 1000)) : 0;
 
     // Rule 8.1: Paused account guard overrides everything — 0 live loads on paused site.
-    const guardState = this.guard.getGuard(input.site);
+    const guardState = this.guard.getGuard(input.site, target);
     if (guardState.state === 'PAUSED') {
       return this.serveGuardPaused(input.site, input.view, target, targetKey, maxAgeS, cachedRow, cachedAgeS, caller, guardState.reason ?? 'Account guard paused.');
     }
@@ -472,7 +473,22 @@ export class ReaderRuntime {
       }
     }
 
-    const parsed = handler.parse(collected.snapshot, ctx.params);
+    let parseParams = ctx.params;
+    if (ctx.site === 'unikorn' && ctx.view === 'product.comments' && !Array.isArray(ctx.params.previous_comment_ids)) {
+      const prevRow = this.store.getLatest('unikorn', 'product.comments', ctx.targetKey);
+      if (prevRow) {
+        try {
+          const previous_comment_ids = ((JSON.parse(prevRow.data_json).comments ?? []) as Array<{ id?: unknown }>)
+            .map((c) => String(c.id ?? ''))
+            .filter(Boolean);
+          parseParams = { ...ctx.params, previous_comment_ids };
+        } catch {
+          // ignore corrupted json in cache
+        }
+      }
+    }
+
+    const parsed = handler.parse(collected.snapshot, parseParams);
     const notes = [...parsed.notes];
     if (
       collected.snapshot.hiddenInstructions.length > 0 ||
@@ -649,7 +665,7 @@ export class ReaderRuntime {
       gate: 'PAUSED_BY_GUARD',
       pacing: { site: p.site, loads_left_hour: p.loads_left_hour, loads_left_day: p.loads_left_day },
       redaction: { policy: REDACTION_POLICY_ID, fields_redacted: 0 },
-      evidence_id: this.guard.getGuard(site).evidence_id ?? cachedRow?.evidence_id ?? null,
+      evidence_id: this.guard.getGuard(site, target).evidence_id ?? cachedRow?.evidence_id ?? null,
       audit_id: auditId,
       caller,
       data: cachedRow ? (JSON.parse(cachedRow.data_json) as Record<string, unknown>) : { error: reason },
@@ -750,6 +766,9 @@ export class ReaderRuntime {
   ): ReaderEnvelope<Record<string, unknown>> {
     const endedAt = formatIsoWithOffset(new Date(this.clock.now()));
     const p = this.pacing.getStatus(ctx.site, ctx.target);
+    const isGenericChallenge = ctx.site === 'generic' && detectedGate === 'BLOCKED_CHALLENGE';
+    const effectiveGate = isGenericChallenge ? 'BLOCKED_CHALLENGE' : (detectedGate === 'BLOCKED_CHALLENGE' || detectedGate === 'BLOCKED_AUTH' ? 'PAUSED_BY_GUARD' : detectedGate);
+    const errorCode = isGenericChallenge ? 'BLOCKED_CHALLENGE' : 'PAUSED_BY_GUARD';
     const env: ReaderEnvelope<Record<string, unknown>> = {
       ok: false,
       schema: READER_SCHEMA_VERSION,
@@ -762,7 +781,7 @@ export class ReaderRuntime {
       freshness: { max_age_s: 0, age_s: 0, stale: false },
       complete: false,
       missing_required: [],
-      gate: detectedGate === 'BLOCKED_CHALLENGE' || detectedGate === 'BLOCKED_AUTH' ? 'PAUSED_BY_GUARD' : detectedGate,
+      gate: effectiveGate,
       pacing: { site: p.site, loads_left_hour: p.loads_left_hour, loads_left_day: p.loads_left_day },
       redaction: { policy: REDACTION_POLICY_ID, fields_redacted: 0 },
       evidence_id: evidenceId,
@@ -770,10 +789,10 @@ export class ReaderRuntime {
       caller: ctx.caller,
       data: { error: reason, detected_gate: detectedGate },
       notes: [reason],
-      error_code: 'PAUSED_BY_GUARD',
+      error_code: errorCode,
       ...(alertLineOnce ? { alert_line: alertLineOnce } : {}),
     };
-    this.recordAuditRow(env, startedAt, endedAt, 'read', 'miss', pageLoads, 'CLEAR', 'PAUSED_BY_GUARD', null, attemptId);
+    this.recordAuditRow(env, startedAt, endedAt, 'read', 'miss', pageLoads, 'CLEAR', effectiveGate, null, attemptId);
     return env;
   }
 

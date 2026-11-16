@@ -13,6 +13,20 @@ import type { CallerOrigin } from '../../../shared/rpc-envelope.js';
 import { ReaderAuditLog } from './audit-log.js';
 import { recordEvidenceBundle } from './evidence-recorder.js';
 
+export function resolveGuardScopeKey(site: string, targetUrl?: string): string {
+  if (site === 'generic' && targetUrl) {
+    try {
+      const url = new URL(targetUrl);
+      if (url.hostname) {
+        return `generic:${url.hostname.toLowerCase()}`;
+      }
+    } catch {
+      // not a valid URL
+    }
+  }
+  return site;
+}
+
 export class AccountGuardManager {
   private readonly db: DatabaseSyncType;
   private readonly audit: ReaderAuditLog;
@@ -28,11 +42,12 @@ export class AccountGuardManager {
     this.onChange = onChange;
   }
 
-  getGuard(site: ReaderSiteId): AccountGuardRecord {
+  getGuard(site: ReaderSiteId | string, targetUrl?: string): AccountGuardRecord {
+    const scopeKey = resolveGuardScopeKey(site, targetUrl);
     const row = this.db
       .prepare('SELECT * FROM account_guards WHERE site = ?')
-      .get(site) as {
-        site: ReaderSiteId;
+      .get(scopeKey) as {
+        site: string;
         state: 'CLEAR' | 'PAUSED';
         reason: string | null;
         since: string | null;
@@ -43,7 +58,7 @@ export class AccountGuardManager {
 
     if (!row) {
       return {
-        site,
+        site: scopeKey as ReaderSiteId,
         state: 'CLEAR',
         reason: null,
         since: null,
@@ -53,7 +68,7 @@ export class AccountGuardManager {
       };
     }
     return {
-      site: row.site,
+      site: row.site as ReaderSiteId,
       state: row.state,
       reason: row.reason,
       since: row.since,
@@ -64,7 +79,28 @@ export class AccountGuardManager {
   }
 
   listGuards(): AccountGuardRecord[] {
-    return (Object.keys(SITE_PACING_POLICIES) as ReaderSiteId[]).map((site) => this.getGuard(site));
+    const baseGuards = (Object.keys(SITE_PACING_POLICIES) as ReaderSiteId[]).map((site) => this.getGuard(site));
+    const extraRows = this.db
+      .prepare("SELECT * FROM account_guards WHERE site LIKE 'generic:%' AND state = 'PAUSED'")
+      .all() as Array<{
+        site: string;
+        state: 'CLEAR' | 'PAUSED';
+        reason: string | null;
+        since: string | null;
+        evidence_id: string | null;
+        alert_emitted: number;
+        alert_line: string | null;
+      }>;
+    const extraGuards: AccountGuardRecord[] = extraRows.map((row) => ({
+      site: row.site as ReaderSiteId,
+      state: row.state,
+      reason: row.reason,
+      since: row.since,
+      evidence_id: row.evidence_id,
+      alert_emitted: row.alert_emitted === 1,
+      alert_line: row.alert_line,
+    }));
+    return [...baseGuards, ...extraGuards];
   }
 
   triggerPause(params: {
@@ -82,7 +118,8 @@ export class AccountGuardManager {
     now?: Date;
   }): { guard: AccountGuardRecord; alertLineOnce?: string; evidenceId: string } {
     const now = params.now ?? new Date();
-    const existing = this.getGuard(params.site);
+    const scopeKey = resolveGuardScopeKey(params.site, params.target);
+    const existing = this.getGuard(scopeKey);
     const sinceIso = existing.state === 'PAUSED' && existing.since ? existing.since : formatIsoWithOffset(now);
     const evidenceId = mintUlid(`ev_${params.site}`, now.getTime());
 
@@ -118,7 +155,7 @@ export class AccountGuardManager {
     });
 
     const alertLine =
-      `[GUARD PAUSED] site=${params.site} reason="${params.reason}" since=${sinceIso} evidence=${evidenceId}`;
+      `[GUARD PAUSED] site=${scopeKey} reason="${params.reason}" since=${sinceIso} evidence=${evidenceId}`;
     const alreadyAlerted = existing.state === 'PAUSED' && existing.alert_emitted;
 
     this.db
@@ -133,9 +170,9 @@ export class AccountGuardManager {
            alert_emitted = 1,
            alert_line = COALESCE(account_guards.alert_line, excluded.alert_line)`,
       )
-      .run(params.site, params.reason, sinceIso, evidenceId, alertLine);
+      .run(scopeKey, params.reason, sinceIso, evidenceId, alertLine);
 
-    const updated = this.getGuard(params.site);
+    const updated = this.getGuard(scopeKey);
     this.onChange?.(this.listGuards());
     return {
       guard: updated,
@@ -149,7 +186,7 @@ export class AccountGuardManager {
    * Any agent-rpc / CLI / MCP attempt is unconditionally rejected.
    */
   resolveByHumanPopup(
-    site: ReaderSiteId,
+    site: ReaderSiteId | string,
     callerOrigin: CallerOrigin,
     now: Date = new Date(),
   ): { ok: boolean; error?: string; guard: AccountGuardRecord } {
@@ -162,6 +199,7 @@ export class AccountGuardManager {
       };
     }
 
+    const baseSite: ReaderSiteId = (site.startsWith('generic:') ? 'generic' : site) as ReaderSiteId;
     const nowIso = formatIsoWithOffset(now);
     this.db
       .prepare(
@@ -182,13 +220,13 @@ export class AccountGuardManager {
       ended_at: nowIso,
       caller_bot: 'human-popup',
       caller_routine: 'Account guard resolved in popup',
-      site,
+      site: baseSite,
       view: 'guard.resolve',
       target: `guard://${site}`,
       kind: 'guard',
       cache: 'n/a',
       page_loads: 0,
-      pacing_after: { site, loads_left_hour: SITE_PACING_POLICIES[site].perHour, loads_left_day: SITE_PACING_POLICIES[site].perDay },
+      pacing_after: { site: baseSite, loads_left_hour: SITE_PACING_POLICIES[baseSite].perHour, loads_left_day: SITE_PACING_POLICIES[baseSite].perDay },
       gate_before: current.state === 'PAUSED' ? 'PAUSED' : 'CLEAR',
       gate_after: 'CLEAR',
       result: 'AGENT_OK',

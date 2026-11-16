@@ -321,6 +321,30 @@ async function main() {
     assert.equal(mcpReplies[1].result.tools.length, 22);
     assert.equal(mcpReplies[2].result.isError, false);
 
+    const readerListRes = runCli(['reader', 'list', '--json'], cliEnv);
+    assert.equal(readerListRes.json.ok, true);
+    assert(readerListRes.json.views.length >= 25);
+
+    const readerProfileRes = runCli(
+      [
+        'reader',
+        'read',
+        '--site',
+        'linkedin',
+        '--view',
+        'profile.self',
+        '--target',
+        `http://127.0.0.1:${port}/fixture/in/linh-nguyen-staff-ai`,
+        '--params',
+        '{"public_id":"linh-nguyen-staff-ai"}',
+        '--json',
+      ],
+      cliEnv,
+    );
+    assert.equal(readerProfileRes.json.ok, true);
+    assert.equal(readerProfileRes.json.schema, 'dos.reader.v1');
+    assert.equal(readerProfileRes.json.source, 'cache');
+
     // Step F: Security Checkpoint -> immediate BLOCKED_CHALLENGE halt with 0 retries
     await workTab.goto(`http://127.0.0.1:${port}/fixture/checkpoint/challenge`, {
       waitUntil: 'domcontentloaded',
@@ -333,12 +357,82 @@ async function main() {
     assert.equal(blockedRead.code, 1);
     assert.equal(blockedRead.json.humanGate, 'BLOCKED_CHALLENGE');
 
+    const guardTriggerRes = runCli(
+      [
+        'reader',
+        'read',
+        '--site',
+        'linkedin',
+        '--view',
+        'profile.self',
+        '--target',
+        `http://127.0.0.1:${port}/fixture/checkpoint/challenge`,
+        '--max-age-s',
+        '0',
+        '--bot',
+        'J',
+        '--routine',
+        'nightly',
+        '--json',
+      ],
+      cliEnv,
+      true,
+    );
+    assert.equal(guardTriggerRes.json.gate, 'PAUSED_BY_GUARD');
+
+    const guardSecondCaller = runCli(
+      [
+        'reader',
+        'read',
+        '--site',
+        'linkedin',
+        '--view',
+        'analytics.content',
+        '--max-age-s',
+        '0',
+        '--bot',
+        'Community',
+        '--routine',
+        'triage',
+        '--json',
+      ],
+      cliEnv,
+      true,
+    );
+    assert.equal(guardSecondCaller.json.gate, 'PAUSED_BY_GUARD');
+    assert.equal(guardSecondCaller.json.source, 'cache');
+
     await popupPage.click('#refresh-btn');
     await popupPage.waitForFunction(
-      () => document.getElementById('human-gate-alert')?.hidden === false,
+      () =>
+        document.getElementById('human-gate-alert')?.hidden === false &&
+        document.getElementById('guard-panel')?.hidden === false,
       { timeout: 5000 },
     );
+    const guardOverflow = await popupPage.evaluate(() => document.documentElement.scrollWidth > 375);
+    assert.equal(guardOverflow, false, 'Popup must have zero horizontal overflow at 375px while #guard-panel is visible');
     const popupBlockedShot = await popupPage.screenshot({ type: 'png', fullPage: true });
+
+    await popupPage.click('#guard-list button');
+    await popupPage.waitForFunction(
+      () => document.getElementById('guard-panel')?.hidden === true,
+      { timeout: 5000 },
+    );
+
+    let guardAuditRes;
+    const auditStart = Date.now();
+    while (Date.now() - auditStart < 3000) {
+      const candidate = runCli(
+        ['reader', 'audit', '--caller', 'human-popup', '--site', 'linkedin', '--json'],
+        cliEnv,
+      );
+      if (candidate.json?.rows?.length >= 1 && candidate.json.rows[0].gate_after === 'CLEAR') {
+        guardAuditRes = candidate;
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    assert(guardAuditRes, 'Expected human-popup audit row with gate_after === CLEAR within 3s');
 
     // Render visual proof board 1: Dual live Chrome extension Popup states
     const popupBoard = await context.newPage();
@@ -411,6 +505,13 @@ async function main() {
           sqliteCacheRows: cacheRes.json.rows,
           mcpToolsCount: mcpReplies[1].result.tools.length,
           checkpointGate: blockedRead.json.humanGate,
+          sharedReader: {
+            schema: readerProfileRes.json.schema,
+            viewsCount: readerListRes.json.views.length,
+            profileSource: readerProfileRes.json.source,
+            guardPausedGate: guardTriggerRes.json.gate,
+            humanPopupClearRows: guardAuditRes.json.count,
+          },
         },
         null,
         2,

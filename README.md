@@ -10,7 +10,7 @@
 
 Cross-browser WebExtension engineering knowledge (`UKMC.v2`), TypeScript `7.0.2+` Agent RPC runtime, and **LinkedIn Zero-Drift Hybrid Adapter** that lets AI agents operate cleanly inside a user's own signed-in Chromium or Firefox browser without headless bots, `chrome.debugger`, or brittle API hashes.
 
-The underlying `UKMC.v2` knowledge pack in [`knowledge/agent-browser-extensions/`](knowledge/agent-browser-extensions/) (`6` modules, `32` quoted claims, `27` sources, `18` entities, `0` verify failures) drives the compiled extension builds (`extension/dist/{chromium,firefox}`), local WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI (`--json`), 14-tool MCP stdio server, `es-browser-agent` skill package, and multi-host agent workflows.
+The underlying `UKMC.v2` knowledge pack in [`knowledge/agent-browser-extensions/`](knowledge/agent-browser-extensions/) (`6` modules, `32` quoted claims, `27` sources, `18` entities, `0` verify failures) drives the compiled extension builds (`extension/dist/{chromium,firefox}`), local WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI (`--json`), 22-tool MCP stdio server, `es-browser-agent` skill package, and multi-host agent workflows.
 
 FREE + source-available ([PolyForm Shield 1.0.0](LICENSE)). Zero telemetry, zero cloud session proxy. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
 
@@ -52,7 +52,7 @@ node cli/dist/browser-agent.js linkedin search --category people --query "AI" --
 node cli/dist/browser-agent.js linkedin draft --kind message --target linh-nguyen --body "Hi Linh..." --prefill --json
 node cli/dist/browser-agent.js linkedin cache --sql "SELECT public_identifier, full_name, source FROM profiles LIMIT 20" --json
 
-# 4. Run 14-tool stdio MCP server (.mcp.json) or headless Chrome MV3 E2E visual check
+# 4. Run 22-tool stdio MCP server (.mcp.json) or headless Chrome MV3 E2E visual check
 node cli/dist/browser-agent.js mcp
 npm run test:e2e
 ```
@@ -90,6 +90,7 @@ node scripts/sync_host_bundles.mjs --install-local
 4. **Human Gate Handoff (`extension/src/core/human-gate-detector.ts`):** URL checkpoints (`/checkpoint/`, `/authwall`, `/premium/`), CAPTCHA iframes, and HTTP `429`/`451` signals immediately transition to `BLOCKED_CHALLENGE`, `BLOCKED_AUTH`, or `BLOCKED_PAYMENT` for manual resolution in the open tab.
 5. **Read-only `browser_act` by default (`extension/src/core/act-policy.ts`):** `act` runs only `click_ref` / `fill_ref` on allowlisted hosts (LinkedIn, local fixtures), and `--url` navigation is limited to the same hosts. Clicks that navigate, expand or paginate run directly and count as reads. Anything that writes (send, like, comment, repost, connect, message, post, typing, form submits, unknown controls) returns `BLOCKED_POLICY` with an `approvalId` and waits until a human clicks **Allow once** in the extension popup; the approval is single-use, binds to that exact ref/epoch/text and expires after two minutes.
 6. **SQLite Local Cache (`cli/src/db/sqlite-cache.ts`):** Reads auto-persist into `node:sqlite` for sub-5ms read-only `SELECT` / `WITH` queries via CLI or MCP (`linkedin_query_cache`).
+7. **Shared Browser Layer (`dos.reader.v1`, Issues #8–#26):** Extends the browser runtime into a unified read-only layer for bots and daily routines with 10 site adapters (`linkedin`, `x`, `youtube-studio`, `producthunt`, `reddit`, `threads`, `facebook`, `unikorn`, `jobs`, `generic`), 4 read-only checks (`duplicate_text`, `profile_links`, `link_status`, `subreddit_rules`), cache-first SQLite store (`reader_results`, `reader_latest`, `reader_series`), shared per-site pacing budget and back-off, human-only Account Guard (`PAUSED_BY_GUARD`), and redacted evidence bundles (`third-party-v1`).
 
 ## What the pack covers
 
@@ -134,26 +135,26 @@ The 18 entities are 3 browser engines, 8 bridge primitives and 7 interaction bar
 </p>
 
 1. **Sources & Claims (`UKMC.v2`):** 40 captured items -> 27 source objects -> 32 quoted claims across 6 documents, independently reviewed in `_evidence/agent-browser-extensions-261116/review.json`. Never hand-edit `claims/`, `sources/`, `captures.jsonl`, or `index.json`.
-2. **Engine & Adapter (`v0.2.0`):** Shared TypeScript `>= 7.0.2` RPC contracts (`shared/`), Chromium & Firefox MV3 extension builds (`extension/`), `127.0.0.1:4347` broker + `node:sqlite` + CLI + MCP (`cli/`), and `es:skill-forge v2` tool-product package (`skills/es-browser-agent/`, `workflows/`, `bundles/`).
+2. **Engine & Adapter (`v0.3.0`):** Shared TypeScript `>= 7.0.2` RPC contracts (`shared/`), Chromium & Firefox MV3 extension builds (`extension/`), `127.0.0.1:4347` broker + `node:sqlite` + CLI + 22-tool MCP (`cli/`), and `es:skill-forge v2` tool-product package (`skills/es-browser-agent/`, `workflows/`, `bundles/`).
 
 ## Repository layout
 
-| Path | Status in `v0.2.0` |
+| Path | Status in `v0.3.0` |
 | :--- | :--- |
 | [`knowledge/agent-browser-extensions/`](knowledge/agent-browser-extensions/) | Verified `UKMC.v2` pack (`ontology.yaml`, 6 docs, 32 claims, 27 sources, 18 entities, `index.json`, `_evidence/`) |
 | [`shared/`](shared/) | Shared TypeScript `>= 7.0.2` `Agent RPC` envelope, capability tier, native 32-bit framing, LinkedIn schemas |
 | [`extension/`](extension/) | Chromium & Firefox MV3 builds, `Page Epoch` store, Operate popup, `MAIN` 429/451 sentinel, LinkedIn ARIA adapter |
-| [`cli/`](cli/) | `127.0.0.1:4347` WebSocket broker, `node:sqlite` cache, `browser-agent` CLI (`--json`), 14-tool MCP stdio server |
+| [`cli/`](cli/) | `127.0.0.1:4347` WebSocket broker, `node:sqlite` cache, `browser-agent` CLI (`--json`), 22-tool MCP stdio server |
 | [`skills/es-browser-agent/`](skills/es-browser-agent/) | Tool-product skill (`SKILL.md`, `concepts.md`, `rules.md`, `look.md`, `contract.md`, `build`/`validate`/`look` scripts) |
 | [`workflows/`](workflows/) & [`commands/`](commands/) | Agent playbooks ([LinkedIn workflow](workflows/linkedin-agent-workflow.md), [New Site workflow](workflows/new-site-extension-workflow.md), `/doctor`, `/linkedin`) |
 | [`bundles/`](bundles/) | Synced portable bundles for `claude-code`, `codex`, `gemini`, and `grok-build` |
-| [`tests/`](tests/) | 6 Vitest suites (`13` tests covering fencing, Human Gate Handoff, normalizer, SQLite/MCP, manifests, `A1–A9` skill gates) |
+| [`tests/`](tests/) | 16 Vitest suites covering fencing, Human Gate Handoff, normalizer, SQLite/MCP, manifests, `A1–A9` skill gates, and Shared Browser Layer (#8–#26) |
 | [`scripts/`](scripts/) | `build.mjs`, `e2e_visual_proof.mjs`, `skill_contract.mjs`, `sync_host_bundles.mjs`, `self_check.py`, `verify_bridge_primitives.py` |
 
 ## Limits
 
 - Tier-3 Safari Web Extension still requires a native macOS/iOS Xcode App Container wrapper (`SafariWebExtensionHandler` host binary), documented in [`cross-browser-capability-matrix.md`](knowledge/agent-browser-extensions/cross-browser-capability-matrix.md) and not packaged as an `.app` bundle yet.
-- The knowledge pack's stopping gate (`pack check`) sits at `DEEPEN` (`0/3` low-delta rounds): treat the research corpus as an extensible living pack alongside the `v0.2.0` runtime.
+- The knowledge pack's stopping gate (`pack check`) sits at `DEEPEN` (`0/3` low-delta rounds): treat the research corpus as an extensible living pack alongside the `v0.3.0` runtime.
 - Live LinkedIn testing operates strictly inside the user's authenticated browser session; fixture E2E runs (`npm run test:e2e`) cover deterministic Chromium MV3 attachment, ARIA reads of SDUI-shaped fixture pages, safe prefill, and `BLOCKED_CHALLENGE` halt without hitting live production accounts.
 
 ## DESIGN:OS
