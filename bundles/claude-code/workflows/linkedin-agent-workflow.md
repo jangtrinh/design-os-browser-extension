@@ -20,7 +20,7 @@ flowchart TD
    node cli/dist/browser-agent.js daemon status --json
    node cli/dist/browser-agent.js linkedin status --json
    ```
-2. If `BROKER_UNREACHABLE`, start the broker (`daemon start`) and print the token (`daemon token --json`).
+2. If `BROKER_UNREACHABLE`, start the broker (`daemon start`) and print the token (`daemon token --reveal --json`).
 3. If `EXTENSION_OFFLINE`, instruct the user to paste the pairing token inside `chrome://extensions` / popup (`Save & Connect`).
 4. Check `humanGate` in `linkedin status`: stop immediately with `0` retries if not `CLEAR`.
 

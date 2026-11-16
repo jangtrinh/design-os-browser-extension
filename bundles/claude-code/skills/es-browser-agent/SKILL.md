@@ -65,7 +65,7 @@ Without a browser use verbatim: `LOOK: NOT RUN — browser runtime or local Chro
 
 | What goes wrong | Do this instead |
 | --- | --- |
-| `EXTENSION_OFFLINE` | Run `browser-agent daemon start`, paste token from `daemon token --json` into popup (`R2`, `127.0.0.1:4347`). |
+| `EXTENSION_OFFLINE` | Run `browser-agent daemon start`, paste token from `daemon token --reveal --json` into popup (`R2`, `127.0.0.1:4347`). |
 | `BROWSER_PAGE_STALE` / `BROWSER_DISPATCH_UNCERTAIN` | Re-run `browser_observe` for fresh `(pageId, epoch, leaseId)` and read state; never blind-retry (`R4`). |
 | `COPILOT_HUMAN_APPROVAL_REQUIRED` | Human must click **Mark Ready (Human)** / **Discard** inside `extension-popup` (`R5`). |
 | `BLOCKED_CHALLENGE` / `429` / `451` / `BLOCKED_AUTH` | Stop immediately (`0` retries); hand visible tab to user (`R6`). |

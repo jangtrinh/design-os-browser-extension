@@ -5,6 +5,13 @@ import {
   type RpcResponse,
 } from '../../../shared/rpc-envelope.js';
 import { LinkedInSqliteCache } from '../db/sqlite-cache.js';
+import { readPairingToken } from './pairing.js';
+import { TOKEN_HEADER } from './request-guard.js';
+
+function authHeaders(): Record<string, string> {
+  const token = readPairingToken();
+  return { 'content-type': 'application/json', ...(token ? { [TOKEN_HEADER]: token } : {}) };
+}
 
 export interface BrokerClientConfig {
   host?: string;
@@ -54,7 +61,7 @@ export async function callBrokerRpc(
   try {
     const res = await fetch(`${baseUrl}/rpc`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify({
         action,
         params,
@@ -87,7 +94,7 @@ export async function queryCacheWithFallback(
   try {
     const res = await fetch(`${baseUrl}/cache/query`, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify({ sql }),
       signal: AbortSignal.timeout(3000),
     });

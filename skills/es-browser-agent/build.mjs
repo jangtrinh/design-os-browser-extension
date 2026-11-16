@@ -3,7 +3,19 @@
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
+
+/** Same lookup as the CLI: BROWSER_AGENT_PAIRING_TOKEN, then the pairing file. Never printed. */
+function readPairingToken() {
+  if (process.env.BROWSER_AGENT_PAIRING_TOKEN?.trim()) return process.env.BROWSER_AGENT_PAIRING_TOKEN.trim();
+  const file = process.env.BROWSER_AGENT_PAIRING_FILE?.trim() || join(homedir(), '.design-os-browser-extension', 'pairing.json');
+  try {
+    return JSON.parse(readFileSync(file, 'utf8')).token ?? '';
+  } catch {
+    return '';
+  }
+}
 
 function loadDbSync() {
   const orig = process.emitWarning.bind(process);
@@ -148,7 +160,7 @@ async function main() {
     if (args.live) {
       const res = await fetch('http://127.0.0.1:4347/rpc', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'content-type': 'application/json', 'x-browser-agent-token': readPairingToken() },
         body: JSON.stringify({ action: step.action, params: step.params ?? {}, fence }),
       });
       const json = await res.json();
