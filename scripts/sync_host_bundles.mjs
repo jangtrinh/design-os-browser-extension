@@ -99,7 +99,7 @@ function collectExistingManaged(repoRoot, managedRoots) {
 
 function computeExpectedRepoFiles(repoRoot) {
   const pkg = JSON.parse(readFileSync(join(repoRoot, 'package.json'), 'utf8'));
-  const version = pkg.version || '0.2.0';
+  const version = pkg.version || '0.3.0';
 
   const skillAbs = join(repoRoot, SKILL_REL);
   const skillMap = collectRegularFiles(skillAbs);

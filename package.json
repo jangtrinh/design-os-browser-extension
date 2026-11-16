@@ -1,6 +1,6 @@
 {
   "name": "design-os-browser-extension",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Adapter, SQLite local cache, CLI (`browser-agent`), and stdio MCP server backed by a UKMC.v2 knowledge pack.",
   "license": "SEE LICENSE IN LICENSE",

@@ -2,7 +2,7 @@ import type { EngineCapabilities } from './capability-tier.js';
 
 export const DEFAULT_BROKER_HOST = '127.0.0.1' as const;
 export const DEFAULT_BROKER_PORT = 4347 as const;
-export const PROTOCOL_VERSION = '0.2.0' as const;
+export const PROTOCOL_VERSION = '0.3.0' as const;
 export const WS_KEEPALIVE_INTERVAL_MS = 20_000 as const;
 
 export interface PageFence {
