@@ -65,6 +65,8 @@ export function renderFixtureRoute(pathname: string): FixtureHttpResponse | null
     <p data-test="profile-headline" class="meta">Staff AI Systems Engineer · Local-First Browser Automation</p>
     <p data-test="profile-location" class="meta">Ho Chi Minh City, Vietnam</p>
     <p data-test="profile-connections" class="meta">500+ connections</p>
+    <a href="/fixture/in/linh-nguyen-staff-ai" class="meta">Linh NguyenStaff AI Systems Engineer · Local-First Browser Automation</a>
+    <p><a href="/feed/followers/">14,820 followers</a></p>
     <section>
       <h2>Experience</h2>
       <ul>
@@ -111,11 +113,13 @@ export function renderFixtureRoute(pathname: string): FixtureHttpResponse | null
     <h1>Search results for "AI"</h1>
     <ul>
       <li data-test="search-result">
+        <a href="/fixture/in/linh-nguyen-staff-ai" aria-label="View Linh Nguyen’s profile"></a>
         <a href="/fixture/in/linh-nguyen-staff-ai" data-test="result-title">Linh Nguyen</a>
         <div data-test="result-subtitle">Staff AI Systems Engineer · Local-First Browser Automation</div>
         <div data-test="result-secondary">Ho Chi Minh City</div>
       </li>
       <li data-test="search-result">
+        <a href="/fixture/in/minh-tran-product" aria-label="View Minh Tran’s profile"></a>
         <a href="/fixture/in/minh-tran-product" data-test="result-title">Minh Tran</a>
         <div data-test="result-subtitle">Founding PM · Developer Tools</div>
         <div data-test="result-secondary">Singapore</div>

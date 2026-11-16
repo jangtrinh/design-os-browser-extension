@@ -17,7 +17,7 @@ Read [concepts.md](concepts.md) and pick one mode (`cache-query`, `zero-drift-re
 | Need | Choose | Reference |
 | --- | --- | --- |
 | Repeat query over saved entities | `cache-query` (`linkedin cache` / `linkedin_query_cache`) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
-| Live search/profile/post/inbox read | `zero-drift-read` (`ISOLATED` DOM + passive `MAIN` tap) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
+| Live search/profile/post/analytics/comments/inbox read | `zero-drift-read` (`ISOLATED` accessibility-tree readers) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
 | Draft message/comment/post/note | `copilot-draft` (prefill composer, `sent: false`) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
 | Extend engine to another website | `new-domain-adapter` (`knowledge/agent-browser-extensions/`) | [extension-adapter-workflow.md](references/extension-adapter-workflow.md) |
 

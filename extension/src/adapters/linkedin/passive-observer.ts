@@ -1,7 +1,15 @@
 /**
- * Passive MAIN-world response observer loaded at `document_start`.
- * Captures native bindings before page scripts load, never initiates synthetic requests,
- * and never hardcodes GraphQL `queryId` hashes.
+ * MAIN-world rate-limit sentinel loaded at `document_start`.
+ *
+ * Until v0.2.0 this script cloned `/voyager/api/` JSON responses and normalized their
+ * `included[]` entities. The 2026-11-16 live pilot showed it captured 0 entities on every
+ * page: LinkedIn now serves profile, feed, post, search and analytics pages through
+ * server-driven UI (`isSdui=true`), not Voyager JSON. Reading data now happens in the
+ * ISOLATED world from the accessibility tree (`aria-readers.ts`).
+ *
+ * What remains is the one signal the tap still gave for free: HTTP 429/451 on the page's
+ * own same-origin requests, which must flip the Human Gate. The sentinel never reads
+ * response bodies, never initiates requests and never hardcodes endpoints or query hashes.
  */
 (() => {
   const globalAny = window as unknown as Record<string, unknown>;
@@ -11,106 +19,33 @@
   globalAny.__DESIGN_OS_PASSIVE_OBSERVER_INSTALLED__ = true;
 
   const nativePostMessage = window.postMessage.bind(window);
-  const hasOwn = Object.prototype.hasOwnProperty;
   const nativeFetch = window.fetch.bind(window);
-  const nativeClone = Response.prototype.clone;
+  const GATE_STATUSES = new Set([429, 451]);
 
-  function isVoyagerApiUrl(rawUrl: string): boolean {
-    return rawUrl.includes('/voyager/api/') || rawUrl.includes('/api/voyager/');
-  }
-
-  function extractEntitiesFromPayload(payload: unknown): Record<string, unknown>[] {
-    if (!payload || typeof payload !== 'object') return [];
-    const obj = payload as Record<string, unknown>;
-    const entities: Record<string, unknown>[] = [];
-
-    if (hasOwn.call(obj, 'included') && Array.isArray(obj.included)) {
-      for (const item of obj.included) {
-        if (item && typeof item === 'object') {
-          entities.push(item as Record<string, unknown>);
-        }
-      }
-    }
-
-    if (hasOwn.call(obj, 'elements') && Array.isArray(obj.elements)) {
-      for (const item of obj.elements) {
-        if (item && typeof item === 'object') {
-          entities.push(item as Record<string, unknown>);
-        }
-      }
-    }
-
-    if (hasOwn.call(obj, 'data') && obj.data && typeof obj.data === 'object') {
-      const dataObj = obj.data as Record<string, unknown>;
-      if (hasOwn.call(dataObj, 'included') && Array.isArray(dataObj.included)) {
-        for (const item of dataObj.included) {
-          if (item && typeof item === 'object') {
-            entities.push(item as Record<string, unknown>);
-          }
-        }
-      } else {
-        entities.push(dataObj);
-      }
-    }
-
-    return entities;
-  }
-
-  function emitPassiveTap(url: string, status: number, payload: unknown): void {
+  function isSameOrigin(rawUrl: string): boolean {
     try {
-      const entities = extractEntitiesFromPayload(payload);
-      const safeEntities = JSON.parse(JSON.stringify(entities.slice(0, 200)));
+      return new URL(rawUrl, window.location.href).origin === window.location.origin;
+    } catch {
+      return false;
+    }
+  }
+
+  function emitStatus(url: string, status: number): void {
+    if (!GATE_STATUSES.has(status) || !isSameOrigin(url)) return;
+    try {
       nativePostMessage(
-        {
-          __designOsPassiveTap: true,
-          url,
-          status,
-          entities: safeEntities,
-          timestamp: Date.now(),
-        },
+        { __designOsPassiveTap: true, url, status, entities: [], timestamp: Date.now() },
         window.location.origin,
       );
     } catch {
-      // Ignore cross-origin or unserializable passive payloads cleanly
+      // Never disrupt the host page
     }
   }
 
-  window.fetch = function wrappedFetch(
-    input: RequestInfo | URL,
-    init?: RequestInit,
-  ): Promise<Response> {
-    const reqUrl =
-      typeof input === 'string'
-        ? input
-        : input instanceof URL
-          ? input.href
-          : input.url;
-
+  window.fetch = function wrappedFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+    const reqUrl = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
     const promise = nativeFetch(input, init);
-    if (typeof reqUrl === 'string' && isVoyagerApiUrl(reqUrl)) {
-      promise
-        .then((response) => {
-          try {
-            const status = response.status;
-            if (status === 429 || status === 451) {
-              emitPassiveTap(reqUrl, status, {});
-              return;
-            }
-            const contentType = response.headers.get('content-type') ?? '';
-            if (!contentType.includes('json') && !reqUrl.includes('voyager')) {
-              return;
-            }
-            const cloned = nativeClone.call(response);
-            void cloned
-              .json()
-              .then((json) => emitPassiveTap(reqUrl, status, json))
-              .catch(() => {});
-          } catch {
-            // Never disrupt the host page's fetch lifecycle
-          }
-        })
-        .catch(() => {});
-    }
+    promise.then((response) => emitStatus(reqUrl, response.status)).catch(() => {});
     return promise;
   };
 
@@ -118,41 +53,14 @@
   const nativeXhrSend = XMLHttpRequest.prototype.send;
   const xhrUrls = new WeakMap<XMLHttpRequest, string>();
 
-  XMLHttpRequest.prototype.open = function wrappedOpen(
-    method: string,
-    url: string | URL,
-    ...rest: unknown[]
-  ): void {
-    const urlStr = typeof url === 'string' ? url : url.href;
-    xhrUrls.set(this, urlStr);
+  XMLHttpRequest.prototype.open = function wrappedOpen(method: string, url: string | URL, ...rest: unknown[]): void {
+    xhrUrls.set(this, typeof url === 'string' ? url : url.href);
     return (nativeXhrOpen as (...args: unknown[]) => void).apply(this, [method, url, ...rest]);
   };
 
-  XMLHttpRequest.prototype.send = function wrappedSend(
-    body?: Document | XMLHttpRequestBodyInit | null,
-  ): void {
+  XMLHttpRequest.prototype.send = function wrappedSend(body?: Document | XMLHttpRequestBodyInit | null): void {
     const reqUrl = xhrUrls.get(this) ?? '';
-    if (isVoyagerApiUrl(reqUrl)) {
-      this.addEventListener(
-        'load',
-        () => {
-          try {
-            const status = this.status;
-            if (status === 429 || status === 451) {
-              emitPassiveTap(reqUrl, status, {});
-              return;
-            }
-            if (typeof this.responseText === 'string' && this.responseText.trim().startsWith('{')) {
-              const json = JSON.parse(this.responseText) as unknown;
-              emitPassiveTap(reqUrl, status, json);
-            }
-          } catch {
-            // Passive tap must never throw into host XHR handlers
-          }
-        },
-        { once: true },
-      );
-    }
+    this.addEventListener('loadend', () => emitStatus(reqUrl, this.status), { once: true });
     return nativeXhrSend.call(this, body);
   };
 })();

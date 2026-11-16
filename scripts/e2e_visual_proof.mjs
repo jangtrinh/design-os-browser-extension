@@ -226,7 +226,7 @@ async function main() {
     assert.equal(uiProbe.overflow, false, 'Popup must have zero horizontal overflow at 375px');
     assert(uiProbe.minTargetHeight >= 44, `Popup interactive height >= 44px, got ${uiProbe.minTargetHeight}`);
 
-    // Step B: Open LinkedIn Profile Fixture -> verify hybrid DOM + rotated queryId passive capture
+    // Step B: Open LinkedIn Profile Fixture -> verify accessibility-tree profile read
     const workTab = await context.newPage();
     await workTab.setViewportSize({ width: 1080, height: 720 });
     await workTab.goto(`http://127.0.0.1:${port}/fixture/in/linh-nguyen-staff-ai`, {
@@ -236,10 +236,10 @@ async function main() {
 
     const profileRes = runCli(['linkedin', 'profile', '--public-id', 'linh-nguyen-staff-ai', '--json'], cliEnv);
     assert.equal(profileRes.json.ok, true);
-    assert.equal(profileRes.json.data.source, 'hybrid');
+    assert.equal(profileRes.json.data.source, 'dom');
     assert.equal(profileRes.json.data.fullName, 'Linh Nguyen');
+    assert.equal(profileRes.json.data.headline, 'Staff AI Systems Engineer · Local-First Browser Automation');
     assert.equal(profileRes.json.data.followersCount, 14820);
-    assert(profileRes.json.data.skills.includes('SQLite'));
 
     // Step C: Search fixture
     await workTab.goto(`http://127.0.0.1:${port}/fixture/search/results/people`, {
@@ -310,7 +310,7 @@ async function main() {
     assert.equal(cacheRes.json.rows.length, 1);
 
     const mcpReplies = await runMcpCheck(cliEnv);
-    assert.equal(mcpReplies[1].result.tools.length, 12);
+    assert.equal(mcpReplies[1].result.tools.length, 14);
     assert.equal(mcpReplies[2].result.isError, false);
 
     // Step F: Security Checkpoint -> immediate BLOCKED_CHALLENGE halt with 0 retries
@@ -378,7 +378,7 @@ async function main() {
   pre { margin: 0; padding: 12px; background: #1C1C1A; color: #EAE8E1; border-radius: 8px; font-size: 12px; line-height: 1.45; overflow: hidden; white-space: pre-wrap; word-break: break-word; }
 </style></head><body>
   <h1>LinkedIn Zero-Drift Hybrid Reader + Copilot Safe Prefill E2E</h1>
-  <p class="sub">Real Chromium MV3 service worker (no chrome.debugger) · Rotated Voyager queryId hash captured passively · Send click count = ${composerState.sendClicks}</p>
+  <p class="sub">Real Chromium MV3 service worker (no chrome.debugger) · Profile read from the accessibility tree · Send click count = ${composerState.sendClicks}</p>
   <div class="grid">
     <div class="card">
       <div class="label">Live Tab: Messaging Composer Prefilled Without Sending</div>

@@ -16,6 +16,8 @@ export type LinkedInActionName =
   | 'linkedin.inbox.list'
   | 'linkedin.inbox.thread'
   | 'linkedin.feed.read'
+  | 'linkedin.analytics.read'
+  | 'linkedin.comments.read'
   | 'linkedin.draft.create'
   | 'linkedin.composer.prefill'
   | 'linkedin.queue.list'
@@ -42,6 +44,8 @@ export interface LinkedInProfile {
   skills: string[];
   source: 'dom' | 'passive' | 'hybrid';
   capturedAt: string;
+  /** Required fields the reader could not find; such reads are not cached. */
+  missingRequired?: string[];
 }
 
 export interface LinkedInPost {
@@ -55,8 +59,12 @@ export interface LinkedInPost {
   reactionsCount?: number;
   commentsCount?: number;
   repostsCount?: number;
+  impressionsCount?: number;
+  /** `urn:li:activity:*` used by analytics links when it differs from `postUrn`. */
+  activityUrn?: string;
   source: 'dom' | 'passive' | 'hybrid';
   capturedAt: string;
+  missingRequired?: string[];
 }
 
 export interface LinkedInCompany {
@@ -137,6 +145,56 @@ export interface LinkedInFeedResult {
   capturedAt: string;
 }
 
+export interface LinkedInAnalyticsPost {
+  activityUrn: string;
+  analyticsUrl: string;
+  postUrn?: string;
+  postUrl?: string;
+  textPreview?: string;
+  impressions?: number;
+  engagements?: number;
+}
+
+export interface LinkedInAnalyticsResult {
+  pageUrl: string;
+  pageKind: 'profile' | 'creator-content' | 'profile-views' | 'post-summary' | 'post' | 'other';
+  metrics: {
+    followers?: number;
+    connections?: number;
+    profileViewers?: number;
+    postImpressions?: number;
+    postImpressionsPeriod?: string;
+    searchAppearances?: number;
+    recruiterViews?: number;
+  };
+  posts: LinkedInAnalyticsPost[];
+  recentViewers?: { name: string; profileUrl: string }[];
+  source: 'dom';
+  capturedAt: string;
+}
+
+export interface LinkedInComment {
+  authorName: string;
+  authorProfileUrl?: string;
+  text: string;
+  isReply: boolean;
+  reactionsCount?: number;
+  repliesCount?: number;
+}
+
+export interface LinkedInCommentsResult {
+  postUrn: string;
+  url: string;
+  commentsCount?: number;
+  /** False when the page shows no comment nodes (collapsed); the reader never clicks to expand. */
+  commentsRendered: boolean;
+  comments: LinkedInComment[];
+  note?: string;
+  missingRequired?: string[];
+  source: 'dom';
+  capturedAt: string;
+}
+
 export interface CopilotQueueItem {
   queueId: string;
   kind: CopilotDraftKind;
@@ -181,6 +239,8 @@ export interface SnapshotNode {
   tag: string;
   href?: string;
   editable?: boolean;
+  /** Longer visible text for non-interactive nodes (role `text`, `comment`, `article`). */
+  text?: string;
 }
 
 export interface DomSnapshotResult {

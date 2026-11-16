@@ -171,6 +171,9 @@ export class LinkedInSqliteCache {
     if (!data || typeof data !== 'object') return;
     const obj = data as Record<string, unknown>;
     const now = new Date().toISOString();
+    // Never persist a read whose required fields are missing (pilot 2026-11-16 cached
+    // `postUrn: "unknown"` and slug-as-name profiles).
+    if (Array.isArray(obj.missingRequired) && obj.missingRequired.length > 0) return;
 
     if (action === 'linkedin.profile.get' && typeof obj.publicIdentifier === 'string') {
       this.db

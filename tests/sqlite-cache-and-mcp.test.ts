@@ -58,7 +58,7 @@ describe('Native framing, SQLite cache, and MCP stdio server', () => {
     }
   });
 
-  it('answers MCP initialize and tools/list across all 12 tools', async () => {
+  it('answers MCP initialize and tools/list across all 14 tools', async () => {
     const initReply = await handleMcpJsonRpcMessage({
       jsonrpc: '2.0',
       id: 1,
@@ -74,7 +74,9 @@ describe('Native framing, SQLite cache, and MCP stdio server', () => {
       params: {},
     });
     const tools = (listReply?.result as { tools: typeof MCP_TOOLS }).tools;
-    expect(tools).toHaveLength(12);
+    expect(tools).toHaveLength(14);
+    expect(tools.map((t) => t.name)).toContain('linkedin_read_analytics');
+    expect(tools.map((t) => t.name)).toContain('linkedin_read_comments');
     expect(tools.map((t) => t.name)).toContain('linkedin_get_profile');
     expect(tools.map((t) => t.name)).toContain('linkedin_draft_write');
     expect(tools.map((t) => t.name)).toContain('linkedin_query_cache');

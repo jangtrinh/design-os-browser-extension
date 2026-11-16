@@ -1,6 +1,6 @@
 {
   "name": "design-os-browser-extension",
-  "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Hybrid Reader, SQLite local cache, CLI (`browser-agent`), and 12-tool MCP stdio server.",
+  "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Hybrid Reader, SQLite local cache, CLI (`browser-agent`), and 14-tool MCP stdio server.",
   "version": "0.2.0",
   "author": {
     "name": "Jang Trinh",
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "DESIGN:OS Browser Agent",
     "shortDescription": "Drive the user's real Chromium or Firefox session for LinkedIn search, structured reads, SQLite cache, and Copilot draft prefill.",
-    "longDescription": "Zero-drift hybrid DOM/passive-response WebExtension bridge wired to `browser-agent` CLI (`--json`) and 12 MCP tools over loopback WebSocket `127.0.0.1:4347` with fenced `(pageId, epoch, lease)` dispatch and strict Human Gate Handoff.",
+    "longDescription": "Zero-drift accessibility-tree WebExtension bridge wired to `browser-agent` CLI (`--json`) and 14 MCP tools over loopback WebSocket `127.0.0.1:4347` with fenced `(pageId, epoch, lease)` dispatch and strict Human Gate Handoff.",
     "developerName": "DESIGN:OS",
     "category": "Developer Tools",
     "capabilities": [

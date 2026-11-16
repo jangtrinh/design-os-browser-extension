@@ -6,11 +6,11 @@ const DEFAULT_MAX_NODES = 120;
 const SNAPSHOT_SELECTOR =
   'h1, h2, h3, a[href], button, input, textarea, [role="button"], [role="link"], [role="textbox"], [role="combobox"], [role="article"], [data-view-name]';
 
-function normalizeWhitespace(value: string | null | undefined): string {
+export function normalizeWhitespace(value: string | null | undefined): string {
   return (value ?? '').replace(/\s+/g, ' ').trim();
 }
 
-function inferRole(el: Element): string {
+export function inferRole(el: Element): string {
   const explicit = el.getAttribute('role');
   if (explicit) return explicit;
   const tag = el.tagName.toLowerCase();
@@ -23,7 +23,7 @@ function inferRole(el: Element): string {
   return tag;
 }
 
-function isHiddenElement(el: Element): boolean {
+export function isHiddenElement(el: Element): boolean {
   if (el.getAttribute('aria-hidden') === 'true') return true;
   if (el.hasAttribute('hidden')) return true;
   const styleAttr = el.getAttribute('style') ?? '';
@@ -31,13 +31,13 @@ function isHiddenElement(el: Element): boolean {
   return false;
 }
 
-function inferName(el: Element): string {
+export function inferName(el: Element, maxLength = 120): string {
   const ariaLabel = normalizeWhitespace(el.getAttribute('aria-label'));
-  if (ariaLabel) return ariaLabel.slice(0, 120);
+  if (ariaLabel) return ariaLabel.slice(0, maxLength);
   const placeholder = normalizeWhitespace(el.getAttribute('placeholder'));
-  if (placeholder) return placeholder.slice(0, 120);
+  if (placeholder) return placeholder.slice(0, maxLength);
   const text = normalizeWhitespace(el.textContent);
-  return text.slice(0, 120);
+  return text.slice(0, maxLength);
 }
 
 /**

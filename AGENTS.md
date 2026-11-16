@@ -26,7 +26,7 @@ python3 -m knowledge_builder.cli query --root "$P" --linked-to firefox-gecko --l
 - `knowledge/agent-browser-extensions/` — Verified `UKMC.v2` ontology-first knowledge pack (`ontology.yaml`, 6 modules, 32 claims, 27 sources, 18 entities).
 - `shared/` — Shared TypeScript `>= 7.0.2` `Agent RPC` envelope, capability schema, UTF-8 native framing, and LinkedIn schemas.
 - `extension/` — Capability-Tiered WebExtension MV3 engine (`chromium` + `firefox` manifests), `Page Epoch` store, Operate popup, and LinkedIn Zero-Drift Hybrid Adapter.
-- `cli/` — Loopback WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI (`--json`), and 12-tool stdio MCP server.
+- `cli/` — Loopback WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI (`--json`), and 14-tool stdio MCP server.
 - `skills/es-browser-agent/` — Canonical `es:skill-forge v2` tool-product skill (`SKILL.md`, `rules.md`, `concepts.md`, `look.md`, generated `contract.md`, `build.mjs`, `validate.mjs`, `look.mjs`, `examples/`, `references/`).
 - `workflows/` & `commands/` — Agent interaction SOPs (`linkedin-agent-workflow.md`, `new-site-extension-workflow.md`, `doctor.md`, `linkedin.md`).
 - `bundles/` — Deterministic synced copies for `claude-code`, `codex`, `gemini`, and `grok-build` (`scripts/sync_host_bundles.mjs`).

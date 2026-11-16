@@ -1,0 +1,19 @@
+{
+  "_note": "Synthetic, fictional data. The 2026-11-16 pilot rendered no comment nodes (comments were collapsed), so this fixture models the ARIA shape of an expanded comment section: role=comment / article[aria-label^=Comment] containers, an author link, body text and counts.",
+  "url": "https://www.linkedin.com/feed/update/urn:li:share:7000000000000000001/",
+  "nodes": [
+    { "role": "heading", "name": "Feed post" },
+    { "role": "link", "name": "Example Author • You", "href": "https://www.linkedin.com/in/example-author/" },
+    { "role": "text", "name": "Shipping the new reader today.", "text": "Shipping the new reader today." },
+    { "role": "link", "name": "12 reactions", "href": "https://www.linkedin.com/feed/update/urn:li:share:7000000000000000001/" },
+    { "role": "button", "name": "2 comments" },
+    { "role": "comment", "name": "Comment by Fictional Reader", "text": "Fictional Reader Great work on this! 1h" },
+    { "role": "link", "name": "Fictional Reader • 2nd", "href": "https://www.linkedin.com/in/fictional-reader/" },
+    { "role": "text", "name": "Great work on this!", "text": "Great work on this!" },
+    { "role": "button", "name": "3 reactions" },
+    { "role": "button", "name": "1 reply" },
+    { "role": "article", "name": "Reply by Example Author", "text": "Example Author Thanks!" },
+    { "role": "link", "name": "Example Author • Author", "href": "https://www.linkedin.com/in/example-author/" },
+    { "role": "text", "name": "Thanks!", "text": "Thanks!" }
+  ]
+}
