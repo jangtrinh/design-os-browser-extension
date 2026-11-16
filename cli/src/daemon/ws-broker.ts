@@ -75,6 +75,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
 
   let activeSocket: WebSocket | null = null;
   let extensionCaps: EngineCapabilities | null = null;
+  let extensionVersion: string | null = null;
   const pendingRpc = new Map<
     string,
     {
@@ -112,6 +113,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
         port,
         extensionConnected: Boolean(activeSocket && activeSocket.readyState === activeSocket.OPEN),
         extensionCapabilities: extensionCaps,
+        extensionVersion,
         dbPath: cache.dbPath,
       });
       return;
@@ -254,6 +256,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
         }
         activeSocket = ws;
         extensionCaps = msg.capabilities;
+        extensionVersion = typeof msg.extensionVersion === 'string' ? msg.extensionVersion : null;
         const okReply: BridgeHelloOk = {
           type: 'hello_ok',
           serverVersion: PROTOCOL_VERSION,
@@ -293,6 +296,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
       if (activeSocket === ws) {
         activeSocket = null;
         extensionCaps = null;
+        extensionVersion = null;
       }
     });
   });
