@@ -1,5 +1,6 @@
 import { createInterface } from 'node:readline';
 import { PROTOCOL_VERSION } from '../../../shared/rpc-envelope.js';
+import { readLinkedInComments } from '../commands/linkedin-comments.js';
 import { callBrokerRpc, queryCacheWithFallback, type BrokerClientConfig } from '../daemon/client.js';
 
 export interface McpToolDef {
@@ -50,7 +51,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   },
   {
     name: 'linkedin_search',
-    description: 'Extract structured LinkedIn search results (people, posts, jobs, companies) via hybrid DOM + passive tap.',
+    description: 'Extract structured LinkedIn search results (people, posts, jobs, companies) from the accessibility tree.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -93,6 +94,24 @@ export const MCP_TOOLS: McpToolDef[] = [
     inputSchema: {
       type: 'object',
       properties: { jobId: { type: 'string' }, url: { type: 'string' } },
+    },
+  },
+  {
+    name: 'linkedin_read_analytics',
+    description: 'Read followers, connections, profile viewers, post impressions, search appearances and per-post impressions/engagements from a profile, creator analytics, profile-views or post page.',
+    inputSchema: { type: 'object', properties: { url: { type: 'string' } } },
+  },
+  {
+    name: 'linkedin_read_comments',
+    description: 'Read comments already rendered on a post (never clicks to expand), or on the newest post of a profile with latest=true and publicId.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        postUrn: { type: 'string' },
+        url: { type: 'string' },
+        latest: { type: 'boolean' },
+        publicId: { type: 'string' },
+      },
     },
   },
   {
@@ -181,6 +200,23 @@ export async function handleMcpJsonRpcMessage(
       };
     }
 
+    if (toolName === 'linkedin_read_comments') {
+      const res = await readLinkedInComments(
+        {
+          ...(typeof args.postUrn === 'string' ? { postUrn: args.postUrn } : {}),
+          ...(typeof args.url === 'string' ? { url: args.url } : {}),
+          ...(typeof args.publicId === 'string' ? { publicId: args.publicId } : {}),
+          latest: args.latest === true,
+        },
+        brokerCfg,
+      );
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: { content: [{ type: 'text', text: JSON.stringify(res, null, 2) }], isError: !res.ok },
+      };
+    }
+
     const actionMap: Record<string, string> = {
       browser_capabilities: 'browser.capabilities',
       browser_observe: 'browser.observe',
@@ -191,6 +227,7 @@ export async function handleMcpJsonRpcMessage(
       linkedin_get_post: 'linkedin.post.get',
       linkedin_get_company: 'linkedin.company.get',
       linkedin_get_job: 'linkedin.job.get',
+      linkedin_read_analytics: 'linkedin.analytics.read',
       linkedin_draft_write: 'linkedin.draft.create',
     };
 

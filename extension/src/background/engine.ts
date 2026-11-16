@@ -387,6 +387,8 @@ export class ExtensionEngine {
       'linkedin.inbox.thread': 'linkedin.inbox.thread',
       'linkedin.search': 'linkedin.search',
       'linkedin.feed.read': 'linkedin.feed.read',
+      'linkedin.analytics.read': 'linkedin.analytics.read',
+      'linkedin.comments.read': 'linkedin.comments.read',
       'linkedin.composer.prefill': 'linkedin.composer.prefill',
     };
 

@@ -1,5 +1,6 @@
 import { DEFAULT_BROKER_HOST, DEFAULT_BROKER_PORT } from '../../../shared/rpc-envelope.js';
 import { callBrokerRpc, fetchBrokerHealth, queryCacheWithFallback } from '../daemon/client.js';
+import { readLinkedInComments } from './linkedin-comments.js';
 import { loadOrCreatePairingToken, resolvePairingFilePath } from '../daemon/pairing.js';
 import { redactToken } from '../daemon/request-guard.js';
 import { runDoctor } from './doctor.js';
@@ -65,6 +66,8 @@ function getHelpText(): string {
     '  linkedin job [--job-id <id>] [--url <url>] [--json]',
     '  linkedin inbox [--thread-id <id>] [--url <url>] [--json]',
     '  linkedin feed [--url <url>] [--json]',
+    '  linkedin analytics [--url <profile|analytics|post url>] [--json]',
+    '  linkedin comments [--urn <urn>] [--url <post url>] [--latest --public-id <id>] [--json]',
     '  linkedin draft --kind <message|comment|post|connect_note> --target <id> --body <text> [--prefill] [--url <url>] [--json]',
     '  linkedin queue [--status <pending|prefilled|approved|rejected>] [--json]',
     '  linkedin cache --sql "SELECT ..." [--json]',
@@ -282,6 +285,28 @@ export async function dispatchCli(argv: string[]): Promise<number> {
       const res = await callBrokerRpc(
         'linkedin.feed.read',
         { ...(typeof flags.url === 'string' ? { url: flags.url } : {}) },
+        brokerCfg,
+      );
+      return outJson(res, res.ok ? 0 : 1);
+    }
+
+    if (sub === 'analytics') {
+      const res = await callBrokerRpc(
+        'linkedin.analytics.read',
+        { ...(typeof flags.url === 'string' ? { url: flags.url } : {}) },
+        brokerCfg,
+      );
+      return outJson(res, res.ok ? 0 : 1);
+    }
+
+    if (sub === 'comments') {
+      const res = await readLinkedInComments(
+        {
+          ...(typeof flags.urn === 'string' ? { postUrn: flags.urn } : {}),
+          ...(typeof flags.url === 'string' ? { url: flags.url } : {}),
+          ...(typeof flags['public-id'] === 'string' ? { publicId: flags['public-id'] } : {}),
+          latest: Boolean(flags.latest),
+        },
         brokerCfg,
       );
       return outJson(res, res.ok ? 0 : 1);

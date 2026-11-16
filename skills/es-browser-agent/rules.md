@@ -9,7 +9,7 @@ Every rule maps one runtime invariant to its CLI/MCP usage ("Keep it") and deter
 
 ## R2 — Zero Debugger Permission & Attachment (`debugger-absent`)
 - **Statement:** LinkedIn and general user-session manifests never request `"debugger"`, and runtime capability reports always declare `debuggerAttached: false`.
-- **Keep it:** Use `passive-observer.js` (`MAIN` world `document_start`) + semantic `ISOLATED` DOM/ARIA reading on `127.0.0.1:4347`.
+- **Keep it:** Use semantic `ISOLATED` accessibility-tree reading (`aria-readers.ts`) plus the `MAIN`-world 429/451 status sentinel (`passive-observer.js`) on `127.0.0.1:4347`.
 - **Rejected when:** `debugger-absent: manifest or receipt reports debugger permission/attachment`.
 
 ## R3 — SQLite Cache Check Before Live Reads (`cache-check`)

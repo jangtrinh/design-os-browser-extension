@@ -1,6 +1,6 @@
 # LinkedIn Agent Interaction Workflow (`design-os-browser-extension`)
 
-End-to-end operational workflow for AI coding & automation agents operating LinkedIn inside the user's real signed-in Chrome/Arc/Brave/Firefox session via `browser-agent` CLI (`--json`) or the 12-tool MCP `stdio` server.
+End-to-end operational workflow for AI coding & automation agents operating LinkedIn inside the user's real signed-in Chrome/Arc/Brave/Firefox session via `browser-agent` CLI (`--json`) or the 14-tool MCP `stdio` server.
 
 ```mermaid
 flowchart TD
@@ -38,11 +38,13 @@ Allowed tables: `profiles`, `posts`, `companies`, `jobs`, `threads`, `search_run
 
 ## Stage 2 — Discovery & Zero-Drift Deep Read
 
-Every command extracts semantic DOM/ARIA + passive `MAIN`-world `/voyager/api/` JSON entities (`included[]` without hardcoded `queryId` hashes) and auto-upserts into SQLite:
+Every command reads the page's accessibility tree (role + accessible name; LinkedIn's SDUI pages no longer expose `/voyager/api/` JSON) and auto-upserts complete reads into SQLite (reads with `missingRequired` are not cached):
 
 - `node cli/dist/browser-agent.js linkedin search --category people --query "<keywords>" --json`
 - `node cli/dist/browser-agent.js linkedin profile --json`
 - `node cli/dist/browser-agent.js linkedin post --json`
+- `node cli/dist/browser-agent.js linkedin analytics --url https://www.linkedin.com/analytics/creator/content/ --json`
+- `node cli/dist/browser-agent.js linkedin comments --latest --public-id <slug> --json` (reads only comments already rendered; never clicks)
 - `node cli/dist/browser-agent.js linkedin company --json`
 - `node cli/dist/browser-agent.js linkedin job --json`
 - `node cli/dist/browser-agent.js linkedin inbox --json` (or `--thread-id <id>`)

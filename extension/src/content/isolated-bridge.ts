@@ -2,15 +2,14 @@ import {
   prefillVisibleComposer,
   type ComposerPrefillOutcome,
 } from '../adapters/linkedin/copilot-composer.js';
+import { readAnalytics, readComments } from '../adapters/linkedin/aria-analytics.js';
+import { readFeed, readPost, readProfile, readSearch } from '../adapters/linkedin/aria-readers.js';
+import { collectAxNodes } from '../adapters/linkedin/ax-collector.js';
 import {
   extractCompanyFromDocument,
-  extractFeedFromDocument,
   extractInboxListFromDocument,
   extractInboxThreadFromDocument,
   extractJobFromDocument,
-  extractPostFromDocument,
-  extractProfileFromDocument,
-  extractSearchFromDocument,
 } from '../adapters/linkedin/dom-extractors.js';
 import {
   createPassiveEntityStore,
@@ -37,6 +36,8 @@ interface IsolatedActionMessage {
     | 'linkedin.inbox.thread'
     | 'linkedin.search'
     | 'linkedin.feed.read'
+    | 'linkedin.analytics.read'
+    | 'linkedin.comments.read'
     | 'linkedin.composer.prefill'
     | 'passive_stats';
   fence?: PageFence;
@@ -191,7 +192,7 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
     return {
       ok: true,
       outcome: 'COMMITTED',
-      data: extractProfileFromDocument(document, url, passiveStore, id),
+      data: readProfile(collectAxNodes(document), url, id),
       passiveCapturedCount: passiveStore.totalEntitiesIngested,
     };
   }
@@ -201,7 +202,7 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
     return {
       ok: true,
       outcome: 'COMMITTED',
-      data: extractPostFromDocument(document, url, passiveStore, urn),
+      data: readPost(collectAxNodes(document), url, urn),
       passiveCapturedCount: passiveStore.totalEntitiesIngested,
     };
   }
@@ -233,7 +234,7 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
     return {
       ok: true,
       outcome: 'COMMITTED',
-      data: extractSearchFromDocument(document, url, category, query, passiveStore),
+      data: readSearch(collectAxNodes(document), url, category, query),
       passiveCapturedCount: passiveStore.totalEntitiesIngested,
     };
   }
@@ -261,9 +262,18 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
     return {
       ok: true,
       outcome: 'COMMITTED',
-      data: extractFeedFromDocument(document, url, passiveStore),
+      data: readFeed(collectAxNodes(document), url),
       passiveCapturedCount: passiveStore.totalEntitiesIngested,
     };
+  }
+
+  if (msg.op === 'linkedin.analytics.read') {
+    return { ok: true, outcome: 'COMMITTED', data: readAnalytics(collectAxNodes(document), url) };
+  }
+
+  if (msg.op === 'linkedin.comments.read') {
+    const urn = typeof msg.params?.postUrn === 'string' ? msg.params.postUrn : undefined;
+    return { ok: true, outcome: 'COMMITTED', data: readComments(collectAxNodes(document), url, urn) };
   }
 
   return {
