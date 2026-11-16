@@ -37,7 +37,7 @@ Attach your live Chromium or Firefox browser over `127.0.0.1:4347`:
 
 ```bash
 # 1. Print your pairing token and start the loopback broker
-node cli/dist/browser-agent.js daemon token --json
+node cli/dist/browser-agent.js daemon token --reveal --json
 node cli/dist/browser-agent.js daemon start
 
 # 2. Load unpacked extension:

@@ -1,6 +1,7 @@
 import { DEFAULT_BROKER_HOST, DEFAULT_BROKER_PORT } from '../../../shared/rpc-envelope.js';
 import { callBrokerRpc, fetchBrokerHealth, queryCacheWithFallback } from '../daemon/client.js';
 import { loadOrCreatePairingToken, resolvePairingFilePath } from '../daemon/pairing.js';
+import { redactToken } from '../daemon/request-guard.js';
 import { startBrokerServer } from '../daemon/ws-broker.js';
 import { runMcpStdioLoop } from '../mcp/stdio-server.js';
 
@@ -50,7 +51,7 @@ function getHelpText(): string {
     'Commands:',
     '  daemon start [--port 4347] [--fixtures]',
     '  daemon status [--json]',
-    '  daemon token [--json]',
+    '  daemon token [--reveal] [--json]',
     '  capabilities [--json]',
     '  observe [--tab <id>] [--url <url>] [--max-nodes <n>] [--json]',
     '  act --op <click_ref|fill_ref> --ref <n> --page-id <id> --epoch <n> --lease-id <id> [--tab <id>] [--value <text>] [--json]',
@@ -89,9 +90,10 @@ export async function dispatchCli(argv: string[]): Promise<number> {
   if (cmd === 'daemon') {
     if (sub === 'token') {
       const token = loadOrCreatePairingToken();
+      // The raw token is shown only on explicit --reveal, for pasting into the extension popup.
       return outJson({
         ok: true,
-        token,
+        ...(flags.reveal ? { token } : { tokenRedacted: redactToken(token), hint: 'Pass --reveal to print the token for pairing.' }),
         pairingFile: resolvePairingFilePath(),
         wsUrl: `ws://${DEFAULT_BROKER_HOST}:${port ?? DEFAULT_BROKER_PORT}/ws`,
       });
@@ -120,7 +122,8 @@ export async function dispatchCli(argv: string[]): Promise<number> {
           ok: true,
           listening: `http://${broker.host}:${broker.port}`,
           wsUrl: `ws://${broker.host}:${broker.port}/ws`,
-          token: broker.token,
+          tokenRedacted: redactToken(broker.token),
+          pairingFile: resolvePairingFilePath(),
           dbPath: broker.cache.dbPath,
         })}\n`,
       );

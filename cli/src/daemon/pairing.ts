@@ -15,6 +15,20 @@ export function resolvePairingFilePath(): string {
   );
 }
 
+/** Reads the token the daemon uses (env, then pairing file) without creating one. */
+export function readPairingToken(): string | undefined {
+  const envToken = process.env.BROWSER_AGENT_PAIRING_TOKEN?.trim();
+  if (envToken) return envToken;
+  const filePath = resolvePairingFilePath();
+  if (!existsSync(filePath)) return undefined;
+  try {
+    const parsed = JSON.parse(readFileSync(filePath, 'utf8')) as Partial<PairingConfig>;
+    return parsed.token && parsed.token.length >= 16 ? parsed.token : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function loadOrCreatePairingToken(explicitToken?: string): string {
   if (explicitToken && explicitToken.trim()) {
     return explicitToken.trim();

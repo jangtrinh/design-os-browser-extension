@@ -43,7 +43,7 @@
 
 | Code | Meaning | Exact Recovery |
 | --- | --- | --- |
-| `EXTENSION_OFFLINE` | Extension WebSocket not attached to `127.0.0.1:4347` | Open popup, paste token from `daemon token --json`, click Save & Connect. |
+| `EXTENSION_OFFLINE` | Extension WebSocket not attached to `127.0.0.1:4347` | Open popup, paste token from `daemon token --reveal --json`, click Save & Connect. |
 | `BROWSER_PAGE_STALE` | Tab navigated (`epoch` bumped) after `observe` | Call `browser_observe` again to obtain current fence. |
 | `BROWSER_DISPATCH_UNCERTAIN` | Mutation timed out; outcome unknown | Read current DOM/cache state first; never auto-retry blindly. |
 | `COPILOT_HUMAN_APPROVAL_REQUIRED` | Non-popup caller tried approving queue item | Only the human clicks **Mark Ready (Human)** inside `extension-popup`. |

@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
+import type { AddressInfo } from 'node:net';
 import { WebSocketServer, type WebSocket } from 'ws';
 import type { EngineCapabilities } from '../../../shared/capability-tier.js';
 import {
@@ -15,6 +16,7 @@ import {
 import { LinkedInSqliteCache } from '../db/sqlite-cache.js';
 import { renderFixtureRoute } from './fixture-pages.js';
 import { loadOrCreatePairingToken } from './pairing.js';
+import { checkAuthorizedRequest, checkHostAndOrigin, type GuardFailure } from './request-guard.js';
 
 export interface BrokerOptions {
   host?: string;
@@ -45,6 +47,14 @@ function sendJson(res: ServerResponse, status: number, payload: unknown): void {
   res.end(body);
 }
 
+function sendGuardFailure(res: ServerResponse, failure: GuardFailure): void {
+  sendJson(res, failure.status, {
+    ok: false,
+    outcome: 'BLOCKED',
+    error: { code: failure.code, message: failure.message, retryable: false },
+  });
+}
+
 async function readJsonBody(req: IncomingMessage): Promise<Record<string, unknown>> {
   const chunks: Buffer[] = [];
   for await (const chunk of req) {
@@ -57,7 +67,7 @@ async function readJsonBody(req: IncomingMessage): Promise<Record<string, unknow
 
 export async function startBrokerServer(options: BrokerOptions = {}): Promise<RunningBroker> {
   const host = options.host ?? DEFAULT_BROKER_HOST;
-  const port = options.port ?? (Number(process.env.BROWSER_AGENT_PORT) || DEFAULT_BROKER_PORT);
+  let port = options.port ?? (Number(process.env.BROWSER_AGENT_PORT) || DEFAULT_BROKER_PORT);
   const token = loadOrCreatePairingToken(options.token);
   const cache = new LinkedInSqliteCache(options.dbPath);
   const enableFixtures =
@@ -76,6 +86,22 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
 
   const server = createServer(async (req, res) => {
     const reqUrl = new URL(req.url ?? '/', `http://${host}:${port}`);
+
+    // Every route: loopback Host only (DNS rebinding) and no web-page Origin (drive-by pages).
+    const hostOrigin = checkHostAndOrigin(req, port);
+    if (hostOrigin) {
+      sendGuardFailure(res, hostOrigin);
+      return;
+    }
+
+    // Routes that read cached data or drive the paired browser also need the pairing token.
+    if (req.method === 'POST' && (reqUrl.pathname === '/rpc' || reqUrl.pathname === '/cache/query')) {
+      const authFailure = checkAuthorizedRequest(req, port, token);
+      if (authFailure) {
+        sendGuardFailure(res, authFailure);
+        return;
+      }
+    }
 
     if (req.method === 'GET' && reqUrl.pathname === '/health') {
       sendJson(res, 200, {
@@ -129,7 +155,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
             code: 'EXTENSION_OFFLINE',
             message:
               'Browser extension is not attached to ws://127.0.0.1:' +
-              `${port}/ws. Open the extension popup, paste the pairing token from \`browser-agent daemon token\`, and click Save & Connect.`,
+              `${port}/ws. Open the extension popup, paste the pairing token from \`browser-agent daemon token --reveal\`, and click Save & Connect.`,
             retryable: true,
           },
         });
@@ -194,6 +220,11 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
     const reqUrl = new URL(req.url ?? '/', `http://${host}:${port}`);
     if (reqUrl.pathname !== '/ws') {
       socket.destroy();
+      return;
+    }
+    const failure = checkHostAndOrigin(req, port);
+    if (failure) {
+      socket.end(`HTTP/1.1 ${failure.status} Forbidden\r\nConnection: close\r\nContent-Length: 0\r\n\r\n`);
       return;
     }
     wss.handleUpgrade(req, socket, head, (ws) => {
@@ -277,6 +308,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
     server.once('error', onError);
     server.listen(port, host, () => {
       server.removeListener('error', onError);
+      port = (server.address() as AddressInfo).port;
       resolve();
     });
   });
