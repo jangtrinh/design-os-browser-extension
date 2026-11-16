@@ -5,9 +5,39 @@ import { shortHash8 } from '../../../shared/hash.js';
 import {
   DEFAULT_MAX_AGE_BY_CLASS,
   type CollectedPageSnapshot,
+  type ReaderCaller,
+  type ReaderCheckKind,
+  type ReaderEnvelope,
+  type ReaderGateState,
   type ReaderSiteId,
   type ReaderViewDescriptor,
 } from '../../../shared/reader-schema.js';
+import type { ReaderRuntime } from './reader-runtime.js';
+
+export type CompositeReaderHandler = (
+  runtime: ReaderRuntime,
+  input: {
+    site: ReaderSiteId;
+    view: string;
+    target: string;
+    targetKey: string;
+    params: Record<string, unknown>;
+    caller: ReaderCaller;
+  },
+) => Promise<{
+  ok: boolean;
+  data: Record<string, unknown>;
+  missing_required?: string[];
+  notes?: string[];
+  gate?: ReaderGateState;
+  error_code?: string | null;
+}>;
+
+export type ReaderCheckHandler = (
+  runtime: ReaderRuntime,
+  params: Record<string, unknown>,
+  caller: ReaderCaller,
+) => Promise<ReaderEnvelope<Record<string, unknown>>>;
 
 export interface ParsedViewOutput {
   data: Record<string, unknown>;
@@ -23,19 +53,50 @@ export interface RegisteredViewHandler {
 }
 
 const REGISTRY = new Map<string, RegisteredViewHandler>();
+const DESCRIPTOR_REGISTRY = new Map<string, ReaderViewDescriptor>();
+const COMPOSITE_REGISTRY = new Map<string, { descriptor: ReaderViewDescriptor; run: CompositeReaderHandler }>();
+const CHECK_REGISTRY = new Map<ReaderCheckKind, ReaderCheckHandler>();
 
 export function registerReaderView(handler: RegisteredViewHandler): void {
-  REGISTRY.set(`${handler.descriptor.site}:${handler.descriptor.view}`, handler);
+  const key = `${handler.descriptor.site}:${handler.descriptor.view}`;
+  REGISTRY.set(key, handler);
+  DESCRIPTOR_REGISTRY.set(key, handler.descriptor);
+}
+
+export function registerCompositeReader(descriptor: ReaderViewDescriptor, run: CompositeReaderHandler): void {
+  const key = `${descriptor.site}:${descriptor.view}`;
+  DESCRIPTOR_REGISTRY.set(key, descriptor);
+  COMPOSITE_REGISTRY.set(key, { descriptor, run });
+}
+
+export function getCompositeReader(site: ReaderSiteId, view: string) {
+  return COMPOSITE_REGISTRY.get(`${site}:${view}`);
+}
+
+export function registerReaderCheck(kind: ReaderCheckKind, handler: ReaderCheckHandler): void {
+  CHECK_REGISTRY.set(kind, handler);
+}
+
+export function getReaderCheck(kind: ReaderCheckKind): ReaderCheckHandler | undefined {
+  return CHECK_REGISTRY.get(kind);
+}
+
+export function registerDescriptorOnly(descriptor: ReaderViewDescriptor): void {
+  DESCRIPTOR_REGISTRY.set(`${descriptor.site}:${descriptor.view}`, descriptor);
 }
 
 export function getReaderView(site: ReaderSiteId, view: string): RegisteredViewHandler | undefined {
   return REGISTRY.get(`${site}:${view}`);
 }
 
+export function getReaderDescriptor(site: ReaderSiteId, view: string): ReaderViewDescriptor | undefined {
+  return DESCRIPTOR_REGISTRY.get(`${site}:${view}`);
+}
+
 export function listReaderViews(site?: ReaderSiteId): ReaderViewDescriptor[] {
   const items: ReaderViewDescriptor[] = [];
-  for (const h of REGISTRY.values()) {
-    if (!site || h.descriptor.site === site) items.push(h.descriptor);
+  for (const d of DESCRIPTOR_REGISTRY.values()) {
+    if (!site || d.site === site) items.push(d);
   }
   return items;
 }

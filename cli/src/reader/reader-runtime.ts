@@ -16,10 +16,24 @@ import { AccountGuardManager } from './account-guard.js';
 import { ReaderAuditLog, type StoredAuditRow } from './audit-log.js';
 import { getEvidenceById, recordEvidenceBundle } from './evidence-recorder.js';
 import { PacingBudgetManager, type PacingClock } from './pacing-budget.js';
-import { deriveTargetKey, getReaderView, listReaderViews } from './reader-registry.js';
+import {
+  deriveTargetKey,
+  getCompositeReader,
+  getReaderCheck,
+  getReaderView,
+  listReaderViews,
+  registerReaderCheck,
+  type ReaderCheckHandler,
+} from './reader-registry.js';
 import { SharedReaderStore } from './reader-store.js';
 import { detectHiddenPromptInstructions, redactReaderPayload } from './redaction.js';
+import { registerAllReaders } from './register-all.js';
 import { validateReaderTargetUrl } from './url-safety.js';
+
+export { registerReaderCheck };
+export type { ReaderCheckHandler };
+
+registerAllReaders();
 
 export type ExtensionCollectFn = (req: {
   site: ReaderSiteId;
@@ -36,18 +50,6 @@ export type ExtensionCollectFn = (req: {
   error_code?: string;
   message?: string;
 }>;
-
-export type ReaderCheckHandler = (
-  runtime: ReaderRuntime,
-  params: Record<string, unknown>,
-  caller: ReaderCaller,
-) => Promise<ReaderEnvelope<Record<string, unknown>>>;
-
-const CHECK_HANDLERS = new Map<ReaderCheckKind, ReaderCheckHandler>();
-
-export function registerReaderCheck(kind: ReaderCheckKind, handler: ReaderCheckHandler): void {
-  CHECK_HANDLERS.set(kind, handler);
-}
 
 export interface ReaderReadInput {
   site: ReaderSiteId;
@@ -135,12 +137,20 @@ export class ReaderRuntime {
     return { ok: true, count: rows.length, rows };
   }
 
+  getClockNowMs(): number {
+    return this.clock.now();
+  }
+
+  getCache(): LinkedInSqliteCache {
+    return this.cache;
+  }
+
   async check(
     checkKind: ReaderCheckKind,
     params: Record<string, unknown>,
     caller: ReaderCaller = { bot: 'cli', routine: 'manual' },
   ): Promise<ReaderEnvelope<Record<string, unknown>>> {
-    const handler = CHECK_HANDLERS.get(checkKind);
+    const handler = getReaderCheck(checkKind);
     if (!handler) {
       const now = new Date(this.clock.now());
       const iso = formatIsoWithOffset(now);
@@ -175,27 +185,99 @@ export class ReaderRuntime {
 
   async read(input: ReaderReadInput): Promise<ReaderEnvelope<Record<string, unknown>>> {
     const handler = getReaderView(input.site, input.view);
+    const composite = handler ? undefined : getCompositeReader(input.site, input.view);
     const params = input.params ?? {};
     const caller = input.caller ?? { bot: 'cli', routine: 'ad-hoc' };
     const evidenceMode: EvidenceMode = input.evidence ?? 'json';
 
-    if (!handler) {
+    if (!handler && !composite) {
       return this.failEnvelope(input.site, input.view, input.target ?? '', `unknown:${input.site}:${input.view}`, caller, 'BLOCKED_POLICY', 'UNKNOWN_VIEW', `Unknown view ${input.site}:${input.view}`);
     }
 
-    const target = input.target?.trim() || handler.resolveTargetUrl(params) || '';
+    if (composite) {
+      const target = input.target?.trim() || `composite://${input.site}/${input.view}`;
+      const targetKey = deriveTargetKey(input.site, input.view, target, params);
+      const maxAgeS = input.max_age_s !== undefined ? input.max_age_s : composite.descriptor.defaultMaxAgeS;
+      const nowMs = this.clock.now();
+      const cachedRow = this.store.getLatest(input.site, input.view, targetKey);
+      const cachedAgeS = cachedRow ? Math.max(0, Math.floor((nowMs - cachedRow.captured_ms) / 1000)) : 0;
+
+      if (this.guard.getGuard(input.site).state === 'PAUSED') {
+        return this.serveGuardPaused(input.site, input.view, target, targetKey, maxAgeS, cachedRow, cachedAgeS, caller, this.guard.getGuard(input.site).reason ?? 'Account guard paused.');
+      }
+      if (cachedRow && (maxAgeS < 0 || cachedAgeS < maxAgeS)) {
+        const stale = maxAgeS >= 0 ? cachedAgeS >= maxAgeS : cachedAgeS >= composite.descriptor.defaultMaxAgeS;
+        return this.serveCachedHit(input.site, input.view, target, targetKey, cachedRow, maxAgeS, cachedAgeS, stale, maxAgeS < 0 ? 'stale-allowed' : 'hit', caller);
+      }
+
+      const startedAt = formatIsoWithOffset(new Date(this.clock.now()));
+      const auditId = mintUlid('au', this.clock.now());
+      const res = await composite.run(this, { site: input.site, view: input.view, target, targetKey, params, caller });
+      const missing = res.missing_required ?? [];
+      const complete = res.ok && missing.length === 0;
+      const redaction = redactReaderPayload(res.data, { site: input.site, view: input.view });
+      const endDate = new Date(this.clock.now());
+      const endedAt = formatIsoWithOffset(endDate);
+      const pNow = this.pacing.getStatus(input.site, target);
+      const evidenceId = evidenceMode === 'off' ? null : mintUlid(`ev_${input.site}`, endDate.getTime());
+      const env: ReaderEnvelope<Record<string, unknown>> = {
+        ok: res.ok,
+        schema: READER_SCHEMA_VERSION,
+        site: input.site,
+        view: input.view,
+        target,
+        target_key: targetKey,
+        captured_at: endedAt,
+        source: 'live',
+        freshness: { max_age_s: maxAgeS, age_s: 0, stale: false },
+        complete,
+        missing_required: missing,
+        gate: res.gate ?? 'CLEAR',
+        pacing: { site: pNow.site, loads_left_hour: pNow.loads_left_hour, loads_left_day: pNow.loads_left_day },
+        redaction: { policy: REDACTION_POLICY_ID, fields_redacted: redaction.fieldsRedacted },
+        evidence_id: evidenceId,
+        audit_id: auditId,
+        caller,
+        data: redaction.redacted,
+        notes: res.notes ?? [],
+        error_code: res.error_code ?? (complete ? null : 'INCOMPLETE'),
+      };
+      if (evidenceMode !== 'off') {
+        recordEvidenceBundle({ mode: evidenceMode, envelope: env, now: endDate });
+      }
+      const saved = this.store.saveResult({
+        site: input.site,
+        view: input.view,
+        target_key: targetKey,
+        target,
+        captured_at: endedAt,
+        captured_ms: endDate.getTime(),
+        schema: READER_SCHEMA_VERSION,
+        complete,
+        missing_required: missing,
+        data: redaction.redacted,
+        evidence_id: evidenceId,
+        audit_id: auditId,
+        caller,
+      });
+      this.recordAuditRow(env, startedAt, endedAt, 'read', 'miss', 0, 'CLEAR', env.gate, saved.result_id);
+      return env;
+    }
+
+    const activeHandler = handler!;
+    const target = input.target?.trim() || activeHandler.resolveTargetUrl(params) || '';
     const targetKey = deriveTargetKey(input.site, input.view, target, params);
     const urlCheck = validateReaderTargetUrl({
       site: input.site,
       targetUrl: target,
       allowFixtureLoopback: this.allowFixtureLoopback,
-      configuredAllowedHosts: [...handler.descriptor.allowedHosts, ...this.configuredAllowedHosts],
+      configuredAllowedHosts: [...activeHandler.descriptor.allowedHosts, ...this.configuredAllowedHosts],
     });
     if (!urlCheck.ok) {
       return this.failEnvelope(input.site, input.view, target, targetKey, caller, 'BLOCKED_POLICY', urlCheck.code ?? 'BLOCKED_POLICY', urlCheck.message ?? 'URL rejected');
     }
 
-    const maxAgeS = input.max_age_s !== undefined ? input.max_age_s : handler.descriptor.defaultMaxAgeS;
+    const maxAgeS = input.max_age_s !== undefined ? input.max_age_s : activeHandler.descriptor.defaultMaxAgeS;
     const nowMs = this.clock.now();
     const cachedRow = this.store.getLatest(input.site, input.view, targetKey);
     const cachedAgeS = cachedRow ? Math.max(0, Math.floor((nowMs - cachedRow.captured_ms) / 1000)) : 0;
@@ -208,7 +290,7 @@ export class ReaderRuntime {
 
     // Fresh cache hit (or caller explicitly accepts any cached entry via max_age_s: -1).
     if (cachedRow && (maxAgeS < 0 || cachedAgeS < maxAgeS)) {
-      const stale = maxAgeS >= 0 ? cachedAgeS >= maxAgeS : cachedAgeS >= handler.descriptor.defaultMaxAgeS;
+      const stale = maxAgeS >= 0 ? cachedAgeS >= maxAgeS : cachedAgeS >= activeHandler.descriptor.defaultMaxAgeS;
       return this.serveCachedHit(input.site, input.view, target, targetKey, cachedRow, maxAgeS, cachedAgeS, stale, maxAgeS < 0 ? 'stale-allowed' : 'hit', caller);
     }
 
