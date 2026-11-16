@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "count": 8,
+  "rows": [
+    {
+      "id": 1,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_CHALLENGE\",\"reason\":\"Security checkpoint or CAPTCHA detected (https://www.linkedin.com/company/linkedin/). Complete verification in the browser tab.\",\"url\":\"https://www.linkedin.com/company/linkedin/\"}",
+      "created_at": "2026-11-16T10:37:13.749Z"
+    },
+    {
+      "id": 2,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_CHALLENGE\",\"reason\":\"Security checkpoint or CAPTCHA detected (https://www.linkedin.com/company/linkedin/). Complete verification in the browser tab.\",\"url\":\"https://www.linkedin.com/company/linkedin/\"}",
+      "created_at": "2026-11-16T10:37:13.842Z"
+    },
+    {
+      "id": 3,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_AUTH\",\"reason\":\"Authentication or authwall detected (https://www.linkedin.com/authwall?trk=bf&trkInfo=AQGeA2BTz1YpuQAAAaHj7q-oaGuCGzzdL_CM6UXf5HACWwdFgSnww2DcKFA3GZZppzAD9eNcMKn5f5H1IKVuf3ebdZzyFvk8MTlWFzdvnDB6J4JzV56iDUx1gINWMT8VwIt-Wgw=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F). Sign in manually in the browser tab.\",\"url\":\"https://www.linkedin.com/authwall?trk=bf&trkInfo=AQGeA2BTz1YpuQAAAaHj7q-oaGuCGzzdL_CM6UXf5HACWwdFgSnww2DcKFA3GZZppzAD9eNcMKn5f5H1IKVuf3ebdZzyFvk8MTlWFzdvnDB6J4JzV56iDUx1gINWMT8VwIt-Wgw=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F\"}",
+      "created_at": "2026-11-16T10:37:20.107Z"
+    },
+    {
+      "id": 4,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_AUTH\",\"reason\":\"Authentication or authwall detected (https://www.linkedin.com/authwall?trk=bf&trkInfo=AQGeA2BTz1YpuQAAAaHj7q-oaGuCGzzdL_CM6UXf5HACWwdFgSnww2DcKFA3GZZppzAD9eNcMKn5f5H1IKVuf3ebdZzyFvk8MTlWFzdvnDB6J4JzV56iDUx1gINWMT8VwIt-Wgw=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F). Sign in manually in the browser tab.\",\"url\":\"https://www.linkedin.com/authwall?trk=bf&trkInfo=AQGeA2BTz1YpuQAAAaHj7q-oaGuCGzzdL_CM6UXf5HACWwdFgSnww2DcKFA3GZZppzAD9eNcMKn5f5H1IKVuf3ebdZzyFvk8MTlWFzdvnDB6J4JzV56iDUx1gINWMT8VwIt-Wgw=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F\"}",
+      "created_at": "2026-11-16T10:37:20.162Z"
+    },
+    {
+      "id": 5,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_CHALLENGE\",\"reason\":\"Security checkpoint or CAPTCHA detected (https://www.linkedin.com/company/linkedin/). Complete verification in the browser tab.\",\"url\":\"https://www.linkedin.com/company/linkedin/\"}",
+      "created_at": "2026-11-16T10:37:47.265Z"
+    },
+    {
+      "id": 6,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_CHALLENGE\",\"reason\":\"Security checkpoint or CAPTCHA detected (https://www.linkedin.com/company/linkedin/). Complete verification in the browser tab.\",\"url\":\"https://www.linkedin.com/company/linkedin/\"}",
+      "created_at": "2026-11-16T10:37:47.352Z"
+    },
+    {
+      "id": 7,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_AUTH\",\"reason\":\"Authentication or authwall detected (https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHqbnSgSejeRgAAAaHj7zR4djtuJWxR4EyquD-Q5R03LRe-sZZUSRLSc2mCr1DtUNG3sW-LxGW4o0RG-dGSKMGSAAX3DSmIIb7RMo_NUSSLca5LY2704ptvHoYUctD6kUtN7ME=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F). Sign in manually in the browser tab.\",\"url\":\"https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHqbnSgSejeRgAAAaHj7zR4djtuJWxR4EyquD-Q5R03LRe-sZZUSRLSc2mCr1DtUNG3sW-LxGW4o0RG-dGSKMGSAAX3DSmIIb7RMo_NUSSLca5LY2704ptvHoYUctD6kUtN7ME=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F\"}",
+      "created_at": "2026-11-16T10:37:53.682Z"
+    },
+    {
+      "id": 8,
+      "event_type": "human_gate_blocked",
+      "payload_json": "{\"state\":\"BLOCKED_AUTH\",\"reason\":\"Authentication or authwall detected (https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHqbnSgSejeRgAAAaHj7zR4djtuJWxR4EyquD-Q5R03LRe-sZZUSRLSc2mCr1DtUNG3sW-LxGW4o0RG-dGSKMGSAAX3DSmIIb7RMo_NUSSLca5LY2704ptvHoYUctD6kUtN7ME=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F). Sign in manually in the browser tab.\",\"url\":\"https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHqbnSgSejeRgAAAaHj7zR4djtuJWxR4EyquD-Q5R03LRe-sZZUSRLSc2mCr1DtUNG3sW-LxGW4o0RG-dGSKMGSAAX3DSmIIb7RMo_NUSSLca5LY2704ptvHoYUctD6kUtN7ME=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fwilliamhgates%2F\"}",
+      "created_at": "2026-11-16T10:37:53.736Z"
+    }
+  ],
+  "_note": "These 8 events come from the earlier logged-out throwaway-profile smoke test (Cloudflare challenge + authwall), not from the signed-in pilot."
+}

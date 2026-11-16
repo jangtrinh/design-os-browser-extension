@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "count": 8,
+  "rows": [
+    {
+      "t": "profiles",
+      "n": 2
+    },
+    {
+      "t": "posts",
+      "n": 1
+    },
+    {
+      "t": "companies",
+      "n": 0
+    },
+    {
+      "t": "jobs",
+      "n": 0
+    },
+    {
+      "t": "threads",
+      "n": 0
+    },
+    {
+      "t": "search_runs",
+      "n": 2
+    },
+    {
+      "t": "copilot_queue",
+      "n": 0
+    },
+    {
+      "t": "events",
+      "n": 8
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "e20a022c-29c5-4c5f-aba9-f8d20cadbe23",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 13,
+    "leaseExpiresAt": 1794826190769,
+    "leaseId": "ls_2d84163ad5b8",
+    "pageId": "pg_0df15f3c2b68",
+    "tabId": 771712598,
+    "updatedAt": 1794826160769,
+    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+  },
+  "data": {
+    "postUrn": "unknown",
+    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/",
+    "authorName": "0 notifications",
+    "text": "Premium",
+    "source": "dom",
+    "capturedAt": "2026-11-16T10:49:20.947Z"
+  }
+}

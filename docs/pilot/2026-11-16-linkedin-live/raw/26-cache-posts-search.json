@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "count": 1,
+  "rows": [
+    {
+      "post_urn": "unknown",
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/",
+      "author_name": "0 notifications",
+      "text": "Premium",
+      "reactions_count": null,
+      "comments_count": null,
+      "source": "dom",
+      "payload_json": "{\"postUrn\":\"unknown\",\"url\":\"https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/\",\"authorName\":\"0 notifications\",\"text\":\"Premium\",\"source\":\"dom\",\"capturedAt\":\"2026-11-16T10:49:26.068Z\"}",
+      "captured_at": "2026-11-16T10:49:26.068Z"
+    }
+  ]
+}

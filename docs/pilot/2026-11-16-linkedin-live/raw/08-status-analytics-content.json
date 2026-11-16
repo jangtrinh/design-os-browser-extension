@@ -1,0 +1,39 @@
+{
+  "id": "941ae53d-4338-4fe5-aa09-af2e082659ed",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 7,
+    "leaseExpiresAt": 1794826141469,
+    "leaseId": "ls_708751ffada4",
+    "pageId": "pg_deb4fbe5c6a9",
+    "tabId": 771712598,
+    "updatedAt": 1794826111469,
+    "url": "https://www.linkedin.com/analytics/creator/content/"
+  },
+  "data": {
+    "connected": true,
+    "activeTabId": 771712598,
+    "activeUrl": "https://www.linkedin.com/analytics/creator/content/",
+    "humanGate": "CLEAR",
+    "fence": {
+      "epoch": 7,
+      "leaseExpiresAt": 1794826141469,
+      "leaseId": "ls_708751ffada4",
+      "pageId": "pg_deb4fbe5c6a9",
+      "tabId": 771712598,
+      "updatedAt": 1794826111469,
+      "url": "https://www.linkedin.com/analytics/creator/content/"
+    },
+    "pacing": {
+      "readsLastHour": 5,
+      "readsHourLimit": 120,
+      "prefillsLastHour": 0,
+      "prefillsHourLimit": 30,
+      "passiveCapturedCount": 0,
+      "lastActionAt": "2026-11-16T10:48:31.346Z"
+    },
+    "pendingCopilotCount": 0
+  }
+}

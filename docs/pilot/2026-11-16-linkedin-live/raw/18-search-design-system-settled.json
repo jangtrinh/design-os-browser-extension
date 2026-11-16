@@ -1,0 +1,24 @@
+{
+  "id": "25072a3c-fda4-4062-b870-d93f89b7eec4",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 15,
+    "leaseExpiresAt": 1794826210851,
+    "leaseId": "ls_4c4f2e24cf30",
+    "pageId": "pg_02f9605aa6c9",
+    "tabId": 771712598,
+    "updatedAt": 1794826180851,
+    "url": "https://www.linkedin.com/search/results/people/?keywords=design%20system"
+  },
+  "data": {
+    "category": "people",
+    "query": "design system",
+    "pageUrl": "https://www.linkedin.com/search/results/people/?keywords=design%20system",
+    "items": [],
+    "passiveEntitiesCount": 0,
+    "source": "dom",
+    "capturedAt": "2026-11-16T10:49:40.855Z"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "ok": true,
+  "count": 2,
+  "rows": [
+    {
+      "id": 1,
+      "category": "people",
+      "query": "design system",
+      "page_url": "https://www.linkedin.com/search/results/people/?keywords=design%20system",
+      "item_count": 0,
+      "payload_json": "{\"category\":\"people\",\"query\":\"design system\",\"pageUrl\":\"https://www.linkedin.com/search/results/people/?keywords=design%20system\",\"items\":[],\"passiveEntitiesCount\":0,\"source\":\"dom\",\"capturedAt\":\"2026-11-16T10:49:35.714Z\"}",
+      "captured_at": "2026-11-16T10:49:35.714Z"
+    },
+    {
+      "id": 2,
+      "category": "people",
+      "query": "design system",
+      "page_url": "https://www.linkedin.com/search/results/people/?keywords=design%20system",
+      "item_count": 0,
+      "payload_json": "{\"category\":\"people\",\"query\":\"design system\",\"pageUrl\":\"https://www.linkedin.com/search/results/people/?keywords=design%20system\",\"items\":[],\"passiveEntitiesCount\":0,\"source\":\"dom\",\"capturedAt\":\"2026-11-16T10:49:40.855Z\"}",
+      "captured_at": "2026-11-16T10:49:40.855Z"
+    }
+  ]
+}

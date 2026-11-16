@@ -1,0 +1,26 @@
+{
+  "id": "88f57f92-ca0f-4238-98eb-d82d05228c68",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 17,
+    "leaseExpiresAt": 1794826220610,
+    "leaseId": "ls_c876d66ccf9f",
+    "pageId": "pg_288cea248dc5",
+    "tabId": 771712598,
+    "updatedAt": 1794826190610,
+    "url": "https://www.linkedin.com/in/[member:66df1786]/"
+  },
+  "data": {
+    "publicIdentifier": "[member:66df1786]",
+    "url": "https://www.linkedin.com/in/[member:c140538b]/",
+    "fullName": "[member:66df1786]",
+    "headline": "· 1st",
+    "experiences": [],
+    "skills": [],
+    "source": "dom",
+    "capturedAt": "2026-11-16T10:49:50.756Z"
+  },
+  "_redaction": "Third-party profile: identifier and name hashed."
+}
