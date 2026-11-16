@@ -17,7 +17,7 @@ import {
 } from '../adapters/linkedin/entity-normalizer.js';
 import type { LinkedInSearchCategory } from '../../../shared/linkedin-schema.js';
 import type { PageFence } from '../../../shared/rpc-envelope.js';
-import { buildCompactDomSnapshot } from '../core/dom-snapshot.js';
+import { buildCompactDomSnapshot, inferName, inferRole } from '../core/dom-snapshot.js';
 import { scanDocumentHumanGate } from '../core/human-gate-detector.js';
 import { getRuntimeApi } from '../core/webext-polyfill.js';
 
@@ -28,6 +28,7 @@ interface IsolatedActionMessage {
     | 'observe'
     | 'click_ref'
     | 'fill_ref'
+    | 'describe_ref'
     | 'linkedin.profile.get'
     | 'linkedin.post.get'
     | 'linkedin.company.get'
@@ -131,7 +132,7 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
     };
   }
 
-  if (msg.op === 'click_ref' || msg.op === 'fill_ref') {
+  if (msg.op === 'click_ref' || msg.op === 'fill_ref' || msg.op === 'describe_ref') {
     const ref = typeof msg.params?.ref === 'number' ? msg.params.ref : -1;
     if (msg.fence && lastRefEpoch !== msg.fence.epoch) {
       return {
@@ -153,6 +154,24 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
           code: 'BROWSER_REF_MISSING',
           message: `Element ref=${ref} is no longer connected to DOM.`,
           retryable: false,
+        },
+      };
+    }
+
+    if (msg.op === 'describe_ref') {
+      // Lets the engine classify the act (read vs write) before anything is dispatched.
+      const tag = target.tagName.toLowerCase();
+      return {
+        ok: true,
+        outcome: 'COMMITTED',
+        data: {
+          role: inferRole(target),
+          name: inferName(target),
+          tag,
+          ...(tag === 'a' ? { href: (target as HTMLAnchorElement).href || target.getAttribute('href') || undefined } : {}),
+          ...(target.getAttribute('type') ? { inputType: target.getAttribute('type')!.toLowerCase() } : {}),
+          inForm: Boolean(target.closest('form')),
+          editable: target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.getAttribute('contenteditable') === 'true',
         },
       };
     }

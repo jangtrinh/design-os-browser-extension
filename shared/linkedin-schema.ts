@@ -217,6 +217,8 @@ export interface PacingSnapshot {
   readsHourLimit: number;
   prefillsLastHour: number;
   prefillsHourLimit: number;
+  actWritesLastHour?: number;
+  actWritesHourLimit?: number;
   passiveCapturedCount: number;
   lastActionAt?: string;
 }

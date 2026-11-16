@@ -57,7 +57,7 @@ function getHelpText(): string {
     '  doctor [--port 4347] [--json]',
     '  capabilities [--json]',
     '  observe [--tab <id>] [--url <url>] [--max-nodes <n>] [--json]',
-    '  act --op <click_ref|fill_ref> --ref <n> --page-id <id> --epoch <n> --lease-id <id> [--tab <id>] [--value <text>] [--json]',
+    '  act --op <click_ref|fill_ref> --ref <n> --page-id <id> --epoch <n> --lease-id <id> [--tab <id>] [--value <text>] [--approval-id <id>] [--json]',
     '  linkedin status [--url <url>] [--json]',
     '  linkedin search [--category people|posts|jobs|companies] [--query <q>] [--url <url>] [--json]',
     '  linkedin profile [--public-id <id>] [--url <url>] [--json]',
@@ -177,6 +177,7 @@ export async function dispatchCli(argv: string[]): Promise<number> {
         op: String(flags.op ?? 'click_ref'),
         ref: Number(flags.ref ?? -1),
         ...(typeof flags.value === 'string' ? { value: flags.value } : {}),
+        ...(typeof flags['approval-id'] === 'string' ? { approvalId: flags['approval-id'] } : {}),
       },
       {
         ...brokerCfg,

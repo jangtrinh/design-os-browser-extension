@@ -29,7 +29,7 @@ export const MCP_TOOLS: McpToolDef[] = [
   },
   {
     name: 'browser_act',
-    description: 'Dispatch fenced click_ref or fill_ref using the latest pageId/epoch/leaseId.',
+    description: 'Fenced click_ref or fill_ref on an allowlisted host. Read-only clicks (navigation, show more, pagination) run directly; writes (send, like, comment, connect, typing) return BLOCKED_POLICY with an approvalId until a human allows that exact act in the extension popup.',
     inputSchema: {
       type: 'object',
       required: ['op', 'ref', 'tabId', 'pageId', 'epoch', 'leaseId'],
@@ -37,6 +37,7 @@ export const MCP_TOOLS: McpToolDef[] = [
         op: { type: 'string', enum: ['click_ref', 'fill_ref'] },
         ref: { type: 'number' },
         value: { type: 'string' },
+        approvalId: { type: 'string' },
         tabId: { type: 'number' },
         pageId: { type: 'string' },
         epoch: { type: 'number' },
