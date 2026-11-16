@@ -17,14 +17,14 @@ export interface HumanGateCheckResult {
 
 const CHALLENGE_URL_RE =
   /\/(checkpoint|challenge|security-verification|captcha|cdn-cgi\/challenge-platform|account\/access)(\/|\?|$)/i;
-const AUTH_URL_RE = /\/(uas\/login|authwall|login|signup\/cold-join)(\/|\?|$)/i;
+const AUTH_URL_RE = /\/(uas\/login|authwall|login|signup\/cold-join|i\/flow\/login)(\/|\?|$)/i;
 const PAYMENT_URL_RE = /\/(premium\/products|premium\/checkout|sales\/login|recruiter\/login)(\/|\?|$)/i;
 
 const CHALLENGE_MARKER_RE =
   /(arkose|funcaptcha|recaptcha|hcaptcha|turnstile|challenges\.cloudflare\.com|checkpoint-challenge|captcha-internal|px-captcha|cf-challenge)/i;
 const CHALLENGE_STRUCTURAL_TEXT_RE =
   /(quick security check|security verification|let's do a quick verification|unusual activity|verify you are a human|temporarily blocked|tạm thời bị chặn|you're temporarily blocked|you are doing that too much|whoa there, pardner|your account has been locked|just a moment\.\.\.|checking your browser|account restricted)/i;
-const AUTH_TEXT_RE = /(sign in to linkedin|join linkedin to view|session_key|authwall|log in to continue)/i;
+const AUTH_TEXT_RE = /(sign in to linkedin|join linkedin to view|session_key|authwall|log in to continue|sign in to x\b|log in to x\b|sign in to wellfound)/i;
 const PAYMENT_MARKER_RE = /(premium-upsell-wall|paywall-gate|subscription-paywall)/i;
 
 /**
