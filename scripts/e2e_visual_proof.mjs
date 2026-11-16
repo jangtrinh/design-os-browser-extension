@@ -8,21 +8,65 @@ import { chromium } from 'playwright-core';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-function findChromeForTesting() {
+// Chrome binaries inside one Playwright `chromium-<rev>` dir, per platform.
+const PLAYWRIGHT_CHROME_SUBPATHS = {
+  darwin: [
+    ['chrome-mac-arm64', 'Google Chrome for Testing.app', 'Contents', 'MacOS', 'Google Chrome for Testing'],
+    ['chrome-mac', 'Google Chrome for Testing.app', 'Contents', 'MacOS', 'Google Chrome for Testing'],
+    ['chrome-mac', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'],
+  ],
+  linux: [
+    ['chrome-linux64', 'chrome'],
+    ['chrome-linux', 'chrome'],
+  ],
+};
+
+// System installs, tried last. Branded Google Chrome (137+) ignores
+// --load-extension, so it is deliberately not auto-discovered; point
+// CHROME_FOR_TESTING_PATH at it only if you know your build still loads
+// unpacked extensions from the command line.
+const SYSTEM_CHROME_PATHS = {
+  darwin: ['/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'],
+  linux: [
+    '/usr/bin/google-chrome-for-testing',
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/snap/bin/chromium',
+  ],
+};
+
+function playwrightCacheRoots(platform) {
+  const roots = [];
+  if (process.env.PLAYWRIGHT_BROWSERS_PATH && process.env.PLAYWRIGHT_BROWSERS_PATH !== '0') {
+    roots.push(process.env.PLAYWRIGHT_BROWSERS_PATH);
+  }
+  if (platform === 'darwin') roots.push(join(homedir(), 'Library', 'Caches', 'ms-playwright'));
+  if (platform === 'linux') {
+    roots.push(join(process.env.XDG_CACHE_HOME || join(homedir(), '.cache'), 'ms-playwright'));
+  }
+  return roots;
+}
+
+function chromiumRevision(dir) {
+  return Number(dir.slice('chromium-'.length)) || 0;
+}
+
+function findChromeForTesting(platform = process.platform) {
   if (process.env.CHROME_FOR_TESTING_PATH) return process.env.CHROME_FOR_TESTING_PATH;
-  const cacheRoot = join(homedir(), 'Library', 'Caches', 'ms-playwright');
-  if (!existsSync(cacheRoot)) return undefined;
-  const dirs = readdirSync(cacheRoot).filter((d) => d.startsWith('chromium-')).sort().reverse();
-  for (const dir of dirs) {
-    const candidate = join(
-      cacheRoot,
-      dir,
-      'chrome-mac-arm64',
-      'Google Chrome for Testing.app',
-      'Contents',
-      'MacOS',
-      'Google Chrome for Testing',
-    );
+  const subpaths = PLAYWRIGHT_CHROME_SUBPATHS[platform] ?? [];
+  for (const cacheRoot of playwrightCacheRoots(platform)) {
+    if (!existsSync(cacheRoot)) continue;
+    const dirs = readdirSync(cacheRoot)
+      .filter((d) => /^chromium-\d+$/.test(d))
+      .sort((a, b) => chromiumRevision(b) - chromiumRevision(a));
+    for (const dir of dirs) {
+      for (const parts of subpaths) {
+        const candidate = join(cacheRoot, dir, ...parts);
+        if (existsSync(candidate)) return candidate;
+      }
+    }
+  }
+  for (const candidate of SYSTEM_CHROME_PATHS[platform] ?? []) {
     if (existsSync(candidate)) return candidate;
   }
   return undefined;
@@ -164,6 +208,10 @@ async function isExtensionAttached(port) {
 async function main() {
   const extDir = resolve(ROOT, 'extension/dist/chromium');
   assert(existsSync(resolve(extDir, 'manifest.json')), 'Run `npm run build` before test:e2e');
+  assert(
+    CHROME_PATH,
+    'No Chrome for Testing / Chromium found. Run `npx playwright install chromium` or set CHROME_FOR_TESTING_PATH.',
+  );
 
   const outDir = resolveOutDir();
   mkdirSync(outDir, { recursive: true });
@@ -175,9 +223,13 @@ async function main() {
   const token = 'dos_e2e_deterministic_token_2026';
   const port = 4347;
 
+  // Keep every daemon write inside the sandbox, never the real user data dir.
   const cliEnv = {
     BROWSER_AGENT_PORT: String(port),
+    BROWSER_AGENT_CACHE_PATH: dbPath,
     BROWSER_AGENT_DB_PATH: dbPath,
+    BROWSER_AGENT_EVIDENCE_DIR: join(sandboxDir, 'evidence'),
+    BROWSER_AGENT_AUDIT_DIR: join(sandboxDir, 'audit'),
     BROWSER_AGENT_PAIRING_FILE: pairingFile,
     BROWSER_AGENT_PAIRING_TOKEN: token,
   };
@@ -543,6 +595,7 @@ async function main() {
         ok: true,
         extensionId: extId,
         port,
+        chromePath: CHROME_PATH ?? null,
         proofs: [
           resolve(outDir, 'linkedin-extension-popup-copilot.png'),
           resolve(outDir, 'linkedin-e2e-zero-drift-proof.png'),
