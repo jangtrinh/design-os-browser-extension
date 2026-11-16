@@ -1,0 +1,528 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_manifests
+Fetched: 2026-11-16T08:27:16+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+Native manifests
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+日本語
+中文 (简体)
+Native manifests
+Native manifests are JSON files provisioned on the user's computer by means other than the extension installation process. For example, a native manifest might be provisioned by a device administrator or native application installer.
+There are three types of native manifest:
+Native messaging manifests
+Enables a feature called
+native messaging, in which an extension can communicate with a native app installed on
+the device.
+Managed storage manifests
+Defines read-only data that an extension can access using the
+storage.managed API.
+PKCS #11 manifests
+Enables an extension to use the pkcs11 API
+to enumerate PKCS #11 security modules and install them in Firefox.
+For all native manifests, you need to store the file so the browser can find it. The section on manifest location describes how to do this. On Linux and macOS, the files are in a fixed location, on Windows the file location is written to the Windows Registry.
+In this article
+Native messaging manifests
+Managed storage manifests
+PKCS #11 manifests
+Manifest location
+Native messaging manifests
+The native messaging manifest is a file with a name that matches the string passed by the extension into runtime.connectNative() or runtime.sendNativeMessage() with the .json extension. It contains a JSON object with these properties:
+Name
+Type
+Description
+name
+String
+Name of the native application.
+This must match the name passed into
+runtime.connectNative() or
+runtime.sendNativeMessage() by
+the extension.
+On Windows, use this value as the name of the registry key you create
+that contains the location of the native messaging manifest.
+The name must match the regular expression:
+"^\w+(\.\w+)*$". This means that it may only contain
+(lowercase or uppercase) alphanumeric characters, underscores, and
+dots. It may not start or end with a dot, and a dot cannot be followed
+by another dot.
+description
+String
+Description of the native application.
+path
+String
+Path to the native application.
+On Windows, this may be relative to the manifest itself. On macOS and
+Linux, it must be absolute.
+type
+String
+Describes the method used to connect the extension with the app.
+Takes the value "stdio" only,
+which indicates that messages are received by the app using standard
+input (stdin) and sent using standard output
+(stdout).
+allowed_extensions
+Array of String
+An array of
+Add-on ID
+values. Each value represents an extension allowed to
+communicate with this native application.
+Note: This means you want to include
+the
+browser_specific_settings
+key in your extension's manifest.json file so you
+set an explicit ID during development.
+For example, here's the content of the ping_pong.json manifest file for the ping_pong native application from the native messaging example:
+json
+{
+"name": "ping_pong",
+"description": "Example host for native messaging",
+"path": "/path/to/native-messaging/app/ping_pong.py",
+"type": "stdio",
+"allowed_extensions": ["ping_pong@example.org"]
+}
+This allows the extension with the ID ping_pong@example.org to connect by passing the name ping_pong into the relevant runtime API function. The native application is at /path/to/native-messaging/app/ping_pong.py.
+Managed storage manifests
+The managed storage manifest is a file with a name that matches the ID specified in the extension's browser_specific_settings key with the .json extension. It contains a JSON object with these properties:
+Name
+Type
+Description
+name
+String
+The ID of the extension that can access this storage, given as the ID
+specified in the extension's
+browser_specific_settings
+key.
+On Windows, use this as the name of the registry key you create,
+which contains the location of the manifest.
+description
+String
+Human-readable description, ignored by Firefox.
+type
+String
+This must be "storage".
+data
+Object
+A JSON object that may contain any valid JSON values, including
+strings, numbers, booleans, arrays, or objects. This becomes the
+data in the browser.storage.managed storage area.
+For example, in the favourite-colour example manage storage data is set in the file named favourite-colour-examples@mozilla.org.json, which contains:
+json
+{
+"name": "favourite-colour-examples@mozilla.org",
+"description": "ignored",
+"type": "storage",
+"data": {
+"color": "management thinks it should be blue!"
+}
+}
+The favourite-colour-examples@mozilla.org extension then accesses the data using code like this:
+js
+let storageItem = browser.storage.managed.get("color");
+storageItem.then((res) => {
+console.log(`Managed color is: ${res.color}`);
+});
+PKCS #11 manifests
+The PKCS #11 manifest is a file with a name that matches the name of the PKCS #11 module (as used in the pkcs11 API) with the .json extension. It contains a JSON object with these properties:
+Name
+Type
+Description
+name
+String
+Name of the PKCS #11 module.
+This must match the name used in the pkcs11 API.
+On Windows, use this as the name of the registry key you create,
+which contains the location of the manifest.
+The name must match the regular expression:
+"^\w+(\.\w+)*$". This means that it may only contain
+lowercase alphanumeric characters, underscores, and dots. It may not
+start or end with a dot, and a dot cannot be followed by another dot.
+description
+String
+Description of the PKCS #11 module.
+This sets the friendly name for the module in the browser's
+UI (for example, the "Security Devices" dialog in Firefox).
+path
+String
+Path to the PKCS #11 module.
+The path to the PKCS #11 module may be absolute or relative to the manifest itself.
+type
+String
+This must be "pkcs11".
+allowed_extensions
+Array of String
+An array of
+Add-on ID
+values. Each value represents an extension allowed to
+interact with the module.
+Note: This means you want to include
+the
+browser_specific_settings
+key in your extension's manifest.json file so you
+set an explicit ID during development.
+For example:
+json
+{
+"name": "my_module",
+"description": "My test module",
+"type": "pkcs11",
+"path": "/path/to/libpkcs11testmodule.dylib",
+"allowed_extensions": ["my-extension@mozilla.org"]
+}
+Given this JSON manifest, saved as my_module.json, the my-extension@mozilla.org extension could install the security module at /path/to/libpkcs11testmodule.dylib using code like this:
+js
+browser.pkcs11.installModule("my_module");
+Manifest location
+On Linux and macOS, you need to store the manifest in a particular place. On Windows, you need to create a registry key that points to the manifest's location.
+The detailed rules are the same for all the manifest types, except that the penultimate component of the path identifies the type of manifest. The examples below show the form for each of the three different types. In all the examples, <name> is the value of the name property in the native manifest.
+Windows
+For global visibility, create a registry key with the following name:
+HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\NativeMessagingHosts\<name>
+HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\ManagedStorage\<name>
+HKEY_LOCAL_MACHINE\SOFTWARE\Mozilla\PKCS11Modules\<name>
+The key should have a single default value, which is the path to the manifest.
+Warning:
+As of Firefox 64, the 32-bit registry view Wow6432Node will be checked first for these keys, followed by the "native" registry view. Use whichever is appropriate for your application.
+For Firefox 63 and older: This key should not be created under Wow6432Node, even if the app is 32-bit. Previous versions of the browser will always look for the key under the "native" view of the registry, not the 32-bit emulation. To ensure that the key is created in the "native" view, you can pass the KEY_WOW64_64KEY or KEY_WOW64_32KEY flags into RegCreateKeyEx. See Accessing an Alternate Registry View.
+For per-user visibility, create a registry key with the following name:
+HKEY_CURRENT_USER\SOFTWARE\Mozilla\NativeMessagingHosts\<name>
+HKEY_CURRENT_USER\SOFTWARE\Mozilla\ManagedStorage\<name>
+HKEY_CURRENT_USER\SOFTWARE\Mozilla\PKCS11Modules\<name>
+The key should have a single default value, which is the path to the manifest.
+macOS
+For global visibility, store the manifest in:
+/Library/Application Support/Mozilla/NativeMessagingHosts/<name>.json
+/Library/Application Support/Mozilla/ManagedStorage/<name>.json
+/Library/Application Support/Mozilla/PKCS11Modules/<name>.json
+For per-user visibility, store the manifest in:
+~/Library/Application Support/Mozilla/NativeMessagingHosts/<name>.json
+~/Library/Application Support/Mozilla/ManagedStorage/<name>.json
+~/Library/Application Support/Mozilla/PKCS11Modules/<name>.json
+Linux
+For global visibility, store the manifest in either:
+/usr/lib/mozilla/native-messaging-hosts/<name>.json
+/usr/lib/mozilla/managed-storage/<name>.json
+/usr/lib/mozilla/pkcs11-modules/<name>.json
+or:
+/usr/lib64/mozilla/native-messaging-hosts/<name>.json
+/usr/lib64/mozilla/managed-storage/<name>.json
+/usr/lib64/mozilla/pkcs11-modules/<name>.json
+For per-user visibility, store the manifest in:
+~/.mozilla/native-messaging-hosts/<name>.json
+~/.mozilla/managed-storage/<name>.json
+~/.mozilla/pkcs11-modules/<name>.json
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Jul 17, 2025 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

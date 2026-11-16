@@ -1,0 +1,454 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities
+Fetched: 2026-11-16T08:25:23+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+Chrome incompatibilities
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Español
+Français
+日本語
+Русский
+中文 (简体)
+Chrome incompatibilities
+The WebExtension APIs aim to provide compatibility across all the main browsers, so extensions should run on any browser with minimal changes.
+However, there are significant differences between Chrome (and Chromium-based browsers), Firefox, and Safari. In particular:
+Support for WebExtension APIs differs across browsers. See Browser support for JavaScript APIs for details.
+Support for manifest.json keys differs across browsers. See the "Browser compatibility" section on the manifest.json page for more details.
+The rest of this page details these and other incompatibilities.
+Support for the browser namespace and promises are no longer a source of incompatibility. See Historical differences.
+In this article
+JavaScript APIs
+manifest.json keys
+Native messaging
+Data cloning algorithm
+Historical differences
+JavaScript APIs
+Partially supported APIs
+The Browser support for JavaScript APIs page includes compatibility tables for all APIs that have any support in Firefox. Where there are caveats regarding support for an API method, property, type, or event, this is indicated in these tables with an asterisk "*". Selecting the asterisk expands the table to display a note explaining the caveat.
+The tables are generated from compatibility data stored as JSON files in GitHub.
+The rest of this section describes the main compatibility issues you may need to consider when building a cross-browser extension. Also, remember to check the browser compatibility tables, as they may contain additional compatibility information.
+Notifications API
+For notifications.create(), with type "basic":
+In Firefox: iconUrl is optional.
+In Chrome: iconUrl is required.
+When the user clicks on a notification:
+In Firefox: The notification is cleared immediately.
+In Chrome: This is not the case.
+If you call notifications.create() more than once in rapid succession:
+In Firefox: The notifications may not display. Waiting to make subsequent calls within the notifications.create() callback function is not a sufficient delay to prevent this.
+Proxy API
+Firefox and Chrome include a Proxy API. However, the design of these two APIs is incompatible.
+In Firefox: Proxies are set using the proxy.settings property or proxy.onRequest to provide ProxyInfo dynamically.
+See proxy for more information on the API.
+In Chrome: Proxy settings are defined in a proxy.ProxyConfig object. Depending on Chrome's proxy settings, the settings may contain proxy.ProxyRules or a proxy.PacScript. Proxies are set using the proxy.settings property.
+See chrome.proxy for more information on the API.
+Sidebar API
+Firefox and Chrome provide incompatible APIs for working with a sidebar.
+In Firefox (and Opera): a sidebar is specified with the sidebar_action manifest key and manipulated with the sidebarAction API.
+In Chrome: an initial sidebar can be specified with the side_panel manifest key. The sidePanel API then enables panels to be manipulated.
+Tabs API
+When using tabs.executeScript() or tabs.insertCSS():
+In Firefox: Relative URLs passed are resolved relative to the current page URL.
+In Chrome: Relative URLs are resolved relative to the extension's base URL.
+To work cross-browser, you can specify the path as an absolute URL, starting at the extension's root, like this:
+/path/to/script.js
+When calling tabs.remove():
+In Firefox: The tabs.remove() promise is fulfilled after the beforeunload event.
+In Chrome: The callback does not wait for beforeunload.
+WebRequest API
+In Firefox:
+Requests can be redirected only if their original URL uses the http: or https: scheme.
+The activeTab permission does not allow for intercepting network requests in the current tab. (See bug 1617479)
+Events are not fired for system requests (for example, extension upgrades or search bar suggestions).
+From Firefox 57 onwards: Firefox makes an exception for extensions that need to intercept webRequest.onAuthRequired for proxy authorization. See the documentation for webRequest.onAuthRequired.
+If an extension wants to redirect a public (e.g., HTTPS) URL to an extension page, the extension's manifest.json file must contain a web_accessible_resources key with the URL of the extension page.
+Note:
+Any website may link or redirect to that URL, and extensions should treat any input (POST data, for example) as if it came from an untrusted source, as a normal web page should.
+Some of the browser.webRequest.* APIs allow for returning Promises that resolves webRequest.BlockingResponse asynchronously.
+In Chrome: Only webRequest.onAuthRequired supports asynchronous webRequest.BlockingResponse by supplying 'asyncBlocking', through a callback instead of a Promise.
+Windows API
+In Firefox: onFocusChanged of the windows API triggers multiple times for a focus change.
+Unsupported APIs
+Debugger API
+In Firefox: Chrome's debugger API is not implemented.
+DeclarativeContent API
+In Firefox: Chrome's declarativeContent API is not implemented. In addition, Firefox will not support the declarativeContent.RequestContentScript API (which is rarely used and is unavailable in stable releases of Chrome).
+Miscellaneous incompatibilities
+URLs in CSS
+In Firefox: URLs in injected CSS files are resolved relative to the CSS file.
+In Chrome: URLs in injected CSS files are resolved relative to the page they are injected into.
+Support for dialogs in background pages
+In Firefox: alert(), confirm(), and prompt() are not supported in background pages.
+web_accessible_resources
+In Firefox: Resources are assigned a random UUID that changes for every instance of Firefox: moz-extension://«random-UUID»/«path». This randomness can prevent you from doing things, such as adding your extension's URL to another domain's CSP policy.
+In Chrome: When a resource is listed in web_accessible_resources, it is accessible as chrome-extension://«your-extension-id»/«path». The extension ID is fixed for an extension.
+Manifest "key" property
+In Firefox: As Firefox uses random UUIDs for web_accessible_resources, this property is unsupported. Firefox extensions can fix their extension ID through the browser_specific_settings.gecko.id manifest key (see browser_specific_settings.gecko).
+In Chrome: When working with an unpacked extension, the manifest may include a "key" property to pin the extension ID across different machines. This is mainly useful when working with web_accessible_resources.
+Content script HTTP(S) requests
+In Firefox: When a content script makes an HTTP(S) request, you must provide absolute URLs.
+In Chrome: When a content script makes a request (for example, using fetch()) to a relative URL (like /api), it is sent to https://example.com/api.
+Content script environment
+In Firefox: The global scope of the content script environment is not strictly equal to window (Firefox bug 1208775). More specifically, the global scope (globalThis) is composed of standard JavaScript features as usual, plus window as the prototype of the global scope. Most DOM APIs are inherited from the page through window, through Xray vision to shield the content script from modifications by the web page. A content script may encounter JavaScript objects from its global scope or Xray-wrapped versions from the web page.
+In Chrome: The global scope is window, and the available DOM APIs are generally independent of the web page (other than sharing the underlying DOM). Content scripts cannot directly access JavaScript objects from the web page.
+Content script page event handlers
+In Firefox: separate event handlers are not maintained per world. This means that the most recent content script to request element.onclick = xxx overwrites the page's or other extensions' event handlers.
+In Chrome: separate event handlers are maintained per world, so Chrome maintains event handlers for a page and every requesting extension.
+To work around this inconsistency, use addEventListener() to register event listeners. See Firefox bug 1965975 for more information.
+Executing code in a web page from content script
+In Firefox: eval runs code in the context of the content script and window.eval runs code in the context of the page. See Using eval in content scripts.
+In Chrome: eval and window.eval always runs code in the context of the content script, not in the context of the page.
+Sharing variables between content scripts
+In Firefox: You cannot share variables between content scripts by assigning them to this.{variableName} in one script and then attempting to access them using window.{variableName} in another. This is a limitation created by the sandbox environment in Firefox. This limitation may be removed; see Firefox bug 1208775.
+Content script lifecycle during navigation
+In Firefox: Content scripts remain injected in a web page after the user has navigated away. However, window object properties are destroyed. For example, if a content script sets window.prop1 = "prop" and the user then navigates away and returns to the page window.prop1 is undefined. This issue is tracked in Firefox bug 1525400.
+To mimic the behavior of Chrome, listen for the pageshow and pagehide events. Then simulate the injection or destruction of the content script.
+In Chrome: Content scripts are destroyed when the user navigates away from a web page. If the user clicks the back button to return to the page through history, the content script is injected into the web page.
+"per-tab" zoom behavior
+In Firefox: The zoom level persists across page loads and navigation within the tab.
+In Chrome: Zoom changes are reset on navigation; navigating a tab always loads pages with their per-origin zoom factors.
+See tabs.ZoomSettingsScope.
+manifest.json keys
+The main manifest.json page includes a table describing browser support for manifest.json keys. Where there are caveats around support for a given key, this is indicated in the table with an asterisk "*". Selecting the asterisk expands the table to display a note explaining the caveat.
+The tables are generated from compatibility data stored as JSON files in GitHub.
+Native messaging
+Connection-based messaging arguments
+On Linux and Mac: Chrome passes one argument to the native app, which is the origin of the extension that started it, in the form of chrome-extension://«extensionID/» (trailing slash required). This enables the app to identify the extension.
+On Windows: Chrome passes two arguments:
+The origin of the extension
+A handle to the Chrome native window that started the app
+allowed_extensions
+In Firefox: The manifest key is called allowed_extensions.
+In Chrome: The manifest key is called allowed_origins.
+App manifest location
+In Chrome: The app manifest is expected in a different place. See Native messaging host location in the Chrome docs.
+App persistence
+In Firefox: When a native messaging connection is closed, Firefox kills the subprocesses if they do not break away. On Windows, the browser puts the native application's process into a Job object and kills the job. Suppose the native application launches other processes and wants them to remain open after the native application is killed. In that case, the native application must use CreateProcess, instead of ShellExecute, to launch the additional process with the CREATE_BREAKAWAY_FROM_JOB flag.
+Data cloning algorithm
+Some extension APIs allow an extension to send data from one part of the extension to another, such as runtime.sendMessage(), tabs.sendMessage(), runtime.onMessage, the postMessage() method of runtime.port, and tabs.executeScript().
+In Firefox: The Structured clone algorithm is used.
+In Chrome: The JSON serialization algorithm is used. It may switch to structured cloning in the future (issue 248548).
+The Structured clone algorithm supports more types than the JSON serialization algorithm. A notable exception are (DOM) objects with a toJSON method. DOM objects are not cloneable nor JSON-serializable by default, but with a toJSON() method, these can be JSON-serialized (but still not cloned with the structured cloning algorithm). Examples of JSON-serializable objects that are not structured cloneable include instances of URL and PerformanceEntry.
+Extensions that rely on the toJSON() method of the JSON serialization algorithm can use JSON.stringify() followed by JSON.parse() to ensure that a message can be exchanged because a parsed JSON value is always structurally cloneable.
+Historical differences
+chrome.* and browser.* namespace
+Before Chrome 148, Chrome exposed APIs only under the chrome namespace rather than browser. For example, browser.browserAction.setIcon({ path: "path/to/icon.png" }); would instead be chrome.browserAction.setIcon({ path: "path/to/icon.png" });.
+Chrome introduced support for promise-based return values from APIs in Manifest V3, with some APIs supported later. Before the introduction of promises, a call such as browser.cookies.set({ url: "https://developer.mozilla.org/" }).then(logCookie); would use a callback like this: browser.cookies.set({ url: "https://developer.mozilla.org/" }, logCookie);.
+For extensions that use the devtools_page manifest key, Chrome support for the browser namespace and promises was introduced in Chrome 152.
+If you're targeting older Chrome browser versions, Firefox offers a polyfill that provides the browser namespace and promise support: https://github.com/mozilla/webextension-polyfill.
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Oct 8, 2026 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

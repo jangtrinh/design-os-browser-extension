@@ -1,0 +1,190 @@
+Source-URL: https://developer.chrome.com/blog/remote-debugging-port
+Fetched: 2026-11-16T08:24:55+00:00
+
+Skip to main content
+Docs
+Build with Chrome
+Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+Create the best experience for your users with the web's best tools.
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Get things done quicker and neater, with our ready-made libraries.
+Workbox
+Puppeteer
+Experience
+Design a beautiful and performant web with Chrome.
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+More from Chrome and Google.
+All documentation
+Baseline open_in_new
+web.dev open_in_new
+PageSpeed Insights audit open_in_new
+Case studies
+Blog
+New in Chrome
+/
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어
+Sign in
+Blog
+Docs
+More
+Case studies
+Blog
+New in Chrome
+Build with Chrome
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Workbox
+Puppeteer
+Experience
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+All documentation
+Baseline <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+web.dev <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+PageSpeed Insights audit <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+Modern Web Guidance is now stable! Upgrade your coding agents with expert-vetted web development best practices. Read the announcement.
+Chrome for Developers
+Blog
+Changes to remote debugging switches to improve security
+Stay organized with collections
+Save and categorize content based on your preferences.
+Will Harris
+Published: March 17, 2025
+Last year, we announced improved security for cookies and credentials with
+App-Bound Encryption for Chrome.
+While we observed that this new protection resulted in a substantial reduction
+in this type of account hijacking, attackers remain very motivated to adapt to
+these new defenses and we continue to monitor the techniques and behaviors used
+by infostealers.
+Since App-Bound Encryption was enabled we've seen an increase in attackers using
+Chrome Remote Debugging to extract cookies. Using
+this method to steal Chrome cookies
+has been discussed since 2018. However, recent
+blog posts covering this use of the remote debugging port,
+and tools to extract cookies
+support our internal data showing its increased popularity. We remain committed
+to disrupting these techniques, and constraining attackers further—increasing
+the cost of these attacks and protecting the security of Chrome users.
+Therefore, from Chrome 136 we're making changes to the behavior of
+--remote-debugging-port and --remote-debugging-pipe. These switches
+will no longer be respected if attempting to debug the default Chrome data
+directory. These switches must now be accompanied by the --user-data-dir
+switch to point to a non-standard directory. A non-standard data directory uses
+a different encryption key meaning Chrome's data is now protected from
+attackers.
+For developers who need to debug Chrome (for example, from VSCode), the
+instructions already
+specify
+use of a custom user data dir and we continue to recommend this approach to
+isolate any debugging from any real profiles.
+For browser automation scenarios, we recommend using Chrome for
+Testing which will
+continue to respect the existing behavior.
+Please file any issues with this new security feature to
+crbug.com.
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a registered trademark of Oracle and/or its affiliates.
+Last updated 2025-03-17 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2025-03-17 UTC."],[],[]]
+Contribute
+File a bug
+See open issues
+Related content
+Chromium updates
+Case studies
+Archive
+Podcasts & shows
+Follow
+@ChromiumDev on X
+YouTube
+Chrome for Developers on LinkedIn
+RSS
+Terms
+Privacy
+Manage cookies
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어

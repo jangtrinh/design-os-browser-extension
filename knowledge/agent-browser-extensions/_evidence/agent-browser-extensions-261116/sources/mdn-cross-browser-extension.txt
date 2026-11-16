@@ -1,0 +1,459 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension
+Fetched: 2026-11-16T08:25:24+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+Build a cross-browser extension
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+中文 (简体)
+Build a cross-browser extension
+The introduction of the browser extensions API created a uniform landscape for the development of browser extensions. However, there are differences in the API implementations and the scope of coverage among the browsers that use the extensions API (the major ones being Chrome, Edge, Firefox, Opera, and Safari).
+Maximizing the reach of your browser extension means developing it for at least two browsers, possibly more. This article looks at the main challenges faced when creating a cross-browser extension and suggests how to address these challenges.
+Note:
+The main browsers have adopted Manifest V3. This manifest version provides better compatibility between the browser extension environments, such as use of the browser.* namespace and promises for handling asynchronous events. In addition to the information in this guide, refer to the Manifest V3 migration guides for Firefox and Chrome.
+In this article
+Cross-platform extension coding hurdles
+Conclusion
+Cross-platform extension coding hurdles
+You need to address these areas when tackling a cross-platform extension:
+API namespace
+API asynchronous event handling
+API function coverage
+Content script execution contexts
+Background page versus extension service worker (in Manifest V3)
+Manifest keys
+Extension packaging
+Extension publishing
+API namespace
+There are two API namespaces in use among the main browsers:
+browser.*, the standard for the extensions API. Originally used by Firefox and Safari, supported by Chrome in mid 2026 (i.e., Chrome 148, Opera 121, and Edge 136, and 4 versions later for extensions using devtools_page).
+chrome.* used by Chrome, Opera, and Edge.
+Firefox also supports the chrome.* namespace for APIs that are compatible with Chrome, primarily to assist with porting. However, using the browser.* namespace is preferred. In addition to being the proposed standard, browser.* uses promises—a modern and convenient mechanism for handling asynchronous events.
+API asynchronous event handling
+With the introduction of Manifest V3, all the main browsers adopted the standard of returning promises from asynchronous methods. Firefox and Safari support promises on all asynchronous APIs. Starting from Chrome 121, all asynchronous extension APIs support promises unless documented otherwise. For extensions that use the devtools_page manifest key, Chrome provided promise support in Chrome 152 (see Chrome bug 500769389).
+In Manifest V2, Firefox and Safari support promises for asynchronous methods. At the same time, Chrome methods invoke callbacks. For compatibility, all the main browsers support callbacks across all manifest versions. See the Historical differences section of the Chrome incompatibilities page for details.
+Some handlers of extension API events are expected to respond asynchronously through a Promise or callback function. For example, a handler of the runtime.onMessage event can send an asynchronous response using a Promise or using a callback. A Promise as the return value from an event handler is supported in Firefox and Safari, but not yet in Chrome.
+Firefox also supports callbacks for the APIs that support the chrome.* namespace. However, using promises is recommended. Promises greatly simplify asynchronous event handling, particularly when you need to chain events. If you want to use the browser.* namespace with promises and target Chrome 147 or earlier, you need to use a polyfill or similar.
+Note:
+If you're unfamiliar with the differences between these two methods, look at Getting to know asynchronous JavaScript: Callbacks, Promises and Async/Await or the MDN Using promises page.
+The WebExtension browser API Polyfill
+Starting with Chrome 148, Chrome supports the browser namespace, except in extensions that include a DevTools page. This limitation was removed in Chrome 152 (see Chrome bug 500769389), and the browser namespace became available to all Chrome extensions.
+To take advantage of the browser.* namespace and promises in earlier versions, use the WebExtension browser API Polyfill. This polyfill addresses the API namespace and asynchronous event handling across Firefox, Chrome, Opera, and Edge.
+Note:
+In Chrome 152 or later, the polyfill is no-op.
+To use the polyfill, install it into your development environment using npm or download it directly from GitHub releases.
+Then, reference browser-polyfill.js in:
+manifest.json to make it available to background and content scripts.
+HTML documents, such as browserAction popups or tab pages.
+The executeScript call in dynamically-injected content scripts loaded by tabs.executeScript, where it hasn't been loaded using a content_scripts declaration in manifest.json.
+So, for example, this manifest.json code makes the polyfill available to background scripts:
+json
+{
+// …
+"background": {
+"scripts": ["browser-polyfill.js", "background.js"]
+}
+}
+Your goal is to ensure that the polyfill executes in your extension before any other scripts that expect the browser.* API namespace execute.
+Note:
+For more details and information on using the polyfill with a module bundler, see the project's readme on GitHub.
+There are other polyfill options. However, at the time of writing, none of the other options provide the coverage of the WebExtension browser API Polyfill. So, where you haven't targeted Firefox as your first choice, your options are to accept the limitations of alternative polyfills, port to Firefox and add cross-browser support, or develop your own polyfill.
+API function coverage
+The differences in the API functions offered in each of the main browsers fall into three broad categories:
+Lack of support for an entire function.
+For example, at the time of writing, Edge didn't support the browserSettings function.
+Variations in the support for features within a function.
+For example, at the time of writing, Firefox doesn't support the notification function method notifications.onButtonClicked, while Firefox is the only browser that supports notifications.onShown.
+Proprietary functions, supporting browser-specific features.
+For example, at the time of writing, containers was a Firefox-specific feature supported by the contextualIdentities function.
+Details about the support for the extension APIs among the main browsers and Firefox for Android and Safari on iOS can be found on the Mozilla Developer Network Browser support for JavaScript APIs page. Browser compatibility information is also included with each function and its methods, types, and events in the Mozilla Developer Network JavaScript APIs reference pages.
+Handling API differences
+A simple approach to addressing API differences is to limit the functions used in your extension to functions that offer the same functionality across your range of targeted browsers. In practice, this approach is likely to be too restrictive for most extensions.
+Instead, where there are differences among the APIs, you should either offer alternative implementations or fallback functionality. (Remember: you may also need to do this to allow for differences in API support between versions of the same browser.)
+Using runtime checks on the availability of a function's features is the recommended approach to implementing alternative or fallback functionality. The benefit of performing a runtime check is that you don't need to update and redistribute the extension to take advantage of a function when it becomes available.
+The following code enables you to perform a runtime check:
+js
+if (typeof fn === "function") {
+// safe to use the function
+}
+Content script execution contexts
+Content scripts can access and modify the page's DOM, just as page scripts can. They can also see any changes made to the DOM by page scripts. However, content scripts get a "clean" view of the DOM.
+Firefox and Chrome use fundamentally different approaches to handle this behavior: in Firefox it's called Xray vision, while Chrome uses isolated worlds. For more details, see Content script environment section of the Content scripts concept article.
+However, Firefox provides some APIs that enable content scripts to access JavaScript objects created by page scripts and to expose their JavaScript objects to page scripts. See Sharing objects with page scripts for details.
+There are also differences between the Content Security Policy (CSP) for content scripts.
+Background page and extension service worker
+As part of its implementation of Manifest V3, Chrome replaced background pages with extension service workers. Firefox retains the use of background pages, while Safari supports background pages and service workers.
+For more information, see the browser support section on the "background" manifest key page. This section includes an example of how to implement a cross-browser script. The script-on-click example provides a complete working demonstration of this approach.
+Manifest keys
+The differences in the manifest.json file keys supported by the main browsers fall broadly into three categories:
+Extension information attributes.
+For example, at the time of writing, Firefox and Opera include the developer key for details about the developer of the extension.
+Extension features.
+For example, at the time of writing, Chrome did not support the browser_specific_settings key.
+Key optionality.
+At the time of writing, generally, only "manifest_version", "version", and "name" are mandatory keys.
+Browser compatibility information is included with each key in the Mozilla Developer Network manifest.json key reference pages.
+As manifest.json files tend to change little—except for release numbers, which may differ between the various browsers—creating and editing a static version for each browser is usually the simplest approach.
+Extension packaging
+Packaging an extension for distribution through the browser extension stores is relatively straightforward. Firefox, Chrome, Edge, and Opera all use a simple zip format that requires the manifest.json file to be at the root of the zip package. Safari requires extensions to be packaged in a similar way to apps.
+For details on packaging, refer to the guidance on the respective extension's developer portals.
+Extension publishing
+Each of the major browsers maintains browser extension stores. Each store also reviews your extension to check for security vulnerabilities.
+As a consequence, you need to approach adding and updating your extension for each store separately. In some cases, you can upload your extension using a utility.
+This table summarizes the approach and features of each store:
+Browser
+Registration fee
+Upload utility
+Pre-publication review process
+Account two-factor authentication
+Chrome
+Yes
+Yes
+Automatic, less than an hour
+Yes
+Edge
+No
+No
+No SLA provided
+Yes
+Firefox
+No
+web-ext
+Automatic, a few seconds.
+A manual review of the extension takes place after publication, which
+may result in the extension being suspended where issues that need
+fixing are found.
+Yes
+Opera
+No
+No
+Manual, no SLA provided
+No
+Safari
+Yes
+No
+Yes with, according to Apple, on average, 50% of apps reviewed in 24 hours and over 90% reviewed in 48 hours.
+Yes
+Other considerations
+Version numbering
+The Firefox, Chrome, and Edge stores require that each uploaded version has a different version number. This means you cannot revert to an earlier version number if you come across issues in a release.
+Conclusion
+When approaching a cross-platform extension development, you can use the browser.* namespace and promises in a Firefox implementation. You can do this knowing that these features are supported from Chrome 148. If you want to target earlier versions of Chrome, you can then use the WebExtension browser API Polyfill.
+The bulk of your cross-platform work is likely to focus on handling variations among the API features supported by the main browsers. You may also need to account for differences between the content script and background script implementations. Creating your manifest.json files should be relatively straightforward and something you can do manually. You then need to account for the variations in the processes for submitting to each extension store.
+Following the advice in this article, you should be able to create an extension that works well on all of the four main browsers, enabling you to deliver your extension features to more people.
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Oct 14, 2026 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

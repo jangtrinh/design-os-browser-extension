@@ -1,0 +1,582 @@
+Source-URL: https://wxt.dev/guide/essentials/entrypoints.html
+Fetched: 2026-11-16T08:25:11+00:00
+
+Skip to content
+WXT
+SearchK
+Main Navigation GuideExamplesAPIBlog
+v0.21.5
+wxt
+v0.21.5
+Changelog
+Other Packages
+@wxt-dev/analytics — 0.5.8
+@wxt-dev/auto-icons — 1.1.2
+@wxt-dev/i18n — 0.2.8
+@wxt-dev/storage — 1.3.0
+@wxt-dev/unocss — 1.0.1
+@wxt-dev/runner — 0.1.3
+@wxt-dev/is-background — 1.0.1
+Appearance
+Menu
+Return to top
+Sidebar Navigation
+Get Started
+Introduction
+Installation
+Essentials
+Project Structure
+Entrypoints
+Configuration
+Manifest
+Browser Startup
+Auto-imports
+Environment Variables
+Runtime Config
+Vite
+Build Mode
+TypeScript
+Hooks
+Entrypoint Loaders
+Extension APIs
+Assets
+Target Different Browsers
+Content Scripts
+Storage
+Messaging
+I18n
+Favicons
+Scripting
+WXT Modules
+Frontend Frameworks
+ES Modules
+Unit Testing
+E2E Testing
+Publishing
+Testing Updates
+Resources
+Compare
+FAQ
+Community
+Upgrading WXT
+Migrate to WXT
+How WXT Works
+AI Agents
+On this page
+Entrypoints ​
+WXT uses the files inside the entrypoints/ directory as inputs when bundling your extension. They can be HTML, JS, CSS, or any variant of those file types supported by Vite (TS, JSX, SCSS, etc).
+Folder Structure ​
+Inside the entrypoints/ directory, an entrypoint is defined as a single file or directory (with an index file) inside it.
+Single FileDirectory
+html
+📂 entrypoints/
+📄 {name}.{ext}
+html
+📂 entrypoints/
+📂 {name}/
+📄 index.{ext}
+The entrypoint's name dictates the type of entrypoint. For example, to add a "Background" entrypoint, either of these files would work:
+Single FileDirectory
+html
+📂 entrypoints/
+📄 background.ts
+html
+📂 entrypoints/
+📂 background/
+📄 index.ts
+Refer to the Entrypoint Types section for the full list of listed entrypoints and their filename patterns.
+Including Other Files ​
+When using an entrypoint directory, entrypoints/{name}/index.{ext}, you can add related files next to the index file.
+html
+📂 entrypoints/
+📂 popup/
+📄 index.html ← This file is the entrypoint
+📄 main.ts
+📄 style.css
+📂 background/
+📄 index.ts ← This file is the entrypoint
+📄 alarms.ts
+📄 messaging.ts
+📂 youtube.content/
+📄 index.ts ← This file is the entrypoint
+📄 style.css
+DANGER
+DO NOT put files related to an entrypoint directly inside the entrypoints/ directory. WXT will treat them as entrypoints and try to build them, usually resulting in an error.
+Instead, use a directory for that entrypoint:
+html
+📂 entrypoints/
+📄 popup.html
+📄 popup.ts
+📄 popup.css
+📂 popup/
+📄 index.html
+📄 main.ts
+📄 style.css
+Deeply Nested Entrypoints ​
+While the entrypoints/ directory might resemble the pages/ directory of other web frameworks, like Nuxt or Next.js, it does not support deeply nesting entrypoints in the same way.
+Entrypoints must be zero or one levels deep for WXT to discover and build them:
+html
+📂 entrypoints/
+📂 youtube/
+📂 content/
+📄 index.ts
+📄 ...
+📂 injected/
+📄 index.ts
+📄 ...
+📂 youtube.content/
+📄 index.ts
+📄 ...
+📂 youtube-injected/
+📄 index.ts
+📄 ...
+Unlisted Entrypoints ​
+In web extensions, there are two types of entrypoints:
+Listed: Referenced in the manifest.json
+Unlisted: Not referenced in the manifest.json
+Throughout the rest of WXT's documentation, listed entrypoints are referred to by name. For example:
+Popup
+Options
+Background
+Content Script
+However, not all entrypoints in web extensions are listed in the manifest. Some are not listed in the manifest, but are still used by extensions. For example:
+A welcome page shown in a new tab when the extension is installed
+JS files injected by content scripts into the main world
+For more details on how to add unlisted entrypoints, see:
+Unlisted Pages
+Unlisted Scripts
+Unlisted CSS
+Defining Manifest Options ​
+Most listed entrypoints have options that need to be added to the manifest.json. However with WXT, instead of defining the options in a separate file, you define these options inside the entrypoint file itself.
+For example, here's how to define matches for content scripts:
+entrypoints/content.ts
+ts
+export default defineContentScript({
+matches: ['*://*.wxt.dev/*'],
+main() {
+// ...
+},
+});
+For HTML entrypoints, options are configured as <meta> tags. For example, to use a page_action for your MV2 popup:
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="manifest.type" content="page_action" />
+</head>
+</html>
+Refer to the Entrypoint Types sections for a list of options configurable inside each entrypoint, and how to define them.
+When building your extension, WXT will look at the options defined in your entrypoints, and generate the manifest accordingly.
+Entrypoint Types ​
+Background ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/background.[jt]s
+/background.js
+entrypoints/background/index.[jt]s
+/background.js
+MinimalWith Manifest Options
+ts
+export default defineBackground(() => {
+// Executed when background is loaded
+});
+ts
+export default defineBackground({
+// Set manifest options
+persistent: undefined | true | false,
+type: undefined | 'module',
+// Set include/exclude if the background should be removed from some builds
+include: undefined | string[],
+exclude: undefined | string[],
+main() {
+// Executed when background is loaded, CANNOT BE ASYNC
+},
+});
+For MV2, the background is added as a script to the background page. For MV3, the background becomes a service worker.
+When defining your background entrypoint, keep in mind that WXT will import this file in a NodeJS environment during the build process. That means you cannot place any runtime code outside the main function.
+ts
+browser.action.onClicked.addListener(() => {
+// ...
+});
+export default defineBackground(() => {
+browser.action.onClicked.addListener(() => {
+// ...
+});
+});
+Refer to the Entrypoint Loaders documentation for more details.
+Bookmarks ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/bookmarks.html
+/bookmarks.html
+entrypoints/bookmarks/index.html
+/bookmarks.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Title</title>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+When you define a Bookmarks entrypoint, WXT will automatically update the manifest to override the browser's bookmarks page with your own HTML page.
+Content Scripts ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/content.[jt]sx?
+/content-scripts/content.js
+entrypoints/content/index.[jt]sx?
+/content-scripts/content.js
+entrypoints/{name}.content.[jt]sx?
+/content-scripts/{name}.js
+entrypoints/{name}.content/index.[jt]sx?
+/content-scripts/{name}.js
+ts
+export default defineContentScript({
+// Set manifest options
+matches: string[],
+excludeMatches: undefined | [],
+includeGlobs: undefined | [],
+excludeGlobs: undefined | [],
+allFrames: undefined | true | false,
+runAt: undefined | 'document_start' | 'document_end' | 'document_idle',
+matchAboutBlank: undefined | true | false,
+matchOriginAsFallback: undefined | true | false,
+world: undefined | 'ISOLATED' | 'MAIN',
+// Set include/exclude if the background should be removed from some builds
+include: undefined | string[],
+exclude: undefined | string[],
+// Configure how CSS is injected onto the page
+cssInjectionMode: undefined | "manifest" | "manual" | "ui",
+// Configure how/when content script will be registered
+registration: undefined | "manifest" | "runtime",
+main(ctx: ContentScriptContext) {
+// Executed when content script is loaded, can be async
+},
+});
+When defining content script entrypoints, keep in mind that WXT will import this file in a NodeJS environment during the build process. That means you cannot place any runtime code outside the main function.
+ts
+const container = document.createElement('div');
+document.body.append(container);
+export default defineContentScript({
+main: function () {
+const container = document.createElement('div');
+document.body.append(container);
+},
+});
+Refer to the Entrypoint Loaders documentation for more details.
+See Content Script UI for more info on creating UIs and including CSS in content scripts.
+Devtools ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/devtools.html
+/devtools.html
+entrypoints/devtools/index.html
+/devtools.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+Follow the Devtools Example to add different panels and panes.
+History ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/history.html
+/history.html
+entrypoints/history/index.html
+/history.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Title</title>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+When you define a History entrypoint, WXT will automatically update the manifest to override the browser's history page with your own HTML page.
+Newtab ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/newtab.html
+/newtab.html
+entrypoints/newtab/index.html
+/newtab.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Title</title>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+When you define a Newtab entrypoint, WXT will automatically update the manifest to override the browser's new tab page with your own HTML page.
+Options ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/options.html
+/options.html
+entrypoints/options/index.html
+/options.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Options Title</title>
+<!-- Customize the manifest options -->
+<meta name="manifest.open_in_tab" content="true|false" />
+<meta name="manifest.chrome_style" content="true|false" />
+<meta name="manifest.browser_style" content="true|false" />
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+Popup ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/popup.html
+/popup.html
+entrypoints/popup/index.html
+/popup.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Set the `action.default_title` in the manifest -->
+<title>Default Popup Title</title>
+<!-- Customize the manifest options -->
+<meta
+name="manifest.default_icon"
+content="{
+'16': '/icon-16.png',
+'24': '/icon-24.png',
+...
+}"
+/>
+<meta name="manifest.type" content="page_action|browser_action" />
+<meta name="manifest.browser_style" content="true|false" />
+<!-- Firefox only: where to place the action button -->
+<meta
+name="manifest.default_area"
+content="navbar|menupanel|tabstrip|personaltoolbar"
+/>
+<!-- Firefox only: icons for light/dark themes -->
+<meta
+name="manifest.theme_icons"
+content="[
+{ light: '/icon-light-16.png', dark: '/icon-dark-16.png', size: 16 },
+{ light: '/icon-light-32.png', dark: '/icon-dark-32.png', size: 32 }
+]"
+/>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+Sandbox ​
+Chrome Docs
+Filename
+Output Path
+entrypoints/sandbox.html
+/sandbox.html
+entrypoints/sandbox/index.html
+/sandbox.html
+entrypoints/{name}.sandbox.html
+/{name}.html
+entrypoints/{name}.sandbox/index.html
+/{name}.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Title</title>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+Side Panel ​
+Chrome Docs • Firefox Docs
+Filename
+Output Path
+entrypoints/sidepanel.html
+/sidepanel.html
+entrypoints/sidepanel/index.html
+/sidepanel.html
+entrypoints/{name}.sidepanel.html
+/{name}.html
+entrypoints/{name}.sidepanel/index.html
+/{name}.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Default Side Panel Title</title>
+<!-- Customize the manifest options -->
+<meta
+name="manifest.default_icon"
+content="{
+'16': '/icon-16.png',
+'24': '/icon-24.png',
+...
+}"
+/>
+<meta name="manifest.open_at_install" content="true|false" />
+<meta name="manifest.browser_style" content="true|false" />
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+In Chrome, side panels use the side_panel API, while Firefox uses the sidebar_action API.
+Unlisted CSS ​
+Filename
+Output Path
+entrypoints/{name}.(css|scss|sass|less|styl|stylus)
+/{name}.css
+entrypoints/{name}/index.(css|scss|sass|less|styl|stylus)
+/{name}.css
+entrypoints/content.(css|scss|sass|less|styl|stylus)
+/content-scripts/content.css
+entrypoints/content/index.(css|scss|sass|less|styl|stylus)
+/content-scripts/content.css
+entrypoints/{name}.content.(css|scss|sass|less|styl|stylus)
+/content-scripts/{name}.css
+entrypoints/{name}.content/index.(css|scss|sass|less|styl|stylus)
+/content-scripts/{name}.css
+css
+body {
+/* ... */
+}
+Follow Vite's guide to setup your preprocessor of choice: https://vitejs.dev/guide/features.html#css-pre-processors
+CSS entrypoints are always unlisted. To add CSS to a content script, see the Content Script docs.
+Unlisted Pages ​
+Filename
+Output Path
+entrypoints/{name}.html
+/{name}.html
+entrypoints/{name}/index.html
+/{name}.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Title</title>
+<!-- Set include/exclude if the page should be removed from some builds -->
+<meta name="manifest.include" content="['chrome', ...]" />
+<meta name="manifest.exclude" content="['chrome', ...]" />
+</head>
+<body>
+<!-- ... -->
+</body>
+</html>
+At runtime, unlisted pages are accessible at /{name}.html:
+ts
+const url = browser.runtime.getURL('/{name}.html');
+console.log(url); // "chrome-extension://{id}/{name}.html"
+window.open(url); // Open the page in a new tab
+Unlisted Scripts ​
+Filename
+Output Path
+entrypoints/{name}.[jt]sx?
+/{name}.js
+entrypoints/{name}/index.[jt]sx?
+/{name}.js
+MinimalWith Options
+ts
+export default defineUnlistedScript(() => {
+// Executed when script is loaded
+});
+ts
+export default defineUnlistedScript({
+// Set include/exclude if the script should be removed from some builds
+include: undefined | string[],
+exclude: undefined | string[],
+main() {
+// Executed when script is loaded
+},
+});
+At runtime, unlisted scripts are accessible from /{name}.js:
+ts
+const url = browser.runtime.getURL('/{name}.js');
+console.log(url); // "chrome-extension://{id}/{name}.js"
+You are responsible for loading/running these scripts where needed. If necessary, don't forget to add the script and/or any related assets to web_accessible_resources.
+When defining an unlisted script, keep in mind that WXT will import this file in a NodeJS environment during the build process. That means you cannot place any runtime code outside the main function.
+ts
+document.querySelectorAll('a').forEach((anchor) => {
+// ...
+});
+export default defineUnlistedScript(() => {
+document.querySelectorAll('a').forEach((anchor) => {
+// ...
+});
+});
+Refer to the Entrypoint Loaders documentation for more details.
+Edit this page
+Last updated:
+Pager
+Previous pageProject Structure
+Next pageManifest
+Released under the MIT License.
+Copyright © 2023-present Aaron Klinker

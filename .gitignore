@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+node_modules/
+dist/
+.output/
+.wxt/
+.fog-context/
+.env
+.env.*
+!.env.example

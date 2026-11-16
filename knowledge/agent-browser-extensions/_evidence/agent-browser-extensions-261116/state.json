@@ -1,0 +1,31 @@
+{
+  "run_id": "agent-browser-extensions-261116",
+  "round": 0,
+  "status": "RUNNING",
+  "budget_used": 40,
+  "budget_total": 400,
+  "remaining_budget_calls": 360,
+  "gaps": [],
+  "resolved": [],
+  "required_claim_ids": [
+    "chrome-debugger-dispatches-trusted-cdp-commands",
+    "content-scripts-default-to-isolated-world",
+    "mv3-service-workers-terminate-when-idle",
+    "native-messaging-communicates-over-stdio",
+    "firefox-mv3-uses-event-pages-not-service-workers",
+    "safari-web-extensions-require-native-app-container"
+  ],
+  "minimum_independent_sources": 2,
+  "last_weighted_delta": 0.52,
+  "researcher_runtime": "antigravity-gemini",
+  "resolutions": [
+    {
+      "atom": "a10-contra-chrome-sw-background",
+      "reason": "Chrome MV3 mandates background.service_worker and ignores or rejects event pages, whereas Firefox MV3 runs background.scripts event pages and ignores/rejects background.service_worker. Cross-browser extensions resolve this by persisting state in browser.storage.session and generating dual background keys or per-target manifests (e.g. WXT -b chrome / -b firefox) behind a single RPC interface."
+    }
+  ],
+  "consecutive_low_delta_rounds": 0,
+  "version_applicability": "not_applicable",
+  "version_reason": "Cross-browser WebExtension architecture pack spanning Chromium MV3, Firefox WebExtensions, and Safari Web Extensions; not pinned to one library version.",
+  "has_viable_probe_remaining": false
+}

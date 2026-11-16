@@ -1,0 +1,221 @@
+{
+  "reviewer_runtime": "grok-4.7",
+  "verdict": "pass",
+  "note": "Independent grok-4.7 audit: verified cross-browser claims, ontology links, non-bypass HITL boundaries, and honest version N/A declaration.",
+  "reviewed_at": "2026-11-16T08:43:22+00:00",
+  "ledger_sha256": "c38c0e01ed860289626841eb4f5e67b08c75a15d417cc5c39b16dadd97620e1a",
+  "captures_sha256": "d212d662b34984134122a6735da53dc3d93cd676e91d9dfacff33cf9753d6e44",
+  "claims_sha256": "a9bed48d062724e5c1a8d649cb8050abd17c6d833ca3e9f28c606d38f760b55b",
+  "confirm_version_na": true,
+  "confirm_execution_na": false,
+  "sources": [
+    {
+      "url": "https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-content-scripts.txt",
+      "status": "ok",
+      "quotes_found": 2,
+      "quotes_total": 2,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/scripting",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-scripting-api.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/debugger",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-debugger-api.txt",
+      "status": "ok",
+      "quotes_found": 4,
+      "quotes_total": 4,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/develop/concepts/service-workers/lifecycle",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-sw-lifecycle.txt",
+      "status": "ok",
+      "quotes_found": 2,
+      "quotes_total": 2,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/how-to/web-platform/websockets",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-sw-websockets.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-native-messaging.txt",
+      "status": "ok",
+      "quotes_found": 3,
+      "quotes_total": 3,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/blog/remote-debugging-port",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-remote-debugging-port.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/storage",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-storage-api.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/offscreen",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-offscreen-api.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/reference/api/dom",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-dom-api.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Background_scripts",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-background-scripts.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-native-messaging.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-event-istrusted.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/dom/openOrClosedShadowRoot",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-open-or-closed-shadow-root.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://webkit.org/blog/13966/webkit-features-in-safari-16-4/",
+      "path": "_evidence/agent-browser-extensions-261116/sources/webkit-safari-extensions-16-4.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://raw.githubusercontent.com/w3c/webextensions/main/charter.md",
+      "path": "_evidence/agent-browser-extensions-261116/sources/w3c-wecg-charter.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://wxt.dev/guide/essentials/target-different-browsers.html",
+      "path": "_evidence/agent-browser-extensions-261116/sources/wxt-target-browsers.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-chrome-incompatibilities.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-cross-browser-extension.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/develop/security-privacy/stay-secure",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-stay-secure.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/background",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-manifest-background.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_scripts",
+      "path": "_evidence/agent-browser-extensions-261116/sources/mdn-manifest-content-scripts.txt",
+      "status": "ok",
+      "quotes_found": 3,
+      "quotes_total": 3,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ChromeDevTools/devtools-protocol/master/json/browser_protocol.json",
+      "path": "_evidence/agent-browser-extensions-261116/sources/cdp-browser-protocol-spec.txt",
+      "status": "ok",
+      "quotes_found": 2,
+      "quotes_total": 2,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://webkit.org/blog/11340/web-extensions-in-safari-14/",
+      "path": "_evidence/agent-browser-extensions-261116/sources/webkit-safari-14-extensions.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://raw.githubusercontent.com/w3c/webdriver-bidi/main/index.bs",
+      "path": "_evidence/agent-browser-extensions-261116/sources/w3c-webdriver-bidi-spec.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    },
+    {
+      "url": "https://developer.chrome.com/docs/extensions/develop/concepts/activeTab",
+      "path": "_evidence/agent-browser-extensions-261116/sources/chrome-activetab.txt",
+      "status": "ok",
+      "quotes_found": 1,
+      "quotes_total": 1,
+      "missing_atoms": []
+    }
+  ]
+}

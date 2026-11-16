@@ -1,0 +1,19 @@
+# design-os-browser-extension
+
+> Source-available cross-browser WebExtension architecture pack (`UKMC.v2`) and Capability-Tiered Agent RPC workspace.
+
+## Knowledge Pack Modules
+
+- [Cross-Browser Capability Matrix](knowledge/agent-browser-extensions/cross-browser-capability-matrix.md): Capability-Tiered Engine Adapter across Chromium MV3, Firefox Gecko, and Safari WebKit.
+- [Transport and MV3 Lifecycle](knowledge/agent-browser-extensions/transport-and-mv3-lifecycle.md): Native Messaging stdio, localhost WebSocket 20s keepalive, Chrome 136+ default-profile resilience, and `storage.session`.
+- [Execution Worlds and State Reading](knowledge/agent-browser-extensions/execution-worlds-and-state-reading.md): `ISOLATED` vs `MAIN` world bridges, page CSP boundaries, and `chrome.offscreen`.
+- [Trusted Input, Shadow DOM, and OOPiF](knowledge/agent-browser-extensions/trusted-input-shadow-and-oopif.md): `chrome.debugger` `Input.*`, flat OOPiF `sessionId`, `dom.openOrClosedShadowRoot`, and WebDriver BiDi fallback.
+- [Fast Snapshot and Fenced Dispatch](knowledge/agent-browser-extensions/fast-snapshot-and-fenced-dispatch.md): Compact DOM/AX observations and `pageId` / `epoch` / `lease` fencing.
+- [Security and Human Handoff](knowledge/agent-browser-extensions/security-and-human-handoff.md): Untrusted DOM quarantine, least-privilege permissions, and non-bypass human handoff (`BLOCKED_CHALLENGE`, `BLOCKED_AUTH`, `BLOCKED_PAYMENT`).
+
+## Entrypoints
+
+- [README](README.md): Repository overview, workspace layout, and quickstart commands.
+- [AGENTS](AGENTS.md): Progressive lookup commands (`knowledge_builder.cli query`) and architecture rules.
+- [CONTEXT](CONTEXT.md): Canonical glossary (`Capability-Tiered Adapter`, `Agent RPC`, `Fenced Dispatch`, `Page Epoch`, `Human Gate Handoff`).
+- [Ontology](knowledge/agent-browser-extensions/ontology.yaml): `browser-engine`, `bridge-primitive`, `interaction-barrier`, and `overcomes` schema.

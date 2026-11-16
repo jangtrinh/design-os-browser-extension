@@ -1,0 +1,46 @@
+Source-URL: https://webkit.org/blog/16058/webkit-features-in-safari-18-0/
+Fetched: 2026-11-16T08:25:39+00:00
+
+WebKit
+Downloads
+Feature Status
+CSS Features
+Standards Positions
+Documentation
+Web Inspector
+Tracking Prevention
+Policies
+Project Goals
+Bug Prioritization
+Bug Report Guidelines
+Code Style Guidelines
+Commit and Review Policy
+Feature Policy
+Security Policy
+Tracking Prevention Policy
+WebKit AI Tool Use Policy
+Contribute
+Getting Started
+Contributing Code
+Testing Contributions
+How to Report Bugs
+GitHub Repository
+Blog
+News Posts
+CSS Posts
+Contributing Posts
+Privacy Posts
+Performance Posts
+JavaScript Posts
+Standards Posts
+Web Inspector Posts
+Safari Technology Preview Posts
+masonry-demo
+Oct 18, 2024
+by Jen Simmons
+PreviouslyHelp us choose the final syntax for Masonry in CSSLearn more
+@webkit@front-end.social
+Site Map
+Privacy Policy
+Licensing WebKit
+WebKit and the WebKit logo are trademarks of Apple Inc.

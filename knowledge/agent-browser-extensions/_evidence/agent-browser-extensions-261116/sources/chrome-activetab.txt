@@ -1,0 +1,304 @@
+Source-URL: https://developer.chrome.com/docs/extensions/develop/concepts/activeTab
+Fetched: 2026-11-16T08:28:15+00:00
+
+Skip to main content
+Docs
+Build with Chrome
+Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+Create the best experience for your users with the web's best tools.
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Get things done quicker and neater, with our ready-made libraries.
+Workbox
+Puppeteer
+Experience
+Design a beautiful and performant web with Chrome.
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+More from Chrome and Google.
+All documentation
+Baseline open_in_new
+web.dev open_in_new
+PageSpeed Insights audit open_in_new
+Case studies
+Blog
+New in Chrome
+/
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어
+Sign in
+Docs
+Chrome Extensions
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+API
+Permissions
+Manifest
+Samples
+Chrome Web Store
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Docs
+More
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+More
+Samples
+Chrome Web Store
+More
+Case studies
+Blog
+New in Chrome
+Introduction
+Design the user interface
+User interface components
+Add a popup
+Implement an action
+Build a context menu
+Override Chrome pages
+Trigger actions from the omnibox
+Give users options
+Notify users
+Respond to commands
+What are themes?
+Configure extension icons
+Make your extension accessible
+Internationalize the interface
+Core concepts
+The browser namespace
+Content scripts
+Message passing
+Match patterns
+Storage and cookies
+Content filtering
+The activeTab permission
+Declare permissions
+Permission warning guidelines
+Native messaging
+Cross-origin network requests
+Cross-origin isolation
+Service worker introduction
+Extension service worker basics
+The extension service worker lifecycle
+Events in service workers
+Real Time updates
+Migrate to Manifest V3
+What is Manifest V3
+Manifest V2 support timeline
+Known issues when migrating to Manifest V3
+Migration overview
+Manifest V3 migration checklist
+Update the manifest
+Migrate to a service worker
+Update your code
+Replace blocking web request listeners
+Improve extension security
+Deal with remote hosted code violations
+Publish your extension
+Security and privacy
+Stay secure
+Protect user privacy
+Build with Chrome
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Workbox
+Puppeteer
+Experience
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+All documentation
+Baseline <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+web.dev <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+PageSpeed Insights audit <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+API
+Permissions
+Manifest
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Home
+Docs
+Chrome Extensions
+Develop
+The "activeTab" permission
+Stay organized with collections
+Save and categorize content based on your preferences.
+The "activeTab" permission gives an extension temporary access to the currently active tab when the
+user invokes the extension - for example by clicking its action. Access to the tab
+lasts while the user is on that page, and is revoked when the user navigates away or closes the tab.
+For example, if the user invokes the extension on https://example.com and then
+navigates to https://example.com/foo, the extension will continue to have access to the page. If the
+user navigates to https://chromium.org, access is revoked.
+This serves as an alternative for many uses of "<all_urls>", but displays no warning message
+during installation:
+Without "activeTab":
+With "activeTab":
+Access is not granted to restricted pages, such as chrome:// pages.
+Example
+See the Page Redder sample extension:
+manifest.json:
+{
+"name": "Page Redder",
+"version": "2.0",
+"permissions": [
+"activeTab",
+"scripting"
+],
+"background": {
+"service_worker": "service-worker.js"
+},
+"action": {
+"default_title": "Make this page red"
+},
+"manifest_version": 3
+}
+service-worker:
+function reddenPage() {
+document.body.style.backgroundColor = 'red';
+}
+browser.action.onClicked.addListener((tab) => {
+// If the tab URL is not set, it is a restricted page.
+if (tab.url) {
+browser.scripting.executeScript({
+target: { tabId: tab.id },
+func: reddenPage
+});
+}
+});
+Motivation
+Consider a web clipping extension that has an action and a context menu item. This
+extension may only really need to access tabs when its action is clicked, or when its
+context menu item is executed.
+Without "activeTab", this extension would need to request full, persistent access to every website,
+just so that it could do its work if it happened to be called upon by the user. This is a lot of
+power to entrust to such a simple extension. And if the extension is ever compromised, the attacker
+gets access to everything the extension had.
+In contrast, an extension with the "activeTab" permission only obtains access to a tab in response
+to an explicit user gesture. If the extension is compromised the attacker would need to wait for the
+user to invoke the extension before obtaining access. And that access only lasts until the tab is
+navigated or is closed.
+What "activeTab" allows
+While the "activeTab" permission is enabled for a tab, an extension can:
+Call scripting.insertCSS() or scripting.executeScript() on that tab if the "scripting" permission is also declared (as in the example above).
+Get the URL, title, and favicon for that tab via an API that returns a tabs.Tab object
+(essentially, "activeTab" grants host permission temporarily).
+Intercept network requests in the tab to the tab's main frame origin using the webRequest
+API. The extension temporarily gets host permissions for the tab's main frame origin.
+Invoking activeTab
+The following user gestures enable the "activeTab" permission:
+Executing an action
+Executing a context menu item
+Executing a keyboard shortcut from the commands API
+Accepting a suggestion from the omnibox API
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a registered trademark of Oracle and/or its affiliates.
+Last updated 2012-09-21 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2012-09-21 UTC."],[],[]]
+Contribute
+File a bug
+See open issues
+Related content
+Chromium updates
+Case studies
+Archive
+Podcasts & shows
+Follow
+@ChromiumDev on X
+YouTube
+Chrome for Developers on LinkedIn
+RSS
+Terms
+Privacy
+Manage cookies
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어

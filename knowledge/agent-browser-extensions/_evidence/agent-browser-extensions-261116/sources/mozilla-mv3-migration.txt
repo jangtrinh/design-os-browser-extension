@@ -1,0 +1,1398 @@
+Source-URL: https://extensionworkshop.com/documentation/develop/manifest-v3-migration-guide/
+Fetched: 2026-11-16T08:25:05+00:00
+
+Extension Workshop
+Extension Basics
+Getting started
+Mozilla Developer Network
+Documentation Topics
+Develop
+Firefox Tools
+User Experience
+Firefox for Android
+Port to Firefox
+Test and debug
+Getting Started
+Unique Firefox Capabilities
+Firefox Workflow Overview
+About the WebExtensions API
+Manifest V3
+Manifest V3 migration guide
+What is Manifest V3?
+Manifest V3 changes
+Migration checklist
+Cross-Browser Development
+Browser Compatibility
+Namespace
+Asynchronous
+API Coverage
+Manifest keys
+More information
+Build cross-browser extensions
+Firefox Tools
+Build an extension in 5 minutes
+Browser Extension Development Tools
+Boilerplating tools
+Coding tools
+Testing and debugging tools
+Translation tools
+Tools for Firefox for Android
+Choosing a Firefox version for extension development
+Firefox editions
+Firefox version and their web extension development capabilities
+Getting started with web-ext
+Installation
+Update
+Using web-ext
+Check your code
+Test and debug
+Package, sign, and publish
+Use the configuration file
+Advanced topics
+See also
+web-ext command reference
+What's new
+Commands
+web-ext build
+web-ext docs
+web-ext dump-config
+web-ext lint
+web-ext run
+web-ext sign
+Global options
+Setting option environment variables
+See also
+web-ext v7 command reference
+Commands
+Global options
+Setting option environment variables
+See also
+Web-ext Webpack plug-in
+Browser API Polyfill
+Extensions and the Add-on ID
+Basic workflow with no add-on ID
+When do you need an add-on ID?
+User Experience
+Build a secure extension
+Request the right permissions
+Introduction
+Advised permissions
+Avoid unnecessary permissions
+Request permissions at runtime
+Add information about permissions to your extensions AMO page
+Firefox built-in consent for data collection and transmission
+Taxonomy
+Specifying data types
+Accessing the data collection permissions programmatically
+Updates
+Testing
+Data collection experience on older Firefox versions
+Best practices for collecting user data consents
+Know your privacy settings
+Get prepared
+Prompt after install
+Determine your consent flow
+Your consent dialogs
+Build an accessible extension
+Onboard, upboard, offboard users
+Onboarding
+Upboarding
+Offboarding
+User experience best practices
+1. Keep it focused
+2. Give users what they need, where they need it
+3. Keep the user informed
+4. Be Firefoxy in look and feel
+5. Great onboarding experience
+6. Test, test, and then test again
+Mobile
+Differences between desktop and Android extensions
+Introduction
+User interface
+Native application interaction
+Permissions
+Storage
+User experience guidelines for mobile extensions
+Introduction
+The basics
+The extra mile
+The last mile
+Developing extensions for Firefox for Android
+Set up your computer and Android emulator or device
+Check for Firefox for Android compatibility
+Install and run your extension in Firefox for Android
+Debug your extension
+Manifest V3 compatibility
+GeckoView Extensions (Android library)
+Port Your Extension
+Porting a Google Chrome Extension
+Debug and Test
+Debugging
+Developer tools toolbox
+Debugging background scripts
+Debugging options pages
+Debugging popups
+Debugging content scripts
+Debugging sidebars
+Debugging storage
+Debugging developer tools pages and panels
+Debug permission requests
+Debugging browser restarts
+Temporary Installation in Firefox
+Reloading a temporary extension
+Using the command line
+Detecting temporary installation
+Limitations
+Testing persistent and restart features
+What is an add-on ID?
+What is a Firefox profile?
+Extension behavior in Firefox
+What do I do to ensure I can test my extension?
+Test permission requests
+Permission grant behavior during testing
+Observe or verify install time permission requests
+Retest runtime permission grants
+Testing localizations
+Known issues
+Content scripts don't appear in DevTools
+Extension source don't update in DevTools
+"Destroyed actor" errors when debugging Android
+Publish
+Get your extension signed
+Distribute your signed extension
+Promote your extension
+Policies
+Add-on Policies
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies Preview (Dec 1, 2026)
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies for Enterprise Add-ons Preview (Dec 1, 2026)
+Preamble
+Distribution
+Content
+Submission Guidelines
+Security, Compliance and Blocking
+Add-on Policies FAQ
+No Surprises
+Content
+Submission Guidelines
+Data Collection and Transmission Disclosure and Control
+Security, Compliance and Blocking
+Firefox Add-on Distribution Agreement
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & review process
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Firefox Add-on Distribution Agreement Preview (Dec 1, 2026)
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & Policies and Review
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Add-ons Blocking Process
+Security Over Choice
+Blocking Criteria
+Developer Outreach
+Requesting a Block
+Blocking Other Types of Third Party Software
+Third Party Library Usage
+When must links for third-party libraries be provided?
+How to determine the third-party library link
+Communicating third-party library links to reviewers
+What does review rejection mean to users?
+Review overview
+Impact of review rejection
+Blocklisting
+Sign
+Signing and distribution overview
+Signing your add-ons
+Distributing your add-on
+Post-submission review
+More information about AMO
+Package your extension
+Windows
+Mac OSX
+Linux / Mac OSX Terminal
+Distribute
+Distribute Manifest V2 and V3 extensions
+Distribute pre-release versions
+Submitting an add-on
+Listing on AMO
+Self-distribution
+Get help
+Version Rollback
+Eligibility
+Roll back using Developer Hub
+Roll back using the Add-on Submission API
+Source code submission
+Provide your extension source code
+Default reviewer build environment
+Use of obfuscated code
+Source code checklist
+Firefox version compatibility
+Version compatibility
+The `browser_specific_settings` key
+AMO compatibility setting
+Recommendations
+Add-on ownership
+Transfer ownership
+Code disputes
+Developer accounts
+Setting a display name
+Blocked accounts
+Issues receiving emails from AMO
+Self-distribution
+Self-distribution options
+Installing self-distributed extensions
+Preparing your add-on
+Install from file on a computer
+Install from file on Android
+For desktop apps
+Promote
+Create an appealing listing
+Your add-on’s name
+Create a captivating icon
+Create a meaningful set of keywords
+Make sure your summary is just long enough
+Focus on key features in your screenshots
+The add-on description can be longer, but not too long
+Make it local
+Make it experimental
+Select the right platforms and versions
+Categorize well
+Be prepared to provide support
+Set up a developer profile
+Use plain language in any privacy policy or license agreement
+Gently ask for a review
+Make use of Markdown
+Some other points
+What’s great content and design?
+Promoting your extension
+Promote your add-on from your website
+Friends, family, and colleagues
+Events and meetups
+Current users
+Social media
+Engage with your users
+Create a forum, user group, or similar
+Engage with bloggers and news media
+Advertising
+Make money from browser extensions
+Will I ever be able to sell through AMO?
+What can't you do
+What can you do
+Unsolicited offers
+How can I maximize my income?
+Recommended extensions
+Overview
+Criteria for Recommended extensions
+Developer partnership
+Selection process
+Manage
+Stay informed when Firefox changes
+Publish extension updates
+Manage authors of your extension
+Promote your extension
+Removing your extension from distribution
+Resources
+Updating your extension
+Enabling updates to your extension
+Manifest structure
+Testing automatic updating
+Best practices for updating your extension
+Monitoring extension usage statistics
+Accessing the statistics dashboard
+Tracking external sources
+Add-on listing example
+Resources for publishers
+Retiring your extension
+Reasons for withdrawing your extension
+Steps to retiring an extension
+Suggested retirement timetable
+Enterprise
+Developing your enterprise extension
+Distributing your enterprise extension
+Enterprise support
+Manage add-ons for Firefox for Enterprise
+Install system add-ons for Firefox for Enterprise
+Enterprise resources
+Enterprise development
+Data collection disclosure and consent for enterprise extensions
+How to add policy support
+Distributing your policy
+Enterprise policies that impact extensions
+Relevant policies
+Other relevant policies
+Enterprise distribution
+Signed vs. unsigned extensions
+Using an ExtensionSettings policy
+Bundling add-ons with a custom Firefox
+Themes
+Creating themes
+Using the AMO theme generator
+Getting started
+Submitting your theme
+Updating your theme
+Static themes
+Introduction
+Create a simple static theme
+Nova themes
+Using gradients and images
+Header image themes
+Multi-image themes
+Static animated themes
+Publishing themes
+Dynamic themes
+Introduction
+Creating dynamic themes
+Publishing dynamic themes
+Cross-browser compatibility
+Community
+Who is part of the community?
+Connect with the community
+Get involved in the community
+Get in touch
+Community Forum
+Add-ons Blog
+Stack Overflow
+Contribute
+Contribution opportunities
+Onboard to the WebExtensions codebase
+Hacking guide for WebExtensions code contributions
+WebExtensions Experiments
+Find or create a bug
+Submit or Manage Extensions
+Search
+Submit or Manage Extensions
+Search
+Select a section
+Page Name
+Extension Basics
+Getting started
+Mozilla Developer Network
+Documentation Topics
+Develop
+Firefox Tools
+User Experience
+Firefox for Android
+Port to Firefox
+Test and debug
+Getting Started
+Unique Firefox Capabilities
+Firefox Workflow Overview
+About the WebExtensions API
+Manifest V3
+Manifest V3 migration guide
+What is Manifest V3?
+Manifest V3 changes
+Migration checklist
+Cross-Browser Development
+Browser Compatibility
+Namespace
+Asynchronous
+API Coverage
+Manifest keys
+More information
+Build cross-browser extensions
+Firefox Tools
+Build an extension in 5 minutes
+Browser Extension Development Tools
+Boilerplating tools
+Coding tools
+Testing and debugging tools
+Translation tools
+Tools for Firefox for Android
+Choosing a Firefox version for extension development
+Firefox editions
+Firefox version and their web extension development capabilities
+Getting started with web-ext
+Installation
+Update
+Using web-ext
+Check your code
+Test and debug
+Package, sign, and publish
+Use the configuration file
+Advanced topics
+See also
+web-ext command reference
+What's new
+Commands
+web-ext build
+web-ext docs
+web-ext dump-config
+web-ext lint
+web-ext run
+web-ext sign
+Global options
+Setting option environment variables
+See also
+web-ext v7 command reference
+Commands
+Global options
+Setting option environment variables
+See also
+Web-ext Webpack plug-in
+Browser API Polyfill
+Extensions and the Add-on ID
+Basic workflow with no add-on ID
+When do you need an add-on ID?
+User Experience
+Build a secure extension
+Request the right permissions
+Introduction
+Advised permissions
+Avoid unnecessary permissions
+Request permissions at runtime
+Add information about permissions to your extensions AMO page
+Firefox built-in consent for data collection and transmission
+Taxonomy
+Specifying data types
+Accessing the data collection permissions programmatically
+Updates
+Testing
+Data collection experience on older Firefox versions
+Best practices for collecting user data consents
+Know your privacy settings
+Get prepared
+Prompt after install
+Determine your consent flow
+Your consent dialogs
+Build an accessible extension
+Onboard, upboard, offboard users
+Onboarding
+Upboarding
+Offboarding
+User experience best practices
+1. Keep it focused
+2. Give users what they need, where they need it
+3. Keep the user informed
+4. Be Firefoxy in look and feel
+5. Great onboarding experience
+6. Test, test, and then test again
+Mobile
+Differences between desktop and Android extensions
+Introduction
+User interface
+Native application interaction
+Permissions
+Storage
+User experience guidelines for mobile extensions
+Introduction
+The basics
+The extra mile
+The last mile
+Developing extensions for Firefox for Android
+Set up your computer and Android emulator or device
+Check for Firefox for Android compatibility
+Install and run your extension in Firefox for Android
+Debug your extension
+Manifest V3 compatibility
+GeckoView Extensions (Android library)
+Port Your Extension
+Porting a Google Chrome Extension
+Debug and Test
+Debugging
+Developer tools toolbox
+Debugging background scripts
+Debugging options pages
+Debugging popups
+Debugging content scripts
+Debugging sidebars
+Debugging storage
+Debugging developer tools pages and panels
+Debug permission requests
+Debugging browser restarts
+Temporary Installation in Firefox
+Reloading a temporary extension
+Using the command line
+Detecting temporary installation
+Limitations
+Testing persistent and restart features
+What is an add-on ID?
+What is a Firefox profile?
+Extension behavior in Firefox
+What do I do to ensure I can test my extension?
+Test permission requests
+Permission grant behavior during testing
+Observe or verify install time permission requests
+Retest runtime permission grants
+Testing localizations
+Known issues
+Content scripts don't appear in DevTools
+Extension source don't update in DevTools
+"Destroyed actor" errors when debugging Android
+Publish
+Get your extension signed
+Distribute your signed extension
+Promote your extension
+Policies
+Add-on Policies
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies Preview (Dec 1, 2026)
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies for Enterprise Add-ons Preview (Dec 1, 2026)
+Preamble
+Distribution
+Content
+Submission Guidelines
+Security, Compliance and Blocking
+Add-on Policies FAQ
+No Surprises
+Content
+Submission Guidelines
+Data Collection and Transmission Disclosure and Control
+Security, Compliance and Blocking
+Firefox Add-on Distribution Agreement
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & review process
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Firefox Add-on Distribution Agreement Preview (Dec 1, 2026)
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & Policies and Review
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Add-ons Blocking Process
+Security Over Choice
+Blocking Criteria
+Developer Outreach
+Requesting a Block
+Blocking Other Types of Third Party Software
+Third Party Library Usage
+When must links for third-party libraries be provided?
+How to determine the third-party library link
+Communicating third-party library links to reviewers
+What does review rejection mean to users?
+Review overview
+Impact of review rejection
+Blocklisting
+Sign
+Signing and distribution overview
+Signing your add-ons
+Distributing your add-on
+Post-submission review
+More information about AMO
+Package your extension
+Windows
+Mac OSX
+Linux / Mac OSX Terminal
+Distribute
+Distribute Manifest V2 and V3 extensions
+Distribute pre-release versions
+Submitting an add-on
+Listing on AMO
+Self-distribution
+Get help
+Version Rollback
+Eligibility
+Roll back using Developer Hub
+Roll back using the Add-on Submission API
+Source code submission
+Provide your extension source code
+Default reviewer build environment
+Use of obfuscated code
+Source code checklist
+Firefox version compatibility
+Version compatibility
+The `browser_specific_settings` key
+AMO compatibility setting
+Recommendations
+Add-on ownership
+Transfer ownership
+Code disputes
+Developer accounts
+Setting a display name
+Blocked accounts
+Issues receiving emails from AMO
+Self-distribution
+Self-distribution options
+Installing self-distributed extensions
+Preparing your add-on
+Install from file on a computer
+Install from file on Android
+For desktop apps
+Promote
+Create an appealing listing
+Your add-on’s name
+Create a captivating icon
+Create a meaningful set of keywords
+Make sure your summary is just long enough
+Focus on key features in your screenshots
+The add-on description can be longer, but not too long
+Make it local
+Make it experimental
+Select the right platforms and versions
+Categorize well
+Be prepared to provide support
+Set up a developer profile
+Use plain language in any privacy policy or license agreement
+Gently ask for a review
+Make use of Markdown
+Some other points
+What’s great content and design?
+Promoting your extension
+Promote your add-on from your website
+Friends, family, and colleagues
+Events and meetups
+Current users
+Social media
+Engage with your users
+Create a forum, user group, or similar
+Engage with bloggers and news media
+Advertising
+Make money from browser extensions
+Will I ever be able to sell through AMO?
+What can't you do
+What can you do
+Unsolicited offers
+How can I maximize my income?
+Recommended extensions
+Overview
+Criteria for Recommended extensions
+Developer partnership
+Selection process
+Manage
+Stay informed when Firefox changes
+Publish extension updates
+Manage authors of your extension
+Promote your extension
+Removing your extension from distribution
+Resources
+Updating your extension
+Enabling updates to your extension
+Manifest structure
+Testing automatic updating
+Best practices for updating your extension
+Monitoring extension usage statistics
+Accessing the statistics dashboard
+Tracking external sources
+Add-on listing example
+Resources for publishers
+Retiring your extension
+Reasons for withdrawing your extension
+Steps to retiring an extension
+Suggested retirement timetable
+Enterprise
+Developing your enterprise extension
+Distributing your enterprise extension
+Enterprise support
+Manage add-ons for Firefox for Enterprise
+Install system add-ons for Firefox for Enterprise
+Enterprise resources
+Enterprise development
+Data collection disclosure and consent for enterprise extensions
+How to add policy support
+Distributing your policy
+Enterprise policies that impact extensions
+Relevant policies
+Other relevant policies
+Enterprise distribution
+Signed vs. unsigned extensions
+Using an ExtensionSettings policy
+Bundling add-ons with a custom Firefox
+Themes
+Creating themes
+Using the AMO theme generator
+Getting started
+Submitting your theme
+Updating your theme
+Static themes
+Introduction
+Create a simple static theme
+Nova themes
+Using gradients and images
+Header image themes
+Multi-image themes
+Static animated themes
+Publishing themes
+Dynamic themes
+Introduction
+Creating dynamic themes
+Publishing dynamic themes
+Cross-browser compatibility
+Community
+Who is part of the community?
+Connect with the community
+Get involved in the community
+Get in touch
+Community Forum
+Add-ons Blog
+Stack Overflow
+Contribute
+Contribution opportunities
+Onboard to the WebExtensions codebase
+Hacking guide for WebExtensions code contributions
+WebExtensions Experiments
+Find or create a bug
+Extension Basics
+Getting started
+Mozilla Developer Network
+Documentation Topics
+Develop
+Firefox Tools
+User Experience
+Firefox for Android
+Port to Firefox
+Test and debug
+Getting Started
+Unique Firefox Capabilities
+Firefox Workflow Overview
+About the WebExtensions API
+Manifest V3
+Manifest V3 migration guide
+What is Manifest V3?
+Manifest V3 changes
+Migration checklist
+Cross-Browser Development
+Browser Compatibility
+Namespace
+Asynchronous
+API Coverage
+Manifest keys
+More information
+Build cross-browser extensions
+Firefox Tools
+Build an extension in 5 minutes
+Browser Extension Development Tools
+Boilerplating tools
+Coding tools
+Testing and debugging tools
+Translation tools
+Tools for Firefox for Android
+Choosing a Firefox version for extension development
+Firefox editions
+Firefox version and their web extension development capabilities
+Getting started with web-ext
+Installation
+Update
+Using web-ext
+Check your code
+Test and debug
+Package, sign, and publish
+Use the configuration file
+Advanced topics
+See also
+web-ext command reference
+What's new
+Commands
+web-ext build
+web-ext docs
+web-ext dump-config
+web-ext lint
+web-ext run
+web-ext sign
+Global options
+Setting option environment variables
+See also
+web-ext v7 command reference
+Commands
+Global options
+Setting option environment variables
+See also
+Web-ext Webpack plug-in
+Browser API Polyfill
+Extensions and the Add-on ID
+Basic workflow with no add-on ID
+When do you need an add-on ID?
+User Experience
+Build a secure extension
+Request the right permissions
+Introduction
+Advised permissions
+Avoid unnecessary permissions
+Request permissions at runtime
+Add information about permissions to your extensions AMO page
+Firefox built-in consent for data collection and transmission
+Taxonomy
+Specifying data types
+Accessing the data collection permissions programmatically
+Updates
+Testing
+Data collection experience on older Firefox versions
+Best practices for collecting user data consents
+Know your privacy settings
+Get prepared
+Prompt after install
+Determine your consent flow
+Your consent dialogs
+Build an accessible extension
+Onboard, upboard, offboard users
+Onboarding
+Upboarding
+Offboarding
+User experience best practices
+1. Keep it focused
+2. Give users what they need, where they need it
+3. Keep the user informed
+4. Be Firefoxy in look and feel
+5. Great onboarding experience
+6. Test, test, and then test again
+Mobile
+Differences between desktop and Android extensions
+Introduction
+User interface
+Native application interaction
+Permissions
+Storage
+User experience guidelines for mobile extensions
+Introduction
+The basics
+The extra mile
+The last mile
+Developing extensions for Firefox for Android
+Set up your computer and Android emulator or device
+Check for Firefox for Android compatibility
+Install and run your extension in Firefox for Android
+Debug your extension
+Manifest V3 compatibility
+GeckoView Extensions (Android library)
+Port Your Extension
+Porting a Google Chrome Extension
+Debug and Test
+Debugging
+Developer tools toolbox
+Debugging background scripts
+Debugging options pages
+Debugging popups
+Debugging content scripts
+Debugging sidebars
+Debugging storage
+Debugging developer tools pages and panels
+Debug permission requests
+Debugging browser restarts
+Temporary Installation in Firefox
+Reloading a temporary extension
+Using the command line
+Detecting temporary installation
+Limitations
+Testing persistent and restart features
+What is an add-on ID?
+What is a Firefox profile?
+Extension behavior in Firefox
+What do I do to ensure I can test my extension?
+Test permission requests
+Permission grant behavior during testing
+Observe or verify install time permission requests
+Retest runtime permission grants
+Testing localizations
+Known issues
+Content scripts don't appear in DevTools
+Extension source don't update in DevTools
+"Destroyed actor" errors when debugging Android
+Publish
+Get your extension signed
+Distribute your signed extension
+Promote your extension
+Policies
+Add-on Policies
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies Preview (Dec 1, 2026)
+No Surprises
+Content
+Submission Guidelines
+Development Practices
+User Scripts
+Data Collection and Transmission Disclosure and Control
+Monetization
+Security, Compliance and Blocking
+Add-on Policies for Enterprise Add-ons Preview (Dec 1, 2026)
+Preamble
+Distribution
+Content
+Submission Guidelines
+Security, Compliance and Blocking
+Add-on Policies FAQ
+No Surprises
+Content
+Submission Guidelines
+Data Collection and Transmission Disclosure and Control
+Security, Compliance and Blocking
+Firefox Add-on Distribution Agreement
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & review process
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Firefox Add-on Distribution Agreement Preview (Dec 1, 2026)
+1. Introduction
+2. Accounts
+3. Privacy Policy
+4. Distribution, certificates, & Policies and Review
+5. Your obligations
+6. Licenses; proprietary rights
+7. Content removal
+8. Disclaimer of warranties
+9. Limitation of liability
+10. Release; indemnification
+11. General legal terms
+Add-ons Blocking Process
+Security Over Choice
+Blocking Criteria
+Developer Outreach
+Requesting a Block
+Blocking Other Types of Third Party Software
+Third Party Library Usage
+When must links for third-party libraries be provided?
+How to determine the third-party library link
+Communicating third-party library links to reviewers
+What does review rejection mean to users?
+Review overview
+Impact of review rejection
+Blocklisting
+Sign
+Signing and distribution overview
+Signing your add-ons
+Distributing your add-on
+Post-submission review
+More information about AMO
+Package your extension
+Windows
+Mac OSX
+Linux / Mac OSX Terminal
+Distribute
+Distribute Manifest V2 and V3 extensions
+Distribute pre-release versions
+Submitting an add-on
+Listing on AMO
+Self-distribution
+Get help
+Version Rollback
+Eligibility
+Roll back using Developer Hub
+Roll back using the Add-on Submission API
+Source code submission
+Provide your extension source code
+Default reviewer build environment
+Use of obfuscated code
+Source code checklist
+Firefox version compatibility
+Version compatibility
+The `browser_specific_settings` key
+AMO compatibility setting
+Recommendations
+Add-on ownership
+Transfer ownership
+Code disputes
+Developer accounts
+Setting a display name
+Blocked accounts
+Issues receiving emails from AMO
+Self-distribution
+Self-distribution options
+Installing self-distributed extensions
+Preparing your add-on
+Install from file on a computer
+Install from file on Android
+For desktop apps
+Promote
+Create an appealing listing
+Your add-on’s name
+Create a captivating icon
+Create a meaningful set of keywords
+Make sure your summary is just long enough
+Focus on key features in your screenshots
+The add-on description can be longer, but not too long
+Make it local
+Make it experimental
+Select the right platforms and versions
+Categorize well
+Be prepared to provide support
+Set up a developer profile
+Use plain language in any privacy policy or license agreement
+Gently ask for a review
+Make use of Markdown
+Some other points
+What’s great content and design?
+Promoting your extension
+Promote your add-on from your website
+Friends, family, and colleagues
+Events and meetups
+Current users
+Social media
+Engage with your users
+Create a forum, user group, or similar
+Engage with bloggers and news media
+Advertising
+Make money from browser extensions
+Will I ever be able to sell through AMO?
+What can't you do
+What can you do
+Unsolicited offers
+How can I maximize my income?
+Recommended extensions
+Overview
+Criteria for Recommended extensions
+Developer partnership
+Selection process
+Manage
+Stay informed when Firefox changes
+Publish extension updates
+Manage authors of your extension
+Promote your extension
+Removing your extension from distribution
+Resources
+Updating your extension
+Enabling updates to your extension
+Manifest structure
+Testing automatic updating
+Best practices for updating your extension
+Monitoring extension usage statistics
+Accessing the statistics dashboard
+Tracking external sources
+Add-on listing example
+Resources for publishers
+Retiring your extension
+Reasons for withdrawing your extension
+Steps to retiring an extension
+Suggested retirement timetable
+Enterprise
+Developing your enterprise extension
+Distributing your enterprise extension
+Enterprise support
+Manage add-ons for Firefox for Enterprise
+Install system add-ons for Firefox for Enterprise
+Enterprise resources
+Enterprise development
+Data collection disclosure and consent for enterprise extensions
+How to add policy support
+Distributing your policy
+Enterprise policies that impact extensions
+Relevant policies
+Other relevant policies
+Enterprise distribution
+Signed vs. unsigned extensions
+Using an ExtensionSettings policy
+Bundling add-ons with a custom Firefox
+Themes
+Creating themes
+Using the AMO theme generator
+Getting started
+Submitting your theme
+Updating your theme
+Static themes
+Introduction
+Create a simple static theme
+Nova themes
+Using gradients and images
+Header image themes
+Multi-image themes
+Static animated themes
+Publishing themes
+Dynamic themes
+Introduction
+Creating dynamic themes
+Publishing dynamic themes
+Cross-browser compatibility
+Community
+Who is part of the community?
+Connect with the community
+Get involved in the community
+Get in touch
+Community Forum
+Add-ons Blog
+Stack Overflow
+Contribute
+Contribution opportunities
+Onboard to the WebExtensions codebase
+Hacking guide for WebExtensions code contributions
+WebExtensions Experiments
+Find or create a bug
+Manifest V3 migration guide
+Manifest V3 became generally available in Firefox 109 after being available as a developer preview from Firefox 101. This page details what's changed and how you adapt your extensions to take advantage of Manifest V3.
+See the Developing extensions for Firefox for Android page for additional guidance if you plan to support Firefox for Android.
+Contents
+What is Manifest V3?
+Manifest V3 changes
+Migration checklist
+What is Manifest V3?
+Manifest V3 (MV3) is the umbrella term for several foundational changes to the WebExtensions API in Firefox. The name refers to the declared manifest_version key in each extension’s manifest.json file.
+The Manifest V3 changes apply to extensions for Safari, Firefox, and Chromium-based browsers – such as Chrome, Edge, and Opera. While the goal is to maintain a high degree of compatibility between the Firefox, Safari, and Chromium extension platforms, our implementation diverges where we think it matters and where our values point to a different direction.
+This article discusses the changes introduced with Manifest V3 in Firefox and highlights where they diverge from the Chrome and Safari implementations.
+Manifest V3 changes
+This section details the Manifest V3 changes made to Firefox.
+Manifest version
+The manifest.json key manifest_version accepts 3. To use Manifest V3, update your manifest.json file like this:
+"manifest_version": 3
+Search extensions icons
+Search extensions must use local icons. This change prevents the unnecessary network pings that result from accessing remote icons.
+To accommodate this change, provide a local icon and define it in your manifest.json chrome_settings_overrides manifest key like this:
+"chrome_settings_overrides": {
+"search_provider": {
+"name": "Search engine",
+"search_url": "https://www.searchengine.com/search/?q={searchTerms}",
+"keyword": "search",
+"favicon_url": "/imager/favicon.ico"
+}
+}
+Host permissions
+In Manifest V2, an extension requests its host permissions in the manifest.json permissions or optional_permissions keys. The host permissions defined in the permissions key are displayed to the user on installation and granted to the extension permanently.
+In Manifest V3, host permissions are defined in the host_permissions and optional_host_permissions keys.
+In Firefox 126 and earlier, Manifest V3 host permissions were not granted during installation and were not displayed to the user. From Firefox 127, host permissions listed in host_permissions and content_scripts are displayed in the install prompt and granted on installation. However, if an extension update grants new host permissions, these are not shown to the user (see Firefox bug 1893232).
+Users can grant or revoke any host permission on an ad-hoc basis. Therefore, your extension should check whether any required host permissions are available and request them if necessary.
+See Requested permissions and user prompts in the host_permissions documentation for more information.
+Move all host permission specifications to the manifest.json key host_permissions like this:
+"permissions": [
+"tabs",
+"notifications"
+],
+"optional_permissions": [
+"geolocation"
+],
+"host_permissions": [
+"http://www.mysite.com/",
+"*://*.example.org/*"
+]
+Browser action
+The features available under the manifest.json key browser_action and the browserAction API have moved to a new action key and API. Also, the _execute_action special shortcut is introduced.
+As the old and new key and API are otherwise identical, the changes needed are relatively straightforward and are as follows:
+Rename the manifest.json key 'browser_action' to 'action' and remove any reference to browser_style, like this:
+"action": {
+"default_icon": {
+"16": "button/geo-16.png",
+"32": "button/geo-32.png"
+},
+"default_title": "Whereami?",
+"default_popup": "popup/geo.html",
+"theme_icons": [{
+"light": "icons/geo-16-light.png",
+"dark": "icons/geo-16.png",
+"size": 16
+}, {
+"light": "icons/geo-32-light.png",
+"dark": "icons/geo-32.png",
+"size": 32
+}]
+}
+Update API references from browser.browserAction to browser.action.
+If used, change _execute_browser_action to _execute_action in the commands manifest key and in the menu.create and menu.update API methods (or their aliases contextMenus.create and contextMenus.update).
+If the user changes the shortcut of the _execute_browser_action command, it is automatically carried over to the _execute_action command when an extension migrates from Manifest V2 to V3. This was implemented in Chrome 111 and Firefox 127.
+In Chromium and Safari, the Browser Action and Page Action APIs are unified into the Action API, page_action is merged into the renamed action key, and the _execute_page_action special shortcut is replaced by _execute_action. Firefox retains the page action API, key, and special shortcut.
+browser_style
+In Manifest Version 3, browser_style: true is no longer supported in the options_ui, action, page_action, and sidebar_action manifest keys.
+The goal of this property was to enable extension UI components to take on the browser's style. However, it only partially worked as intended. As a consequence, it has been deprecated for Manifest V3. Therefore, remove any references from the manifest keys.
+In Manifest Version 2, browser_style defaults to true for options_ui and sidebar_action. Therefore, unless you had set "browser_style": false, confirm that the appearance of options_ui and sidebar_action match your intended design.
+See Manifest V3 migration for browser_style for more information.
+Scripting API
+The Scripting API takes over the features of tabs.insertCSS(), tabs.removeCSS(), and tabs.executeScript(), and adds capabilities to register, update, and unregister content scripts at runtime.
+Also, the code parameter is removed so that arbitrary strings can no longer be executed. This API requires the scripting permission. So, you need to move any arbitrary strings executed as scripts to files and rewrite your code to use the Scripting API.
+userScripts API
+Manifest V3 uses a userScripts API that is incompatible with the API of the same name available to Manifest MV2 extensions.
+AMO only approves of the use of the API for user script managers.
+Event-driven background scripts
+Firefox has extended support for background scripts by enabling non-persistent background pages (aka Event Pages) for Manifest V2 and V3. Using non-persistent background scripts significantly reduces your extension's use of browser resources. However, MV3 removes support for persistent background pages.
+To migrate your extension to using non-persistent background pages, you need to:
+Update your manifest.json background key to remove the "persistent" property or set it to false. This feature is also supported in MV2 from Firefox 106.
+Ensure listeners are at the top-level and use the synchronous pattern.
+Record state changes in local storage.
+Change timers to alarms.
+Switch from using extension.getBackgroundPage to call a function from the background page, to runtime.getBackgroundPage.
+Place menu creation using menus.create or its alias contextMenus.create in a runtime.onInstalled listener. Also, note that the menus.onClicked event or its alias contextMenus.onClicked must be used to handle menu entry click events from an event page, instead of the onclick parameter of the contextMenus.create or contextMenus.update methods. If the onclick property of menus.create or its alias contextMenus.create is used from a call originating from an event page, they throw synchronously.
+Safari also supports event-driven background scripts; however, Chromium has adopted service workers instead.
+Firefox supports non-persistent background pages from Firefox 106. In Firefox 105 and earlier, event pages are run as if they are a persistent background page.
+More information on the migration process can be found on the background script page on MDN.
+Event pages and backward-compatibility
+This section is only relevant if your extension supports Firefox 105 and earlier.
+An extension designed as a non-persistent background page works even when event pages are not supported (i.e., in Firefox 105 and earlier), with one exception: the registration of context menus. In an event page, context menus persist across restarts, while they do not in persistent background pages.
+If the recommendation to register menus in runtime.onInstalled is followed, these menus are removed after a browser restart in Firefox 105 and earlier. To work around this issue, you could unconditionally call browser.contextMenus.create. When the menu exists, the browser.runtime.lastError property is set when the (optional) create callback is called.
+browser.contextMenus.create(
+{
+id: "my-menu",
+// etc.
+},
+() => {
+// TODO: Do not forget to read the "browser.runtime.lastError" property to
+// avoid warnings about an uncaught error when the menu item was created
+// before ("ID already exists: my-menu").
+}
+);
+If the initialization of the menu is expensive or requires complex logic, an alternative is to check whether event pages are supported and, if so, run the logic less frequently than at every wakeup of the event page (e.g., with runtime.onInstalled or runtime.onStartup).
+You can detect the availability of event pages using the characteristic that an error is thrown synchronously when onclick is passed to contextMenus.create in an event page.
+The following code shows how to use such a test to register menus.
+let eventPagesSupported = true;
+try {
+// Firefox throws a synchronous error when onclick is passed in an event page.
+browser.contextMenus.create({ id: "test-menu", onclick: () => {} });
+eventPagesSupported = false;
+browser.contextMenus.remove("test-menu");
+} catch (err) {
+// Firefox 106+ error: Property "onclick" cannot be used in menus.create, replace with an "onClicked" event listener.
+}
+async function registerMyMenus() {
+browser.contextMenus.create({ id: "my-menu", /* etc. */ });
+}
+if (eventPagesSupported) {
+browser.runtime.onInstalled.addListener(registerMyMenus);
+} else {
+registerMyMenus();
+}
+XHR and fetch in content scripts
+Cross-origin requests, permitted by extension permissions, using XHR and fetch in content scripts are no longer allowed. Instead:
+The destination server should use CORS, or
+The extension has to send a message to the background page (or an extension tab or frame) to ask it to make a request on the content script's behalf.
+Content security policies
+Content security policy (CSP) in the content_security_policy manifest.json key is changing to use the extension_pages property.
+Therefore, you need to move the extension’s CSP to the manifest.json key to extension_pages, like this:
+"content_security_policy": {
+"extension_pages": "default-src 'self'"
+}
+Manifest V3 has a more restrictive content security policy than Manifest V2, this may require further changes in your pages.
+Mozilla’s long-standing add-on policies prohibit remote code execution. In keeping with these policies, the content_security_policy field no longer supports sources permitting remote code in script-related directives, such as script-src or ’unsafe-eval’. The only permitted values for the script-src directive are ’self’ and ’wasm-unsafe-eval’. ’wasm-unsafe-eval’ must be specified in the CSP if an extension is to use WebAssembly. In Manifest V3, content scripts are subject to the same CSP as other parts of the extension.
+The Manifest V3 CSP also includes upgrade-insecure-requests by default. For more information, see
+Upgrade insecure network requests in Manifest V3 in the web extensions content security policy guide.
+Historically, a custom extension CSP required object-src to be specified. This is not required in Manifest V3 (and was removed from Manifest V2 in Firefox 106). See object-src in the content_security_policy documentation). This change makes it easier for extensions to customize the CSP with minimal boilerplate.
+Web Accessible Resources
+Web accessible resources are available only to the sites and extensions specified in the manifest. In Manifest V3, Firefox supports the extension_ids, matches, and resources properties to specify the packaged resources you want to make available. Firefox does not support the use_dynamic_url property.
+To migrate your extension, rewrite the manifest.json key ‘web_accessible_resources’ to specify the sites and extensions that can access the resources.
+Features already supported by Firefox
+As part of its Manifest V3 implementation, Chromium introduces promise support to many methods with the goal of eventually supporting promises on all appropriate methods. This will provide for greater compatibility between Firefox and Chrome extensions, given that Firefox already supports promises when using the browser.* namespace.
+In Manifest v2, Firefox extensions support the use of the chrome.* namespace with APIs that provide asynchronous event handling using callbacks. In Manifest V3, Firefox supports promises for asynchronous events in the chrome.* namespace.
+Removed APIs
+Two features of the extension API are deprecated in Manifest V2 and no longer available in Manifest V3, but have alternatives:
+extension.lastError, use runtime.lastError instead.
+extension.getURL, use runtime.getURL instead.
+Extension version in the manifest
+The format of the top-level manifest.json version key in Firefox has evolved and became simpler: letters and other previously allowed symbols are no longer accepted. The value must be a string with 1 to 4 numbers separated by dots (e.g., 1.2.3.4). Each number can have up to 9 digits and leading zeros before another digit are not allowed (e.g., 2.01 is forbidden, but 0.2, 2.0.1, and 2.1 are allowed).
+Migration checklist
+Update the manifest.json key manifest_version to 3.
+If your extension adds a search engine, add a local icon and reference it in the manifest.json key chrome_settings_overrides.search_provider.favicon_url.
+Remove any host permissions from the manifest.json keys permissions and optional_permissions, and add them to the host_permissions and optional_host_permissions keys. Remember that users can approve or revoke host permissions at any time, so always check that relevant host permissions are available when needed.
+Remove references to browser_style from the manifest.json keys browser_action, options_ui, page_action, and sidebar_action.
+If browser_style:false was not specified in options_ui and sidebar_action, confirm that their appearance has not changed.
+Rename the manifest.json key browser_action to action and update any API references from browser.browserAction to browser.action.
+Convert background pages to be non-persistent.
+Move the extension’s CSP to the manifest.json key content_security_policy.extension_pages and update the CSP to conform to Manifest V3 requirements.
+Move any arbitrary strings executed as scripts to files and update your code to use the Scripting API.
+Switch to using the new version of the userScripts API.
+Ensure any cross-origin requests using fetch or XHR are sent to servers that implement CORS, or are made via a background page (or an extension tab or frame).
+Rename the deprecated manifest.json key applications to browser_specific_settings.
+The add-on ID is required to publish your extension. Make sure to add one in the manifest.json key browser_specific_settings.gecko.id.
+Replace extension.lastError with runtime.lastError and extension.getURL with runtime.getURL.
+Ensure that the top-level manifest.json key version is a string of numbers separated by up to 3 dots. For details, see version format.
+If your extension includes a data collection experience, consider using the built-in consent for data collection and transmission.
+Tags:
+webextensions
+api
+firefox
+Contributors: erosman Klestofer rebloor willdurand
+Last update: rebloor Mar 03, 2023
+Up Next
+Develop
+Browser compatibility
+Develop
+Browser Extension Development Tools
+Develop
+Choosing a Firefox version for extension development
+Documentation Topics
+Develop
+Publish
+Manage
+Enterprise
+Themes
+Connect With Us
+Twitter
+For developers:
+@mozamo
+For end users:
+@rockyourfirefox
+More
+Matrix
+Community forum
+Extensions Developer Newsletter
+Stay up-to-date on news and events for Firefox extension developers.
+Email Address
+I’m okay with Mozilla handling my info as explained in this Privacy Notice.
+Sign up
+Thanks! Please check your inbox to confirm your subscription.
+If you haven’t previously confirmed a subscription to a Mozilla-related newsletter you may have to do so. Please check your inbox or your spam filter for an email from us.
+Mozilla
+Add-ons
+About
+Blog
+Developer Hub
+Developer Policies
+Forum
+Firefox
+Download Firefox
+Desktop
+Mobile
+Features
+Beta, Nightly, Developer Edition
+Twitter (@firefox)
+YouTube (firefoxchannel)
+Github (mozilla)
+Website Privacy Notice
+Cookies
+Legal
+Edit this page on GitHub
+Portions of this content are ©1998–2026 by individual mozilla.org
+contributors. Content available under a
+Creative Commons license.

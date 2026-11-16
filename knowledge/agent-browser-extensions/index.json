@@ -1,0 +1,2722 @@
+[
+  {
+    "id": "active-debugger-websocket-native-keep-sw-alive",
+    "path": "claims/active-debugger-websocket-native-keep-sw-alive.md",
+    "sha256": "1c9e3f072e93dac5d38996f091f4660ce8c569448479afe52df65f2815a2c21c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-2"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "activetab-grants-temporary-host-access-on-user-gesture",
+    "path": "claims/activetab-grants-temporary-host-access-on-user-gesture.md",
+    "sha256": "4bb3b1574692a31b4bd4fef8748a605281dfa03a0e68f6d32030740b2bb55622",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-3"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "cdp-describe-node-pierces-iframes-and-shadow-roots",
+    "path": "claims/cdp-describe-node-pierces-iframes-and-shadow-roots.md",
+    "sha256": "e878691e9c2b65365323d77a1aba0a8c957049473887a127c102362d0b84dbb4",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "raw-githubusercontent-com-chromedevtools-devtools-protocol"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "cdp-input-dispatches-mouse-and-key-events",
+    "path": "claims/cdp-input-dispatches-mouse-and-key-events.md",
+    "sha256": "0d73332c18a96604eeaf99f9d5fa826aa8dee23dcdb5ef559738b369a05336d8",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "raw-githubusercontent-com-chromedevtools-devtools-protocol"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "chrome-136-blocks-remote-debugging-on-default-profile",
+    "path": "claims/chrome-136-blocks-remote-debugging-on-default-profile.md",
+    "sha256": "b071e9387d4dc885c54a1f367d52e8c4b4314f34dcd1879010bb3a74a6374ddf",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-blog-remote-debugging-port"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "chrome-debugger-dispatches-trusted-cdp-commands",
+    "path": "claims/chrome-debugger-dispatches-trusted-cdp-commands.md",
+    "sha256": "3e92db90b6c8db68bb956122bfcd9c871b095f7664017160807b31e1603fa133",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-debugger"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "chrome-debugger-supports-flat-oopif-sessions",
+    "path": "claims/chrome-debugger-supports-flat-oopif-sessions.md",
+    "sha256": "fef146d789eefa92e67a1c251ab496fe99a2755876bb0068bd100186af3cd527",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-debugger"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "chrome-mv3-forbids-background-event-pages",
+    "path": "claims/chrome-mv3-forbids-background-event-pages.md",
+    "sha256": "07e4823fd237544a77a5cd841fd9a095a0d8d0f488fbef1f8f763e56d7822e08",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-4"
+      },
+      {
+        "link_type": "contradicts",
+        "target_id": "firefox-mv3-uses-event-pages-not-service-workers"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "compromised-renderer-can-forge-content-script-messages",
+    "path": "claims/compromised-renderer-can-forge-content-script-messages.md",
+    "sha256": "c121d4b12a82bf79270ee9c2a5b0dd8cdae5d0f6b8a3fc42e20d533646c87874",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-security"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "content-scripts-default-to-isolated-world",
+    "path": "claims/content-scripts-default-to-isolated-world.md",
+    "sha256": "907c98bf3965b850432730707575cb2e668adbb5a651b8fa8362911f193c5ded",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-3"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "debugger-fails-or-detaches-on-policy-blocked-hosts",
+    "path": "claims/debugger-fails-or-detaches-on-policy-blocked-hosts.md",
+    "sha256": "db9f45f739bdf1c85427f39fedfb4404882876ca5d8596efab265a0bec2fbf40",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-debugger"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "extension-dom-api-pierces-closed-shadow-roots",
+    "path": "claims/extension-dom-api-pierces-closed-shadow-roots.md",
+    "sha256": "e18834740fc8e0902a4827bfcf32a0ccd871d167c586bffcf7ed8017f47db9e4",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-dom"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-7"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "firefox-does-not-implement-debugger-api",
+    "path": "claims/firefox-does-not-implement-debugger-api.md",
+    "sha256": "38a4b0136349b8f09e35c632a6458c4c80d37a88b5fe10c491de6d0e5cae49b5",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-2"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "firefox-mv3-uses-event-pages-not-service-workers",
+    "path": "claims/firefox-mv3-uses-event-pages-not-service-workers.md",
+    "sha256": "f72b598453e0ee768f87a0a2619ff004eebc043d424fc764da6182ad4c2ac90c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "contradicts",
+        "source_id": "chrome-mv3-forbids-background-event-pages"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "first-party-bridge-invariants-verified-by-code",
+    "path": "claims/first-party-bridge-invariants-verified-by-code.md",
+    "sha256": "b272c6d22905f76ee43b687d335a3b7902c3e5f9eae1e9dbb02c4ea906b3252e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "local-evidence-agent-browser-extensions-261116-sources"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "first-party-main-world-bridge-captures-native-bindings",
+    "path": "claims/first-party-main-world-bridge-captures-native-bindings.md",
+    "sha256": "43f019ee0956415c948a31a2197475ff19c390dc3fff724848448c57ee989bcf",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "local-evidence-agent-browser-extensions-261116-sources"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "main-world-scripts-face-page-interference-and-no-extension-apis",
+    "path": "claims/main-world-scripts-face-page-interference-and-no-extension-apis.md",
+    "sha256": "9199201465eca1bf6db71172752e020e56658d0e85228786a9eb7421950f5c23",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-3"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "cites",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "main-world-scripts-inherit-host-page-csp",
+    "path": "claims/main-world-scripts-inherit-host-page-csp.md",
+    "sha256": "04bb49c76c8ddeecd7535df490091700d289c0378f2ea2286de0f4093c739926",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "mv3-service-workers-terminate-when-idle",
+    "path": "claims/mv3-service-workers-terminate-when-idle.md",
+    "sha256": "ac4bf2e61a639fe7e347ee35a9a200fa77f00037f78f4f92318920818a5461cb",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-2"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "native-messaging-communicates-over-stdio",
+    "path": "claims/native-messaging-communicates-over-stdio.md",
+    "sha256": "c0764b108795e6cd9aaa4f46733f6d07f4eb93106c9bb7de9493f8338acdd4a1",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-native"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-5"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "native-messaging-enforces-1mb-host-reply-ceiling",
+    "path": "claims/native-messaging-enforces-1mb-host-reply-ceiling.md",
+    "sha256": "a97a31f14cf4b70b2ceadd678ab297f32d78cf11e127cb03fb9519933499b96c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-native"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "offscreen-documents-provide-dom-without-page-csp",
+    "path": "claims/offscreen-documents-provide-dom-without-page-csp.md",
+    "sha256": "08f7cfa84bc2e7151ea732910d7b1d69b95aad33e91d93789b8862f0c44ee9b1",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-offscreen"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "opening-devtools-detaches-extension-debugger",
+    "path": "claims/opening-devtools-detaches-extension-debugger.md",
+    "sha256": "378bbe01a423eb6d7e0194bf5f3faf1b79e3bae09bd044101e008525d9a7ef5e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-debugger"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "safari-web-extensions-require-native-app-container",
+    "path": "claims/safari-web-extensions-require-native-app-container.md",
+    "sha256": "c11809cb04f7681bdcaeec4e2e97124c8128d5d24cb4b2f096ed7c13a5988249",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "webkit-org-blog-11340-web-extensions-in-safari-14"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-6"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "scripting-execution-world-supports-main-world",
+    "path": "claims/scripting-execution-world-supports-main-world.md",
+    "sha256": "8a09d0dabc2b92f80f8dd5e886334e8ea75ee51445363b3b81c463a5e6b9c6ee",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-scripting"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-3"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "service-worker-must-validate-sender-before-native-host",
+    "path": "claims/service-worker-must-validate-sender-before-native-host.md",
+    "sha256": "fd26605dfa9b3c80b79a94c89549f37dd3bda51c4e37f13cf78e4169848f10ff",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-develop-concepts-native"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "storage-session-persists-in-memory-across-sw-restarts",
+    "path": "claims/storage-session-persists-in-memory-across-sw-restarts.md",
+    "sha256": "ee4929bee20d58d7fb90a6221d2df2a4da3cf8725caf59dd63acd988aae806de",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-reference-api-storage"
+      },
+      {
+        "link_type": "supported-by",
+        "target_id": "webkit-org-blog-13966-webkit-features-in-safari-16-4"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "synthetic-dom-clicks-set-istrusted-false",
+    "path": "claims/synthetic-dom-clicks-set-istrusted-false.md",
+    "sha256": "70f89fa086184150b7d9cf99336bf4c746af096c9921eb0f4b97a332b5bacd8b",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-mozilla-org-en-us-docs-web-api-event-istrusted"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "w3c-wecg-balances-common-core-with-vendor-autonomy",
+    "path": "claims/w3c-wecg-balances-common-core-with-vendor-autonomy.md",
+    "sha256": "5238a0bdc17fda57a78995a0fa63315f814075c3d60fc6164ad937f28143776a",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "raw-githubusercontent-com-w3c-webextensions-main-charter-md"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "webdriver-bidi-provides-cross-browser-trusted-input",
+    "path": "claims/webdriver-bidi-provides-cross-browser-trusted-input.md",
+    "sha256": "4821ce1b48943155f91a0af78e470a62d39195d3ea53197a5c074b1fd867e414",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "raw-githubusercontent-com-w3c-webdriver-bidi-main-index-bs"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "websocket-20s-heartbeat-prevents-sw-idle-shutdown",
+    "path": "claims/websocket-20s-heartbeat-prevents-sw-idle-shutdown.md",
+    "sha256": "2a386751967009b7f63ee7ba44e3d41347188fec965ef174e8f2a7ca24341c70",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "developer-chrome-com-docs-extensions-how-to-web-platform"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "wxt-compiles-per-browser-manifests-and-entrypoint-targets",
+    "path": "claims/wxt-compiles-per-browser-manifests-and-entrypoint-targets.md",
+    "sha256": "7fae87a61f2507933890fe7fe051c964fb2756c8ae42f71595bcf033e9147a7b",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "claim",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "supported-by",
+        "target_id": "wxt-dev-guide-essentials-target-different-browsers-html"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "cites",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "cross-browser-capability-matrix",
+    "path": "cross-browser-capability-matrix.md",
+    "sha256": "f298fe10754a2679037ff7fe861e3fcf3810691a996eab0bb2fd4fcbe91089e3",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "comparison",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "scaffolding an agent browser extension that must run across Chrome, Edge, Arc, Brave, Firefox, or Safari",
+      "choosing between a lowest-common-denominator API subset and a capability-tiered adapter"
+    ],
+    "description": "Compares Chromium MV3, Firefox Gecko, and Safari WebKit capabilities and defines how one Agent RPC contract maps onto tiered browser adapters.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "w3c-wecg-balances-common-core-with-vendor-autonomy"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "firefox-mv3-uses-event-pages-not-service-workers"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "chrome-mv3-forbids-background-event-pages"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "safari-web-extensions-require-native-app-container"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "firefox-does-not-implement-debugger-api"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "wxt-compiles-per-browser-manifests-and-entrypoint-targets"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "about",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "about",
+        "target_id": "engine-api-divergence"
+      },
+      {
+        "link_type": "about",
+        "target_id": "native-messaging-stdio"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chrome-debugger-cdp"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "compares",
+        "target_id": "fast-snapshot-and-fenced-dispatch"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "depends-on",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "depends-on",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "depends-on",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "depends-on",
+        "source_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "depends-on",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 4,
+    "evidence_age_days": 0,
+    "links_in_count": 5
+  },
+  {
+    "id": "captcha-auth-payment-human-gates",
+    "path": "entities/captcha-auth-payment-human-gates.md",
+    "sha256": "796dca1e1cb36294e74ba49f78c630e92873f734d11270c62b4db8a862acfa06",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "human-gate-handoff"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 2
+  },
+  {
+    "id": "chrome-debugger-cdp",
+    "path": "entities/chrome-debugger-cdp.md",
+    "sha256": "590a2de9b79df0a50a840a25628b1b25891123955214210c60741b53fa306893",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "untrusted-synthetic-dom-events"
+      },
+      {
+        "link_type": "overcomes",
+        "target_id": "closed-shadow-dom-and-oopif"
+      },
+      {
+        "link_type": "overcomes",
+        "target_id": "chrome-default-profile-cdp-restriction"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 2
+  },
+  {
+    "id": "chrome-default-profile-cdp-restriction",
+    "path": "entities/chrome-default-profile-cdp-restriction.md",
+    "sha256": "25191877be650f4cdba3639d83013dc473f7fd9d68371fd6b7b415f6bbac6af7",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "chrome-debugger-cdp"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "native-messaging-stdio"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 3
+  },
+  {
+    "id": "chromium-mv3",
+    "path": "entities/chromium-mv3.md",
+    "sha256": "e99dd115e0cbedbf031db4e6def64babf18ddac934905eac990ef7e2c98b2d8c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "browser-engine",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "about",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 7
+  },
+  {
+    "id": "closed-shadow-dom-and-oopif",
+    "path": "entities/closed-shadow-dom-and-oopif.md",
+    "sha256": "607c3642cde79ded59bd9332a07194511531751426ce95968d4de7b7557b4ac7",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "chrome-debugger-cdp"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "open-or-closed-shadow-dom-api"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 3
+  },
+  {
+    "id": "engine-api-divergence",
+    "path": "entities/engine-api-divergence.md",
+    "sha256": "d0a1105b7ecd7e3bae74109e2bd42463261c513d4611ad1586b8c5b9e0e4811a",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "native-messaging-stdio"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 2
+  },
+  {
+    "id": "firefox-gecko",
+    "path": "entities/firefox-gecko.md",
+    "sha256": "f60604d04b743aaa61c88d19a79974147f114a9e98e0bf89d21134c5b523ed30",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "browser-engine",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "about",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 7
+  },
+  {
+    "id": "human-gate-handoff",
+    "path": "entities/human-gate-handoff.md",
+    "sha256": "28da60c314e771cf85813f4eef1d7650854eba42b3143fb2e75b3dffdaa9404e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "captcha-auth-payment-human-gates"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "isolated-content-script",
+    "path": "entities/isolated-content-script.md",
+    "sha256": "fbb168dbe13e3207bd325b28f7af128c41fbc61c88c3d72d1d3a4f2a1405599b",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "page-csp-and-isolated-world"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "main-world-bridge",
+    "path": "entities/main-world-bridge.md",
+    "sha256": "6f12b6a0eb1b152e3230621d65812a50ee108d677e11796864583ef818387500",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "page-csp-and-isolated-world"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "mv3-worker-idle-termination",
+    "path": "entities/mv3-worker-idle-termination.md",
+    "sha256": "d6621271681ae101b685741758d7c57cdae1a3ab4caa0b4c97797fc1186591e1",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "session-epoch-lease-fencing"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "sw-websocket-keepalive"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 3
+  },
+  {
+    "id": "native-messaging-stdio",
+    "path": "entities/native-messaging-stdio.md",
+    "sha256": "623714610820892ef5b3b75c0992e6191a4f993afe04e31b12e6e23ff54ace62",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "chrome-default-profile-cdp-restriction"
+      },
+      {
+        "link_type": "overcomes",
+        "target_id": "engine-api-divergence"
+      },
+      {
+        "link_type": "overcomes",
+        "target_id": "untrusted-synthetic-dom-events"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 2
+  },
+  {
+    "id": "open-or-closed-shadow-dom-api",
+    "path": "entities/open-or-closed-shadow-dom-api.md",
+    "sha256": "fa3cd981bd81293588fd9df0036da57f9ea70a7a7ee96e70b4fee604bf7cdd4f",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "closed-shadow-dom-and-oopif"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "page-csp-and-isolated-world",
+    "path": "entities/page-csp-and-isolated-world.md",
+    "sha256": "0ef37e64eadceba5b6469820cdef5073f18478b3e619d45ac2c7fd928649ebbf",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "isolated-content-script"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "main-world-bridge"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 4
+  },
+  {
+    "id": "safari-webkit",
+    "path": "entities/safari-webkit.md",
+    "sha256": "3184e7907a8efc8dedfef5d0590291340c254791eb3fb7f9305312e142c2a2c8",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "browser-engine",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "cross-browser-capability-matrix"
+      },
+      {
+        "link_type": "about",
+        "source_id": "execution-worlds-and-state-reading"
+      },
+      {
+        "link_type": "about",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      },
+      {
+        "link_type": "about",
+        "source_id": "security-and-human-handoff"
+      },
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 6
+  },
+  {
+    "id": "session-epoch-lease-fencing",
+    "path": "entities/session-epoch-lease-fencing.md",
+    "sha256": "00f22e3712d017083fb24073f717394536ad007656a400c15a17840b24d5c77a",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "mv3-worker-idle-termination"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "fast-snapshot-and-fenced-dispatch"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "sw-websocket-keepalive",
+    "path": "entities/sw-websocket-keepalive.md",
+    "sha256": "9957e739af9c11e5bada4f59041e0f203aa813b4695439355af61a2b09b6d8c9",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "bridge-primitive",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [
+      {
+        "link_type": "overcomes",
+        "target_id": "mv3-worker-idle-termination"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "transport-and-mv3-lifecycle"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 1
+  },
+  {
+    "id": "untrusted-synthetic-dom-events",
+    "path": "entities/untrusted-synthetic-dom-events.md",
+    "sha256": "8e1ead8c83e64217f816326bf70f5ad3beac508c019cc33ef9e098d880410f71",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "interaction-barrier",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "active",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "about",
+        "source_id": "trusted-input-shadow-and-oopif"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "chrome-debugger-cdp"
+      },
+      {
+        "link_type": "overcomes",
+        "source_id": "native-messaging-stdio"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": null,
+    "links_in_count": 3
+  },
+  {
+    "id": "execution-worlds-and-state-reading",
+    "path": "execution-worlds-and-state-reading.md",
+    "sha256": "e19bdad790885ea6326c3a95e828d74b4f771f2fec1113d1cc9f67b839dcd14f",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "guide",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "an agent needs state invisible in plain DOM (React Fiber trees, collapsed UI rows, virtualized lists, editor models)",
+      "deciding whether logic belongs in ISOLATED world, MAIN world, Firefox wrappedJSObject, or chrome.offscreen"
+    ],
+    "description": "How to combine ISOLATED content scripts, hardened MAIN-world bridges, and offscreen documents to inspect SPA framework state without violating CSP or trusting tampered globals.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "content-scripts-default-to-isolated-world"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "scripting-execution-world-supports-main-world"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "main-world-scripts-inherit-host-page-csp"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "main-world-scripts-face-page-interference-and-no-extension-apis"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "first-party-main-world-bridge-captures-native-bindings"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "offscreen-documents-provide-dom-without-page-csp"
+      },
+      {
+        "link_type": "about",
+        "target_id": "isolated-content-script"
+      },
+      {
+        "link_type": "about",
+        "target_id": "main-world-bridge"
+      },
+      {
+        "link_type": "about",
+        "target_id": "page-csp-and-isolated-world"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "about",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "depends-on",
+        "target_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "fast-snapshot-and-fenced-dispatch",
+    "path": "fast-snapshot-and-fenced-dispatch.md",
+    "sha256": "84cb26ff3e4c77dbc301fa97e7dda96ad6b5b57d0294e338799dc0c7c2a1eb1a",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "guide",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "designing observation compression so an LLM/System-One agent does not choke on multi-megabyte raw DOM dumps",
+      "preventing race conditions, double-submits, or navigation drift between snapshot and click"
+    ],
+    "description": "How to keep agent observe-act loops sub-second using compact indexed snapshots and fencing tokens (pageId, epoch, lease) that prevent stale clicks and blind retries.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "first-party-bridge-invariants-verified-by-code"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "cdp-describe-node-pierces-iframes-and-shadow-roots"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "chrome-debugger-supports-flat-oopif-sessions"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "storage-session-persists-in-memory-across-sw-restarts"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "opening-devtools-detaches-extension-debugger"
+      },
+      {
+        "link_type": "about",
+        "target_id": "session-epoch-lease-fencing"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "about",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "depends-on",
+        "target_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "security-and-human-handoff",
+    "path": "security-and-human-handoff.md",
+    "sha256": "cd87fb78be4c5598ba5ae9c54a8408ce7f26dc79b997622878cfb50065106274",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "decision-record",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "auditing an agent browser extension for prompt injection, privilege escalation, or compliance with anti-bot boundaries",
+      "deciding how the extension handles CAPTCHAs, login/2FA screens, enterprise blocked hosts, and checkout gates"
+    ],
+    "description": "Defines mandatory security boundaries for agent extensions: prompt-injection quarantine of DOM text, sender validation, activeTab scoping, and non-bypass handoff at CAPTCHAs, 2FA, and paywalls.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "compromised-renderer-can-forge-content-script-messages"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "service-worker-must-validate-sender-before-native-host"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "activetab-grants-temporary-host-access-on-user-gesture"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "debugger-fails-or-detaches-on-policy-blocked-hosts"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "main-world-scripts-face-page-interference-and-no-extension-apis"
+      },
+      {
+        "link_type": "about",
+        "target_id": "human-gate-handoff"
+      },
+      {
+        "link_type": "about",
+        "target_id": "captcha-auth-payment-human-gates"
+      },
+      {
+        "link_type": "about",
+        "target_id": "page-csp-and-isolated-world"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "about",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "depends-on",
+        "target_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "links_in": [],
+    "source_count": 2,
+    "evidence_age_days": 0,
+    "links_in_count": 0
+  },
+  {
+    "id": "developer-chrome-com-blog-remote-debugging-port",
+    "path": "sources/developer-chrome-com-blog-remote-debugging-port.md",
+    "sha256": "d0fd3567423e9f85fb5d79831c8517c6a2049463520c2f784344bb45b3b2d69f",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "chrome-136-blocks-remote-debugging-on-default-profile"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-develop-concepts-2",
+    "path": "sources/developer-chrome-com-docs-extensions-develop-concepts-2.md",
+    "sha256": "e258eae8b949d525bc4523a06c6a1549b3dd7427108db5eb063e9722b2eb0678",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "active-debugger-websocket-native-keep-sw-alive"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "mv3-service-workers-terminate-when-idle"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-develop-concepts-3",
+    "path": "sources/developer-chrome-com-docs-extensions-develop-concepts-3.md",
+    "sha256": "b6ef4af0dded366d2d0e99516bb86a30c595f00e7903b30d9b62c1e86fdaaac2",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "activetab-grants-temporary-host-access-on-user-gesture"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-develop-concepts-native",
+    "path": "sources/developer-chrome-com-docs-extensions-develop-concepts-native.md",
+    "sha256": "6040d9111debf9503db6190a1e292c2e27bc7b5022efc0c299d9c2ef4792bc1b",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "native-messaging-communicates-over-stdio"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "native-messaging-enforces-1mb-host-reply-ceiling"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "service-worker-must-validate-sender-before-native-host"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 3
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-develop-concepts",
+    "path": "sources/developer-chrome-com-docs-extensions-develop-concepts.md",
+    "sha256": "1cd3b1f9c95ae9a181f9971481e54a67d831c24132185117001b5339a0d7900c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "content-scripts-default-to-isolated-world"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "main-world-scripts-inherit-host-page-csp"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-develop-security",
+    "path": "sources/developer-chrome-com-docs-extensions-develop-security.md",
+    "sha256": "e9949f8568dbea40e42afe8b02733b835403043c97c90fe3fa0ec55d862e302e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "compromised-renderer-can-forge-content-script-messages"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-how-to-web-platform",
+    "path": "sources/developer-chrome-com-docs-extensions-how-to-web-platform.md",
+    "sha256": "fb8378043d81c4a6a89563cfae8e4613fb283752e15c53a9d47e0b27ba1ce27c",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "websocket-20s-heartbeat-prevents-sw-idle-shutdown"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-reference-api-debugger",
+    "path": "sources/developer-chrome-com-docs-extensions-reference-api-debugger.md",
+    "sha256": "6b2100807db8c6470e76dd3f7da36225822e5eba147b211f5bd990d75cd52551",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "chrome-debugger-dispatches-trusted-cdp-commands"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "chrome-debugger-supports-flat-oopif-sessions"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "debugger-fails-or-detaches-on-policy-blocked-hosts"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "opening-devtools-detaches-extension-debugger"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 4
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-reference-api-dom",
+    "path": "sources/developer-chrome-com-docs-extensions-reference-api-dom.md",
+    "sha256": "84170a790cf4cea5f6cbf319b46d6bf0857869c36307498b4bc3c3e724641739",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "extension-dom-api-pierces-closed-shadow-roots"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-reference-api-offscreen",
+    "path": "sources/developer-chrome-com-docs-extensions-reference-api-offscreen.md",
+    "sha256": "28b01f2ddede37f2d862473116edbe920fa6e610da982c67cb9ce81c41b6d381",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "offscreen-documents-provide-dom-without-page-csp"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-reference-api-scripting",
+    "path": "sources/developer-chrome-com-docs-extensions-reference-api-scripting.md",
+    "sha256": "fc240978bbb8329b7ea40f84cc585f06f4cb2146b74aa668acccb1685a666f57",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "scripting-execution-world-supports-main-world"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-chrome-com-docs-extensions-reference-api-storage",
+    "path": "sources/developer-chrome-com-docs-extensions-reference-api-storage.md",
+    "sha256": "9cdbb55ba8310c8447361f0f74bcef1c5c5b4b61a6d3060c013724b90f96116e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "storage-session-persists-in-memory-across-sw-restarts"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-2",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-2.md",
+    "sha256": "91b794644d5a2cc7945bd37a1c02f546cae614a60a6865f1750eba86cc56938d",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "firefox-does-not-implement-debugger-api"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-3",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-3.md",
+    "sha256": "57462fc63b64493ab005fd62ac3f4442fd4e3f8fc8ac62c384f87a3286c00ba5",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "content-scripts-default-to-isolated-world"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "main-world-scripts-face-page-interference-and-no-extension-apis"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "scripting-execution-world-supports-main-world"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 3
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-4",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-4.md",
+    "sha256": "de4429f1822aa7fbf0101cc6d568809e3fa1b5a0f918fb85f4620371b24b176e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "chrome-mv3-forbids-background-event-pages"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-5",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-5.md",
+    "sha256": "567f06cbfb3fa385085dc658abe7c29f7a999b50cfbd5d25bb7ef80c987233dd",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "native-messaging-communicates-over-stdio"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-6",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-6.md",
+    "sha256": "fbbd2a766725bba53b812e725331ddc8e61f2d09001948855548d582afa8b028",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "safari-web-extensions-require-native-app-container"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons-7",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons-7.md",
+    "sha256": "d1b03dccf44ccc798aed6c747c6ab1627e1826b2bd17440aa78f2848f7c6cdff",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "extension-dom-api-pierces-closed-shadow-roots"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-mozilla-add-ons",
+    "path": "sources/developer-mozilla-org-en-us-docs-mozilla-add-ons.md",
+    "sha256": "c213a2554bbebf6a1b965ad876fb794a55ee8bac8ca70e329a1fad66dc5146f6",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "firefox-mv3-uses-event-pages-not-service-workers"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "developer-mozilla-org-en-us-docs-web-api-event-istrusted",
+    "path": "sources/developer-mozilla-org-en-us-docs-web-api-event-istrusted.md",
+    "sha256": "3bb3ae88d19ce0c8d656dfac1c393e54180e24bbc0f4e477b4fbfb186da339ba",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "synthetic-dom-clicks-set-istrusted-false"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "local-evidence-agent-browser-extensions-261116-sources",
+    "path": "sources/local-evidence-agent-browser-extensions-261116-sources.md",
+    "sha256": "3f73caccabf580f22bc01a9a0e53605cd460fb02e8f038b53ffb5e90a51e61f4",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "first-party-bridge-invariants-verified-by-code"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "first-party-main-world-bridge-captures-native-bindings"
+      }
+    ],
+    "source_count": 0,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "raw-githubusercontent-com-chromedevtools-devtools-protocol",
+    "path": "sources/raw-githubusercontent-com-chromedevtools-devtools-protocol.md",
+    "sha256": "2d8869dab82d64c8bc102343ba05a35ae9b2a83758520141665f6bb67d294a86",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "cdp-describe-node-pierces-iframes-and-shadow-roots"
+      },
+      {
+        "link_type": "supported-by",
+        "source_id": "cdp-input-dispatches-mouse-and-key-events"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 2
+  },
+  {
+    "id": "raw-githubusercontent-com-w3c-webdriver-bidi-main-index-bs",
+    "path": "sources/raw-githubusercontent-com-w3c-webdriver-bidi-main-index-bs.md",
+    "sha256": "98f022b94971839955b76684f7d014d06a6e6f224f77334bc9a8f00361a40d37",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "webdriver-bidi-provides-cross-browser-trusted-input"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "raw-githubusercontent-com-w3c-webextensions-main-charter-md",
+    "path": "sources/raw-githubusercontent-com-w3c-webextensions-main-charter-md.md",
+    "sha256": "02ee71b51e8e2738cc7a204c4f95404ba034a2148d95e1a6392b6b51925b01c5",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "w3c-wecg-balances-common-core-with-vendor-autonomy"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "webkit-org-blog-11340-web-extensions-in-safari-14",
+    "path": "sources/webkit-org-blog-11340-web-extensions-in-safari-14.md",
+    "sha256": "c5ac0c8ce42e7df6d245e395f6f78a335deaefdde706fba92cf7f806d9f9f345",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "safari-web-extensions-require-native-app-container"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "webkit-org-blog-13966-webkit-features-in-safari-16-4",
+    "path": "sources/webkit-org-blog-13966-webkit-features-in-safari-16-4.md",
+    "sha256": "b901003ec6ad360d467449843cb5a5cd680ddf8cbbad9bc24112c3d4139cfd15",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "storage-session-persists-in-memory-across-sw-restarts"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "wxt-dev-guide-essentials-target-different-browsers-html",
+    "path": "sources/wxt-dev-guide-essentials-target-different-browsers-html.md",
+    "sha256": "37218e1e5487447f951e5a6aa258539af6bd75e47eedf4230492547e3bc68635",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "source",
+    "superseded_by": null,
+    "domain": null,
+    "trust_tier": null,
+    "when": null,
+    "description": null,
+    "status": "experimental",
+    "links_out": [],
+    "links_in": [
+      {
+        "link_type": "supported-by",
+        "source_id": "wxt-compiles-per-browser-manifests-and-entrypoint-targets"
+      }
+    ],
+    "source_count": 1,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "transport-and-mv3-lifecycle",
+    "path": "transport-and-mv3-lifecycle.md",
+    "sha256": "8e904b7ff64afe8758b226aac02477d8c6b21582ef075a8a669c3137a96ee49f",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "guide",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "connecting a local AI agent CLI or daemon to a user's real browser profile without --remote-debugging-port",
+      "designing MV3 service worker keepalive, state recovery, and large payload chunking"
+    ],
+    "description": "How an extension sustains sub-50ms bidirectional RPC with external AI agents while bypassing Chrome 136+ remote-debugging limits and surviving MV3 worker termination.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "chrome-136-blocks-remote-debugging-on-default-profile"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "mv3-service-workers-terminate-when-idle"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "active-debugger-websocket-native-keep-sw-alive"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "websocket-20s-heartbeat-prevents-sw-idle-shutdown"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "storage-session-persists-in-memory-across-sw-restarts"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "native-messaging-communicates-over-stdio"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "native-messaging-enforces-1mb-host-reply-ceiling"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chrome-default-profile-cdp-restriction"
+      },
+      {
+        "link_type": "about",
+        "target_id": "mv3-worker-idle-termination"
+      },
+      {
+        "link_type": "about",
+        "target_id": "native-messaging-stdio"
+      },
+      {
+        "link_type": "about",
+        "target_id": "sw-websocket-keepalive"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "depends-on",
+        "target_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 3,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  },
+  {
+    "id": "trusted-input-shadow-and-oopif",
+    "path": "trusted-input-shadow-and-oopif.md",
+    "sha256": "270cd22e8ff9e3278e7f5f3dcc650d014e57a1812b9031ef496936de5f35235e",
+    "ontology_sha256": "66fb23e7ee1599fa0a0284429a36db170ba6d51a82d1a0dfa7ae3d0b0a0b7666",
+    "object_type": "guide",
+    "superseded_by": null,
+    "domain": "browser-engineering",
+    "trust_tier": "draft",
+    "when": [
+      "element.click() or dispatchEvent() is ignored because the site checks Event.isTrusted",
+      "target controls live inside closed ShadowRoot components or cross-origin payment/auth/widget iframes"
+    ],
+    "description": "How to deliver isTrusted=true user input, pierce closed Shadow DOM roots, and target cross-origin out-of-process iframes across Chromium and fallback engines.",
+    "status": "experimental",
+    "links_out": [
+      {
+        "link_type": "cites",
+        "target_id": "synthetic-dom-clicks-set-istrusted-false"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "chrome-debugger-dispatches-trusted-cdp-commands"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "cdp-input-dispatches-mouse-and-key-events"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "chrome-debugger-supports-flat-oopif-sessions"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "extension-dom-api-pierces-closed-shadow-roots"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "cdp-describe-node-pierces-iframes-and-shadow-roots"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "webdriver-bidi-provides-cross-browser-trusted-input"
+      },
+      {
+        "link_type": "cites",
+        "target_id": "opening-devtools-detaches-extension-debugger"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chrome-debugger-cdp"
+      },
+      {
+        "link_type": "about",
+        "target_id": "open-or-closed-shadow-dom-api"
+      },
+      {
+        "link_type": "about",
+        "target_id": "untrusted-synthetic-dom-events"
+      },
+      {
+        "link_type": "about",
+        "target_id": "closed-shadow-dom-and-oopif"
+      },
+      {
+        "link_type": "about",
+        "target_id": "chromium-mv3"
+      },
+      {
+        "link_type": "about",
+        "target_id": "firefox-gecko"
+      },
+      {
+        "link_type": "about",
+        "target_id": "safari-webkit"
+      },
+      {
+        "link_type": "depends-on",
+        "target_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "links_in": [
+      {
+        "link_type": "compares",
+        "source_id": "cross-browser-capability-matrix"
+      }
+    ],
+    "source_count": 3,
+    "evidence_age_days": 0,
+    "links_in_count": 1
+  }
+]

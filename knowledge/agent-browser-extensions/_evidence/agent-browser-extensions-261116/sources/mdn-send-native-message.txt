@@ -1,0 +1,418 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendNativeMessage
+Fetched: 2026-11-16T08:26:54+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+JavaScript APIs
+runtime
+runtime.sendNativeMessage()
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+中文 (简体)
+runtime.sendNativeMessage()
+Sends a single message from an extension to a native application.
+This takes two mandatory parameters: the name of the native application and a JSON object which is the message to send it. The browser will launch the native application and deliver the message.
+This is an asynchronous function that returns a Promise. The first message sent by the native application is treated as a response to the sendNativeMessage() call, and the promise will be fulfilled with this message as a parameter. Note that you can't use runtime.onMessage to get responses from the application: you must use the callback function instead.
+A new instance of the application is launched for call to runtime.sendNativeMessage(). The browser will terminate the native application after getting a reply. To terminate a native application, the browser will close the pipe, give the process a few seconds to exit gracefully, and then kill it if it has not exited.
+For more information, see Native messaging.
+In this article
+Syntax
+Examples
+Browser compatibility
+Syntax
+js
+let sending = browser.runtime.sendNativeMessage(
+application, // string
+message // object
+)
+Parameters
+application
+string. The name of the native application. This must match the "name" property in the native application's manifest file.
+message
+object. A JSON object that will be sent to the native application.
+Return value
+A Promise. If the sender sent a response, this will be fulfilled with the response as a JSON object. Otherwise it will be fulfilled with no arguments. If an error occurs while connecting to the native application, the promise will be rejected with an error message.
+Examples
+Here's a background script that sends a "ping" message to the "ping_pong" app and logs the response, whenever the user clicks the browser action:
+js
+function onResponse(response) {
+console.log(`Received ${response}`);
+}
+function onError(error) {
+console.log(`Error: ${error}`);
+}
+/*
+On a click on the browser action, send the app a message.
+*/
+browser.browserAction.onClicked.addListener(() => {
+console.log("Sending: ping");
+let sending = browser.runtime.sendNativeMessage("ping_pong", "ping");
+sending.then(onResponse, onError);
+});
+Browser compatibility
+Note:
+This API is based on Chromium's chrome.runtime API. This documentation is derived from runtime.json in the Chromium code.
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Jul 17, 2025 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+Methods
+connect()
+connectNative()
+getBackgroundPage()
+getBrowserInfo()
+getContexts()
+getDocumentId()
+getFrameId()
+getManifest()
+getPackageDirectoryEntry()
+getPlatformInfo()
+getURL()
+getVersion()
+openOptionsPage()
+reload()
+requestUpdateCheck()
+sendMessage()
+sendNativeMessage()
+setUninstallURL()
+Properties
+id
+lastError
+Types
+MessageSender
+OnInstalledReason
+OnPerformanceWarningCategory
+OnPerformanceWarningSeverity
+OnRestartRequiredReason
+PlatformArch
+PlatformInfo
+PlatformNaclArch
+PlatformOs
+Port
+RequestUpdateCheckStatus
+Events
+onBrowserUpdateAvailable
+onConnect
+onConnectExternal
+onInstalled
+onMessage
+onMessageExternal
+onPerformanceWarning
+onRestartRequired
+onStartup
+onSuspend
+onSuspendCanceled
+onUpdateAvailable
+onUserScriptConnect
+onUserScriptMessage
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

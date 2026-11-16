@@ -1,0 +1,59 @@
+Source-URL: https://webkit.org/blog/13140/webkit-features-in-safari-16/
+Fetched: 2026-11-16T08:26:27+00:00
+
+WebKit
+Downloads
+Feature Status
+CSS Features
+Standards Positions
+Documentation
+Web Inspector
+Tracking Prevention
+Policies
+Project Goals
+Bug Prioritization
+Bug Report Guidelines
+Code Style Guidelines
+Commit and Review Policy
+Feature Policy
+Security Policy
+Tracking Prevention Policy
+WebKit AI Tool Use Policy
+Contribute
+Getting Started
+Contributing Code
+Testing Contributions
+How to Report Bugs
+GitHub Repository
+Blog
+News Posts
+CSS Posts
+Contributing Posts
+Privacy Posts
+Performance Posts
+JavaScript Posts
+Standards Posts
+Web Inspector Posts
+Safari Technology Preview Posts
+WebKit on GitHub!
+Aug 31, 2022
+by Jonathan Bedard
+On June 23rd, the WebKit project froze its Subversion tree and transitioned management and interaction with our source code to git on GitHub.
+Why git?
+git’s distributed nature makes it easy for not just multiple developers, but multiple organizations to collaborate on a single project. git’s local record of changes makes moving commits between branches or reverting changes simple and quick. git’s author and committer model does a good job representing the complex ways a large software project like WebKit writes and manages code. git’s local record of commit messages, along with git log’s ability to limit commit history to certain parts of the repository, mean large projects no longer require antiquated ChangeLog files be checked in with each commit.
+In addition to git’s strengths, its ubiquity in software engineering meant that most new contributors to the WebKit project found themselves preferring to work from git-svn mirrors of the WebKit project already, so transitioning our project to exclusively git worked well with existing tools and workflows. It also means that the WebKit team will have many options for tools and services which integrate well with git.
+Why GitHub?
+The WebKit project is interested in contributions and feedback from developers around the world. GitHub has a very large community of developers, especially web developers, with whom the WebKit project works closely with to improve the engine that brings those developer’s creations into the hands of users around the world. We also found that GitHub’s API let us build out advanced pre-commit and post-commit automation with relatively minor modification to our existing infrastructure, and provides a modern and secure platform to review and provide feedback on new code changes.
+Maintaining Order
+One drawback of git is that git hashes are not naturally ordered. The WebKit team has found that the ability to easily reason about the order of commits in our repository is crucial for our zero-tolerance performance regression policy. We’ve decided to use what we’re calling “commit identifiers” in workflows that require bisection.
+On the main branch, commit identifiers are a count of the number of ancestors a commit has. On a branch off of main, commit identifiers are the number of ancestors on main combined with the number of ancestors on the branch. Commit identifiers can be computed with git rev-list --count <ref> on main and git rev-list --count main..<ref> on a branch.
+The WebKit team has developed a few simple tools to work with commit identifiers, most notably Tools/Scripts/git-webkit (which offers git commands compatible with identifiers) and commits.webkit.org (a simple web service for translating between different commit representations). All of our commits embed their commit identifier inside their commit message via a commits.webkit.org link. We’ve outlined in detail how commit identifiers work on the Source Control page on the GitHub wiki.
+You Can Contribute!
+We always welcome new contributors to the project. Get started by checking out WebKit from GitHub today! Consult our “Getting Started” documentation for information on building, testing and contributing improvements to the project. The WebKit Team is also available on Slack at #WebKit, and we’re always ready to help folks get involved with the project on the webkit-dev mailing list.
+NextRelease Notes for Safari Technology Preview 153Learn more
+PreviouslyRelease Notes for Safari Technology Preview 152Learn more
+@webkit@front-end.social
+Site Map
+Privacy Policy
+Licensing WebKit
+WebKit and the WebKit logo are trademarks of Apple Inc.

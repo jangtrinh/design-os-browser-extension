@@ -1,0 +1,533 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts
+Fetched: 2026-11-16T08:26:22+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+Share objects with page scripts
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+Share objects with page scripts
+Note:
+The techniques described in this section are only available in Firefox, and only from Firefox 49 onwards. structuredClone provides a cross-browser API that creates structured clones.
+Warning:
+As an extension developer you should consider that scripts running in arbitrary web pages are hostile code whose aim is to steal the user's personal information, damage their computer, or attack them in some other way.
+The isolation between content scripts and scripts loaded by web pages is intended to make it more difficult for hostile web pages to do this.
+Since the techniques described in this section break down that isolation, they are inherently dangerous and should be used with great care.
+As the content scripts guide notes, content scripts don't see changes made to the DOM by scripts loaded by web pages. This means that, for example, if a web page loads a library like jQuery, content scripts won't be able to use it, and have to load their own copy. Conversely, scripts loaded by web pages can't see changes made by content scripts.
+However, Firefox provides some APIs that enable content scripts to:
+access JavaScript objects created by page scripts.
+expose their JavaScript objects to page scripts.
+In this article
+Xray vision in Firefox
+Accessing page script objects from content scripts
+Sharing content script objects with page scripts
+Xray vision in Firefox
+In Firefox, part of the isolation between content scripts and page scripts is implemented using a feature called "Xray vision". When a script in a more-privileged scope accesses an object that's defined in a less-privileged scope it sees only the "native version" of the object. Any expando properties are invisible, and if any properties of the object have been redefined, it sees the original implementation, not the redefined version.
+The purpose of this feature is to make it harder for the less-privileged script to confuse the more-privileged script by redefining the native properties of objects.
+So, for example, when a content script accesses the page's window from a content script environment, it won't see any properties the page script added to the window, and if the page script has redefined any existing properties of the window, the content script will see the original version.
+Accessing page script objects from content scripts
+In Firefox, DOM objects in content scripts get an extra property wrappedJSObject. This is an "unwrapped" version of the object, which includes any changes made to that object by any page scripts.
+Let's take an example. Suppose a web page loads a script:
+html
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+<script src="main.js"></script>
+</body>
+</html>
+The script adds an expando property to the global window:
+js
+// main.js
+let foo = "I'm defined in a page script!";
+Xray vision means that if a content script tries to access foo, it will be undefined:
+js
+// content-script.js
+console.log(window.foo); // undefined
+In Firefox, content scripts can use window.wrappedJSObject to see the expando property:
+js
+// content-script.js
+console.log(window.wrappedJSObject.foo); // "I'm defined in a page script!"
+Note that once you do this, you can no longer rely on any of this object's properties or functions being, or doing, what you expect. Any of them, even setters and getters, could have been redefined by untrusted code.
+Also note that unwrapping is transitive: when you use wrappedJSObject, any properties of the unwrapped object are themselves unwrapped (and therefore unreliable). So it's good practice, once you've got the object you need, to rewrap it, which you can do like this:
+js
+XPCNativeWrapper(window.wrappedJSObject.foo);
+See the document on Xray vision for much more detail on this.
+Sharing content script objects with page scripts
+Firefox also provides APIs enabling content scripts to make objects available to page scripts. There are several approaches here:
+exportFunction(): export a function to page scripts.
+cloneInto(): export an object to page scripts.
+window.structuredClone(): an alternative to cloneInto in some cases, see structuredClone in content scripts.
+constructors from the page context.
+exportFunction
+Given a function defined in the content script, exportFunction() exports it to the page script's scope, so the page script can call it.
+For example, let's consider an extension which has a background script like this:
+js
+/*
+Execute content script in the active tab.
+*/
+function loadContentScript() {
+browser.tabs.executeScript({
+file: "/content_scripts/export.js",
+});
+}
+/*
+Add loadContentScript() as a listener to clicks
+on the browser action.
+*/
+browser.browserAction.onClicked.addListener(loadContentScript);
+/*
+Show a notification when we get messages from
+the content script.
+*/
+browser.runtime.onMessage.addListener((message) => {
+browser.notifications.create({
+type: "basic",
+title: "Message from the page",
+message: message.content,
+});
+});
+This does two things:
+execute a content script in the current tab, when the user clicks a browser action
+listen for messages from the content script, and display a notification when the message arrives.
+The content script looks like this:
+js
+/*
+Define a function in the content script's scope, then export it
+into the page script's scope.
+*/
+function notify(message) {
+browser.runtime.sendMessage({ content: `Function call: ${message}` });
+}
+exportFunction(notify, window, { defineAs: "notify" });
+This defines a function notify(), which just sends its argument to the background script. It then exports the function to the page script's scope. Now the page script can call this function:
+js
+window.notify("Message from the page script!");
+cloneInto
+Given an object defined in the content script, cloneInto() creates a clone of the object in the page script's scope, thereby making the clone accessible to page scripts. By default, this uses the structured clone algorithm to clone the object, meaning that functions in the object are not included in the clone. To include functions, pass the cloneFunctions option.
+For example, here's a content script that defines an object that contains a function, then clones it into the page script's scope:
+js
+/*
+Create an object that contains functions in
+the content script's scope, then clone it
+into the page script's scope.
+Because the object contains functions,
+the cloneInto call must include
+the `cloneFunctions` option.
+*/
+let messenger = {
+notify(message) {
+browser.runtime.sendMessage({
+content: `Object method call: ${message}`,
+});
+},
+};
+window.wrappedJSObject.messenger = cloneInto(messenger, window, {
+cloneFunctions: true,
+});
+Now page scripts see a new property on the window, messenger, which has a function notify():
+js
+window.messenger.notify("Message from the page script!");
+structuredClone
+Content scripts can also use structuredClone to create structured clones. Use window.structuredClone(value) to clone values in the page's scope. A direct call to structuredClone(value) or globalThis.structuredClone(value) clones into the content script's scope.
+The choice of method affects how the return value can be used. A value cloned into the content script can be used in the content script like any other regular value, but when shared with the web page, the web page is denied access to its properties. Conversely, a value cloned into the web page can be used by the web page like any other value, but content scripts may have Xray vision. One consequence of Xray vision is the inability to assign functions from the content script to objects in the page's scope.
+Firefox is the only browser that has these differences in behavior due to differences in the content script environment.
+Note:
+In Firefox 148 and earlier, window.structuredClone(value) creates values in the scope of the caller instead of the window's scope. Use cloneInto() if you want to support Firefox 148 and earlier.
+For example, here is a content script that attempts to share a value through the page's global scope:
+js
+let value = { test: "hello" };
+// Wrong usage: page access to sharedBad's properties will be denied
+window.wrappedJSObject.sharedBad = structuredClone(value);
+// Good usage, works in Firefox 149+:
+window.wrappedJSObject.sharedGood = window.structuredClone(value);
+// Alternative with same effect:
+window.wrappedJSObject.sharedGood2 = cloneInto(value, window);
+Constructors from the page context
+On the xrayed window object pristine constructors for some built-in JavaScript objects such as Object, Function or Proxy and various DOM classes are available. XMLHttpRequest does not behave in this way, see the XHR and fetch section for details. They will create instances belonging to the page global's object hierarchy and then return an xray wrapper.
+Since objects created this way already belong to the page and not the content script passing them back to the page will not require additional cloning or exporting.
+js
+/* JavaScript built-ins */
+const objA = new Object();
+const objB = new window.Object();
+console.log(
+objA instanceof Object, // true
+objB instanceof Object, // false
+objA instanceof window.Object, // false
+objB instanceof window.Object, // true
+"wrappedJSObject" in objB, // true; xrayed
+);
+objA.foo = "foo";
+objB.foo = "foo"; // xray wrappers for plain JavaScript objects pass through property assignments
+objB.wrappedJSObject.bar = "bar"; // unwrapping before assignment does not rely on this special behavior
+window.wrappedJSObject.objA = objA;
+window.wrappedJSObject.objB = objB; // automatically unwraps when passed to page context
+window.eval(`
+console.log(objA instanceof Object); // false
+console.log(objB instanceof Object); // true
+try {
+console.log(objA.foo);
+} catch (error) {
+console.log(error); // Error: permission denied
+}
+try {
+objA.baz = "baz";
+} catch (error) {
+console.log(error); // Error: permission denied
+}
+console.log(objB.foo, objB.bar); // "foo", "bar"
+objB.baz = "baz";
+`);
+/* other APIs */
+const ev = new Event("click");
+console.log(
+ev instanceof Event, // true
+ev instanceof window.Event, // true; Event constructor is actually inherited from the xrayed window
+"wrappedJSObject" in ev, // true; is an xrayed object
+);
+ev.propA = "propA"; // xray wrappers for native objects do not pass through assignments
+ev.propB = "wrapper"; // define property on xray wrapper
+ev.wrappedJSObject.propB = "unwrapped"; // define same property on page object
+Reflect.defineProperty(
+// privileged reflection can operate on less privileged objects
+ev.wrappedJSObject,
+"propC",
+{
+// getters must be exported like regular functions
+get: exportFunction(() => "propC", window),
+},
+);
+window.eval(`
+document.addEventListener("click", (e) => {
+console.log(e instanceof Event, e.propA, e.propB, e.propC);
+});
+`);
+document.dispatchEvent(ev); // true, undefined, "unwrapped", "propC"
+Promise cloning
+A Promise cannot be cloned directly using cloneInto, as Promise is not supported by the structured clone algorithm. However, the desired result can be achieved using window.Promise instead of Promise, and then cloning the resolution value like this:
+js
+const promise = new window.Promise((resolve) => {
+// if just a primitive, then cloneInto is not needed:
+// resolve("string is a primitive");
+// if not a primitive, such as an object, then the value must be cloned
+const result = { exampleKey: "exampleValue" };
+resolve(cloneInto(result, window));
+});
+// now the promise can be passed to the web page
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Mar 25, 2026 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

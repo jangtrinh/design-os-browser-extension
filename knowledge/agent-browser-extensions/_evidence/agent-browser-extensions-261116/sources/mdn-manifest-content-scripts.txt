@@ -1,0 +1,559 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/content_scripts
+Fetched: 2026-11-16T08:26:24+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+manifest.json
+content_scripts
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+日本語
+中文 (简体)
+content_scripts
+Type
+Array
+Mandatory
+No
+Manifest version
+2 or higher
+Example
+json
+"content_scripts": [
+{
+"matches": ["*://*.mozilla.org/*"],
+"js": ["borderify.js"]
+}
+]
+Instructs the browser to load content scripts into web pages whose URL matches a pattern.
+This key is an array. Each item is an object which:
+must contain a property named matches, which specifies the URL patterns to be matched for the scripts to be loaded;
+may contain properties named js and css, which list scripts and stylesheets to be loaded into matching pages; and
+may contain a number of other properties that control aspects of how and when content scripts are loaded.
+This table details all the properties you can include.
+Name
+Type
+Description
+all_frames
+Boolean
+true
+Inject the scripts specified in
+js and
+css into all frames matching the
+specified URL requirements, even if the frame is not the topmost
+frame in a tab. This does not inject into child frames where only
+their parent matches the URL requirements and the child frame does
+not match the URL requirements. The URL requirements are checked
+for each frame independently.
+Note: This also applies to any tracker or ad
+that uses iframes, which means that enabling this could make
+your content script get called dozens of times on some pages.
+false
+Inject only into frames matching the URL requirements which are the
+topmost frame in a tab.
+Defaults to false.
+css
+Array
+An array of paths, relative to manifest.json, referencing
+CSS files to inject into matching pages. For information on the order
+in which files are injected, see a Load order.
+Note: Firefox resolves URLs in injected CSS files
+relative to the CSS file itself, rather than to the page it's
+injected into.
+css_origin
+Optional
+String
+The style origin for the CSS injection:
+"user", to add as a user stylesheet.
+"author", to add as an author stylesheet.
+Defaults to "author".
+This property is case insensitive in Firefox and Safari.
+exclude_globs
+Array
+An array of strings containing wildcards. See
+Matching URL patterns below.
+exclude_matches
+Array
+An array of
+match patterns. See Matching URL patterns below.
+include_globs
+Array
+An array of strings containing wildcards. See
+Matching URL patterns below.
+js
+Array
+An array of paths, relative to manifest.json, referencing
+JavaScript files to inject into matching pages. For information on the
+order in which files are injected, see a Load order.
+match_about_blank
+Boolean
+Insert the content scripts into pages whose URL is
+"about:blank" or "about:srcdoc", if the URL
+of the page that opened or created this page
+matches the patterns specified in
+the rest of the content_scripts key.
+This is especially useful to run scripts in empty iframes, whose URL
+is "about:blank". To do this you should also set the
+all_frames key.
+For example, suppose you have a content_scripts key like
+this:
+json
+"content_scripts": [
+{
+"js": ["my-script.js"],
+"matches": ["https://example.org/"],
+"match_about_blank": true,
+"all_frames": true
+}
+]
+If the user loads https://example.org/, and this page
+embeds an empty iframe, then "my-script.js" will be
+loaded into the iframe.
+Note: match_about_blank is supported
+in Firefox from version 52.
+Note that in Firefox, content scripts won't be injected into empty
+iframes at "document_start", even if you specify that
+value in run_at.
+match_origin_as_fallback
+Boolean
+When true, code is injected into about:, data:, and blob: pages when their origin matches the pattern in matches, even if the document origin is opaque (due to the use of CSP or iframe sandbox). Match patterns in matches must specify a wildcard path glob. Defaults to false.
+matches
+Array
+An array of
+match patterns. See
+Matching URL patterns below.
+This is the only mandatory key.
+run_at
+String
+This option determines when the files specified in
+css and
+js are injected. You can supply one of
+three strings here, each of which identifies a state in the process of
+loading a document. The states directly correspond to
+Document.readyState:
+"document_start"
+Corresponds to loading. The DOM is still loading.
+"document_end"
+Corresponds to interactive. The DOM has finished
+loading, but resources such as scripts and images may still be
+loading.
+"document_idle"
+Corresponds to complete. The document and all its
+resources have finished loading.
+The default value is "document_idle".
+In all cases, files in js are injected
+after files in css.
+world
+String
+The JavaScript world the script executes in.
+"ISOLATED"
+The default content scripts execution environment.
+This environment is isolated from the page's context: while they share the same document, the global scopes and available APIs differ.
+"MAIN"
+The web page's execution environment.
+This environment is shared with the web page without isolation.
+Scripts in this environment don't have any access to the APIs that are only available to content scripts.
+Warning: Due to the lack of isolation, the web page can detect and interfere with the executed code.
+Do not use the MAIN world unless it is acceptable for web pages to read, access, or modify the logic or data that flows through the executed code.
+The default value is "ISOLATED".
+In this article
+Load order
+Matching URL patterns
+Example
+Specifications
+Browser compatibility
+Load order
+Registered objects in content_scripts are injected into matching web pages at the time specified by run_at (first document_start, then document_end, and finally document_idle):
+In the order specified in the content_scripts array, for each object with a matching run_at value, then:
+CSS is applied in the order specified in its css array. By default CSS from the "author" origin is given priority unless css_origin is set to "user".
+JavaScript code is executed in the order specified in its js array.
+For example, in this key specification:
+json
+"content_scripts": [
+{
+"matches": ["*://*.mozilla.org/*"],
+"js": ["jquery.js", "my-content-script.js"],
+"run_at": "document_idle"
+},
+{
+"matches": ["*://*.mozilla.org/*"],
+"css": ["my-css.css"],
+"js": ["another-content-script.js", "yet-another-content-script.js"],
+"run_at": "document_idle"
+},
+{
+"matches": ["*://*.mozilla.org/*"],
+"js": ["run-first.js"],
+"run_at": "document_start"
+}
+]
+The files are loaded like this when a mozilla.org domain opens:
+"run-first.js" - because it's requested to run at "document_start".
+"jquery.js" - because it's in the first array requesting run at "document_idle".
+"my-content-script.js" - because it's the second item in the first array requesting run at "document_idle".
+"my-css.css" - because an object's CSS is loaded before its JavaScript.
+"another-content-script.js" - because it's the first item in the js property.
+"yet-another-content-script.js"
+Matching URL patterns
+The "content_scripts" key attaches content scripts to documents based on URL matching: if the document's URL matches the specification in the key, then the script will be attached. There are four properties inside "content_scripts" that you can use for this specification:
+matches
+an array of match patterns
+exclude_matches
+an array of match patterns
+include_globs
+an array of globs
+exclude_globs
+an array of globs
+To match one of these properties, a URL must match at least one of the items in its array. For example, given a property like:
+json
+"matches": ["*://*.example.org/*", "*://*.example.com/*"]
+Both http://example.org/ and http://example.com/ will match.
+Since matches is the only mandatory key, the other three keys are used to limit further the URLs that match. To match the key as a whole, a URL must:
+match the matches property
+AND match the include_globs property, if present
+AND NOT match the exclude_matches property, if present
+AND NOT match the exclude_globs property, if present
+globs
+A glob is just a string that may contain wildcards.
+There are two types of wildcard, and you can combine them in the same glob:
+* matches zero or more characters
+? matches exactly one character.
+For example: "*na?i" would match "illuminati" and "annunaki", but not "sagnarelli".
+Example
+json
+"content_scripts": [
+{
+"matches": ["*://*.mozilla.org/*"],
+"js": ["borderify.js"]
+}
+]
+This injects a single content script borderify.js into all pages under mozilla.org or any of its subdomains, whether served over HTTP or HTTPS.
+json
+"content_scripts": [
+{
+"exclude_matches": ["*://developer.mozilla.org/*"],
+"matches": ["*://*.mozilla.org/*"],
+"js": ["jquery.js", "borderify.js"]
+}
+]
+This injects two content scripts into all pages under mozilla.org or any of its subdomains except developer.mozilla.org, whether served over HTTP or HTTPS.
+The content scripts see the same view of the DOM and are injected in the order they appear in the array, so borderify.js can see global variables added by jquery.js.
+Specifications
+Specification
+Web Extensions
+# key-content_scripts
+Browser compatibility
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Sep 22, 2026 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

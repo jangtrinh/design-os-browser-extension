@@ -1,0 +1,231 @@
+Source-URL: https://developer.chrome.com/docs/extensions/how-to/web-platform/websockets
+Fetched: 2026-11-16T08:24:53+00:00
+
+Skip to main content
+Docs
+Build with Chrome
+Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+Create the best experience for your users with the web's best tools.
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Get things done quicker and neater, with our ready-made libraries.
+Workbox
+Puppeteer
+Experience
+Design a beautiful and performant web with Chrome.
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+More from Chrome and Google.
+All documentation
+Baseline open_in_new
+web.dev open_in_new
+PageSpeed Insights audit open_in_new
+Case studies
+Blog
+New in Chrome
+/
+Sign in
+Docs
+Chrome Extensions
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+API
+Permissions
+Manifest
+Samples
+Chrome Web Store
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Docs
+More
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+More
+Samples
+Chrome Web Store
+More
+Case studies
+Blog
+New in Chrome
+Introduction
+Design the user interface
+Localization message formats
+Use favicons
+Support accessibility
+Use the Notifications API
+Extend DevTools
+Integrate
+Use Google Analytics 4
+Use OAuth 2.0 to authenticate users with Google
+Use Firebase Cloud Messaging (FCM) with chrome.gcm
+Receive messages from your server using the Push API
+Use the web platform
+Use WebSockets in service workers
+File handling on Chrome OS
+Audio recording and screen capture
+Use geolocation
+Use WebHID
+Use WebUSB
+Support other platforms
+Adapt your extension for Googlebook OS
+Test and debug
+End-to-end testing for Chrome Extensions
+Test Chrome Extensions with Puppeteer
+Test service worker termination with Puppeteer
+Unit testing Chrome Extensions
+Distribute your extension
+Introduction
+Use alternative installation methods
+Self-host for Linux
+Stay secure
+Use eval() in sandboxed iframes
+Support and feedback
+Support and feedback
+File an extension bug
+Find and follow a bug
+Get help with Chrome Extensions
+Submit a feature request
+Build with Chrome
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Workbox
+Puppeteer
+Experience
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+All documentation
+Baseline <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+web.dev <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+PageSpeed Insights audit <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+API
+Permissions
+Manifest
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Home
+Docs
+Chrome Extensions
+How To
+Use WebSockets in service workers
+Stay organized with collections
+Save and categorize content based on your preferences.
+This tutorial demonstrates how to connect to a WebSocket in your Chrome extension's service worker. You can find a working example on GitHub.
+Background
+Starting with Chrome 116, extension service workers get improved support for WebSockets. Previously, a service worker could become inactive despite a WebSocket connection being active if no other extension events occurred for 30 seconds. This would terminate the service worker and close the WebSocket connection. For more background on the extension service worker lifecycle, read the extension service worker guide.
+From Chrome 116 on, you can keep a service worker with a WebSocket connection active by exchanging messages within the 30s service worker activity window. These can either be initiated from your server or from your extension. In the following example, we will send a regular message from the Chrome extension to the server to ensure that the service worker stays alive.
+Example: WebSocket keepalive
+First we need to make sure that our extension only runs in Chrome versions supporting WebSockets in service workers by setting the minimum Chrome version to 116 in the manifest:
+manifest.json:
+{
+...
+"minimum_chrome_version": "116",
+...
+}
+Then we can keep the service worker active by sending a keepalive message every 20s. The keepalive is started once the service worker connects to the WebSocket. The following sample WebSocket client logs messages and calls keepAlive() when the onopen event is triggered:
+service-worker.js
+let webSocket = null;
+function connect() {
+webSocket = new WebSocket('wss://example.com/ws');
+webSocket.onopen = (event) => {
+console.log('websocket open');
+keepAlive();
+};
+webSocket.onmessage = (event) => {
+console.log(`websocket received message: ${event.data}`);
+};
+webSocket.onclose = (event) => {
+console.log('websocket connection closed');
+webSocket = null;
+};
+}
+function disconnect() {
+if (webSocket == null) {
+return;
+}
+webSocket.close();
+}
+Inside keepAlive() we use setInterval(...) to regularly send a ping to the server while there is an active WebSocket connection:
+function keepAlive() {
+const keepAliveIntervalId = setInterval(
+() => {
+if (webSocket) {
+webSocket.send('keepalive');
+} else {
+clearInterval(keepAliveIntervalId);
+}
+},
+// Set the interval to 20 seconds to prevent the service worker from becoming inactive.
+20 * 1000
+);
+}
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a registered trademark of Oracle and/or its affiliates.
+Last updated 2023-07-04 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2023-07-04 UTC."],[],[]]
+Contribute
+File a bug
+See open issues
+Related content
+Chromium updates
+Case studies
+Archive
+Podcasts & shows
+Follow
+@ChromiumDev on X
+YouTube
+Chrome for Developers on LinkedIn
+RSS
+Terms
+Privacy
+Manage cookies

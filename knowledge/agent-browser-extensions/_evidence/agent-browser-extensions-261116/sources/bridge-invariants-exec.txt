@@ -1,0 +1,8 @@
+Command: /opt/homebrew/bin/python3 /Users/jang/Products/design-os-browser-extension/scripts/verify_bridge_primitives.py
+Exit: 0
+Ran: 2026-11-16T08:28:03+00:00
+
+Native messaging stdio 32-bit framing verified round-trip with 39 UTF-8 bytes exceeding 37 characters for multibyte JSON payloads.
+First-party MV3 companion manifest declares debugger and scripting permissions with 2 MAIN-world content script entries alongside isolated scripts.
+First-party browser-control custodian persists tab ownership and epoch fencing in chrome.storage.session and rejects stale pageId or expired commands before dispatching debugger input.
+First-party MAIN-world fiber bridge captures native window.postMessage and Object.prototype.hasOwnProperty bindings at load time and never forwards raw request arguments across the world boundary.

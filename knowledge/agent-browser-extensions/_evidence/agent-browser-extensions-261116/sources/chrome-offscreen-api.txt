@@ -1,0 +1,464 @@
+Source-URL: https://developer.chrome.com/docs/extensions/reference/api/offscreen
+Fetched: 2026-11-16T08:24:58+00:00
+
+Skip to main content
+Docs
+Build with Chrome
+Learn how Chrome works, participate in origin trials, and build with Chrome everywhere.
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+Create the best experience for your users with the web's best tools.
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Get things done quicker and neater, with our ready-made libraries.
+Workbox
+Puppeteer
+Experience
+Design a beautiful and performant web with Chrome.
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+More from Chrome and Google.
+All documentation
+Baseline open_in_new
+web.dev open_in_new
+PageSpeed Insights audit open_in_new
+Case studies
+Blog
+New in Chrome
+/
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어
+Sign in
+Docs
+Chrome Extensions
+Reference
+API
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+API
+Permissions
+Manifest
+Samples
+Chrome Web Store
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Docs
+More
+Overview
+Get Started
+Develop
+How To
+AI
+Reference
+More
+Samples
+Chrome Web Store
+More
+Case studies
+Blog
+New in Chrome
+Manifest V3
+➡ Manifest V2
+accessibilityFeatures
+action
+alarms
+audio
+bookmarks
+browsingData
+certificateProvider
+commands
+contentSettings
+contextMenus
+cookies
+debugger
+declarativeContent
+declarativeNetRequest
+desktopCapture
+devtools.inspectedWindow
+devtools.network
+devtools.panels
+devtools.performance
+devtools.recorder
+dns
+documentScan
+dom
+downloads
+enterprise.deviceAttributes
+enterprise.hardwarePlatform
+enterprise.login
+enterprise.networkingAttributes
+enterprise.platformKeys
+events
+extension
+extensionTypes
+fileBrowserHandler
+fileSystemProvider
+fontSettings
+gcm
+history
+i18n
+identity
+idle
+input.ime
+instanceID
+loginState
+management
+mimeHandler
+notifications
+offscreen
+omnibox
+pageCapture
+permissions
+platformKeys
+power
+printerProvider
+printing
+printingMetrics
+privacy
+processes
+proxy
+publicSuffix
+readingList
+runtime
+scripting
+search
+sessions
+sidePanel
+storage
+Overview
+StorageArea
+system.cpu
+system.display
+system.memory
+system.storage
+systemLog
+tabCapture
+tabGroups
+tabs
+topSites
+tts
+ttsEngine
+types
+userScripts
+vpnProvider
+webAuthenticationProxy
+webNavigation
+webRequest
+windows
+Build with Chrome
+Web Platform
+Isolated Web Apps (IWA)
+Capabilities
+Automation and testing
+ChromeDriver
+Extensions
+Chrome Web Store
+Chromium
+Web on Android
+Origin trials
+Release notes
+Productivity
+DevTools
+Lighthouse
+Chrome UX Report
+Accessibility
+Modern Web Guidance
+Workbox
+Puppeteer
+Experience
+AI
+Performance
+CSS and UI
+Identity
+Payments
+Privacy and security
+Ads
+Resources
+All documentation
+Baseline <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+web.dev <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+PageSpeed Insights audit <span class="material-icons" style="font-size: 12px;" aria-hidden="true" translate="no">open_in_new</span>
+API
+Permissions
+Manifest
+Prepare your Extension
+Publish in the Chrome Web Store
+Program Policies
+Chrome now supports the standardized browser.* namespace (available from Chrome 148). We are gradually updating the documentation. Read more in our transition guide.
+Home
+Docs
+Chrome Extensions
+Reference
+API
+browser.offscreen
+Stay organized with collections
+Save and categorize content based on your preferences.
+Description
+Use the offscreen API to create and manage offscreen documents.
+Permissions
+offscreen
+To use the Offscreen API, declare the "offscreen" permission in the extension manifest. For example:
+{
+"name": "My extension",
+...
+"permissions": [
+"offscreen"
+],
+...
+}
+Availability
+Chrome 109+
+browser.* since Chrome 148
+MV3+
+Concepts and usage
+Service workers don't have DOM access, and many websites have content security policies that
+limit the functionality of content scripts. The Offscreen API allows the extension to use DOM
+APIs in a hidden document without interrupting the user experience by opening new windows or
+tabs. The runtime API is the only extensions API
+supported by offscreen documents.
+Pages loaded as offscreen documents are handled differently from other types of extension pages.
+The extension's permissions carry over to offscreen documents, but with limits on extension API
+access. For example, because the browser.runtime API is the only
+extensions API supported by offscreen documents, messaging must be handled
+using members of that API.
+The following are other ways offscreen documents behave differently from normal pages:
+An offscreen document's URL must be a static HTML file bundled with the extension.
+Offscreen documents can't be focused.
+An offscreen document is an instance of window, but the value of its opener property is always null.
+Though an extension package can contain multiple offscreen documents, an installed extension can only
+have one open at a time. If the extension is running
+in split mode with an active incognito profile, the normal and incognito profiles can each
+have one offscreen document.
+Use browser.offscreen.createDocument() and
+browser.offscreen.closeDocument() to create and close an offscreen
+document. createDocument() requires the document's url, a reason, and a justification:
+browser.offscreen.createDocument({
+url: 'off_screen.html',
+reasons: ['CLIPBOARD'],
+justification: 'reason for needing the document',
+});
+Reasons
+For a list of valid reasons, see the Reasons section. Reasons are set during
+document creation to determine the document's lifespan. The AUDIO_PLAYBACK reason sets the
+document to close after 30 seconds without audio playing. All other reasons don't set lifetime limits.
+Note: Starting in Chrome 157, extension service
+workers with the "clipboardWrite" permission can write to the
+clipboard directly using navigator.clipboard. Use an offscreen
+document with the CLIPBOARD reason to read from the clipboard in
+the background, or to write to it in Chrome 156 and earlier.
+Examples
+Maintain the lifecycle of an offscreen document
+The following example shows how to ensure that an offscreen document exists. The
+setupOffscreenDocument() function calls runtime.getContexts() to find
+an existing offscreen document, or creates the document if it doesn't already exist.
+let creating; // A global promise to avoid concurrency issues
+async function setupOffscreenDocument(path) {
+// Check all windows controlled by the service worker to see if one
+// of them is the offscreen document with the given path
+const offscreenUrl = browser.runtime.getURL(path);
+const existingContexts = await browser.runtime.getContexts({
+contextTypes: ['OFFSCREEN_DOCUMENT'],
+documentUrls: [offscreenUrl]
+});
+if (existingContexts.length > 0) {
+return;
+}
+// create offscreen document
+if (creating) {
+await creating;
+} else {
+creating = browser.offscreen.createDocument({
+url: path,
+reasons: ['CLIPBOARD'],
+justification: 'reason for needing the document',
+});
+await creating;
+creating = null;
+}
+}
+Before sending a message to an offscreen document, call setupOffscreenDocument() to make sure
+the document exists, as demonstrated in the following example.
+browser.action.onClicked.addListener(async () => {
+await setupOffscreenDocument('off_screen.html');
+// Send message to offscreen document
+browser.runtime.sendMessage({
+type: '...',
+target: 'offscreen',
+data: '...'
+});
+});
+For complete examples, see the offscreen-clipboard and
+offscreen-dom demos on GitHub.
+Before Chrome 116: check if an offscreen document is open
+runtime.getContexts() was added in Chrome 116. In earlier versions of
+Chrome, use clients.matchAll()
+to check for an existing offscreen document:
+async function hasOffscreenDocument() {
+if ('getContexts' in browser.runtime) {
+const contexts = await browser.runtime.getContexts({
+contextTypes: ['OFFSCREEN_DOCUMENT'],
+documentUrls: [OFFSCREEN_DOCUMENT_PATH]
+});
+return Boolean(contexts.length);
+} else {
+const matchedClients = await clients.matchAll();
+return matchedClients.some(client => {
+return client.url.includes(browser.runtime.id);
+});
+}
+}
+Types
+CreateParameters
+Properties
+justification
+string
+A developer-provided string that explains, in more detail, the need for the background context. The user agent _may_ use this in display to the user.
+reasons
+Reason[]
+The reason(s) the extension is creating the offscreen document.
+url
+string
+The (relative) URL to load in the document.
+Reason
+Enum
+"TESTING"
+A reason used for testing purposes only.
+"AUDIO_PLAYBACK"
+Specifies that the offscreen document is responsible for playing audio.
+"IFRAME_SCRIPTING"
+Specifies that the offscreen document needs to embed and script an iframe in order to modify the iframe's content.
+"DOM_SCRAPING"
+Specifies that the offscreen document needs to embed an iframe and scrape its DOM to extract information.
+"BLOBS"
+Specifies that the offscreen document needs to interact with Blob objects (including URL.createObjectURL()).
+"DOM_PARSER"
+Specifies that the offscreen document needs to use the DOMParser API.
+"USER_MEDIA"
+Specifies that the offscreen document needs to interact with media streams from user media (e.g. getUserMedia()).
+"DISPLAY_MEDIA"
+Specifies that the offscreen document needs to interact with media streams from display media (e.g. getDisplayMedia()).
+"WEB_RTC"
+Specifies that the offscreen document needs to use WebRTC APIs.
+"CLIPBOARD"
+Specifies that the offscreen document needs to interact with the Clipboard API.
+"LOCAL_STORAGE"
+Specifies that the offscreen document needs access to localStorage.
+"WORKERS"
+Specifies that the offscreen document needs to spawn workers.
+"BATTERY_STATUS"
+Specifies that the offscreen document needs to use navigator.getBattery.
+"MATCH_MEDIA"
+Specifies that the offscreen document needs to use window.matchMedia.
+"GEOLOCATION"
+Specifies that the offscreen document needs to use navigator.geolocation.
+Methods
+closeDocument()
+browser.offscreen.closeDocument(): Promise<void>
+Closes the currently-open offscreen document for the extension.
+Returns
+Promise<void>
+Promise that resolves when the offscreen document has been closed.
+createDocument()
+browser.offscreen.createDocument(
+parameters: CreateParameters,
+): Promise<void>
+Creates a new offscreen document for the extension.
+Parameters
+parameters
+CreateParameters
+The parameters describing the offscreen document to create.
+Returns
+Promise<void>
+Promise that resolves when the offscreen document is created and has completed its initial page load.
+hasDocument()
+Chrome 150+
+browser.offscreen.hasDocument(): Promise<boolean>
+Determines whether the extension has an active document.
+Returns
+Promise<boolean>
+Promise that resolves with the result of whether the extension has an active offscreen document.
+Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License, and code samples are licensed under the Apache 2.0 License. For details, see the Google Developers Site Policies. Java is a registered trademark of Oracle and/or its affiliates.
+Last updated 2026-11-10 UTC.
+[[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Missing the information I need","missingTheInformationINeed","thumb-down"],["Too complicated / too many steps","tooComplicatedTooManySteps","thumb-down"],["Out of date","outOfDate","thumb-down"],["Samples / code issue","samplesCodeIssue","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-11-10 UTC."],[],[]]
+Contribute
+File a bug
+See open issues
+Related content
+Chromium updates
+Case studies
+Archive
+Podcasts & shows
+Follow
+@ChromiumDev on X
+YouTube
+Chrome for Developers on LinkedIn
+RSS
+Terms
+Privacy
+Manage cookies
+English
+Deutsch
+Español – América Latina
+Français
+Indonesia
+Italiano
+Nederlands
+Polski
+Português – Brasil
+Tiếng Việt
+Türkçe
+Русский
+עברית
+العربيّة
+فارسی
+हिंदी
+বাংলা
+ภาษาไทย
+中文 – 简体
+中文 – 繁體
+日本語
+한국어

@@ -1,0 +1,580 @@
+Source-URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Background_scripts
+Fetched: 2026-11-16T08:25:00+00:00
+
+Skip to main content
+Skip to search
+HTML
+HTML: Markup language
+HTML reference
+Elements
+Global attributes
+Attributes
+See all…
+HTML guides
+Responsive images
+HTML cheatsheet
+Date & time formats
+See all…
+Markup languages
+SVG
+MathML
+XML
+CSS
+CSS: Styling language
+CSS reference
+Properties
+Selectors
+At-rules
+Values
+See all…
+CSS guides
+Box model
+Animations
+Flexbox
+Colors
+See all…
+Layout cookbook
+Column layouts
+Centering an element
+Card component
+See all…
+JavaScriptJS
+JavaScript: Scripting language
+JS reference
+Standard built-in objects
+Expressions & operators
+Statements & declarations
+Functions
+See all…
+JS guides
+Control flow & error handling
+Loops and iteration
+Working with objects
+Using classes
+See all…
+Web APIs
+Web APIs: Programming interfaces
+Web API reference
+File system API
+Fetch API
+Geolocation API
+HTML DOM API
+Push API
+Service worker API
+See all…
+Web API guides
+Using the Web animation API
+Using the Fetch API
+Working with the History API
+Using the Web speech API
+Using web workers
+All
+All web technology
+Technologies
+Accessibility
+HTTP
+URI
+Web extensions
+WebAssembly
+WebDriver
+See all…
+Topics
+Media
+Performance
+Privacy
+Security
+Progressive web apps
+Learn
+Learn web development
+Frontend developer course
+Getting started modules
+Core modules
+MDN Curriculum
+Check out the video course from Scrimba, our partner
+Learn HTML
+Structuring content with HTML module
+Learn CSS
+CSS styling basics module
+CSS layout module
+Learn JavaScript
+Dynamic scripting with JavaScript module
+Tools
+Discover our tools
+Playground
+HTTP Observatory
+Border-image generator
+Border-radius generator
+Box-shadow generator
+Color format converter
+Color mixer
+Shape generator
+About
+Get to know MDN better
+About MDN
+Advertise with us
+Community
+MDN on GitHub
+Blog
+Toggle sidebar
+Mozilla
+Add-ons
+Browser extensions
+Background scripts
+Theme
+OS default
+Light
+Dark
+English (US)
+Remember language
+Learn more
+Deutsch
+English (US)
+Français
+Background scripts
+Background scripts or a background page enable you to monitor and react to events in the browser, such as navigating to a new page, removing a bookmark, or closing a tab.
+Background scripts or a page are:
+Persistent – loaded when the extension starts and unloaded when the extension is disabled or uninstalled.
+Non-persistent (which are also known as event pages) – loaded only when needed to respond to an event and unloaded when they become idle. However, a background page does not unload until all visible views and message ports are closed. Opening a view does not cause the background page to load but does prevent it from closing.
+Note:
+In Firefox, if the extension process crashes:
+persistent background scripts running at the time of the crash are reloaded automatically.
+non-persistent background scripts (also known as "Event Pages") running at the time of the crash are not reloaded. However, they are restarted automatically when Firefox calls one of their WebExtensions API events listeners.
+extension pages loaded in tabs at the time of the crash are not automatically restored. A warning message in each tab informs the user the page has crashed and enables the user to close or restore the tab.
+You can test this condition by opening a new tab and navigating to about:crashextensions, which silently triggers a crash of the extension process.
+In Manifest V2, background scripts or a page can be persistent or non-persistent. Non-persistent background scripts are recommended as they reduce the resource cost of your extension. In Manifest V3, only non-persistent background scripts or a page are supported.
+If you have persistent background scripts or a page in Manifest V2 and want to prepare your extension for migration to Manifest V3, Convert to non-persistent provides advice on transitioning the scripts or page to the non-persistent model.
+In this article
+Background script environment
+Implementing background scripts
+Convert to non-persistent
+Background script environment
+DOM APIs
+Background scripts run in the context of a special page called a background page. This gives them a window global, along with all the standard DOM APIs provided by that object.
+Warning:
+In Firefox, background pages do not support the use of alert(), confirm(), or prompt().
+WebExtension APIs
+Background scripts can use any WebExtension APIs, as long as their extension has the necessary permissions.
+Cross-origin access
+Background scripts can make XHR requests to hosts they have host permissions for.
+Web content
+Background scripts do not get direct access to web pages. However, they can load content scripts into web pages and communicate with these content scripts using a message-passing API.
+Content security policy
+Background scripts are restricted from certain potentially dangerous operations, such as the use of eval(), through a Content Security Policy.
+See Content Security Policy for more details.
+Implementing background scripts
+This section describes how to implement a non-persistent background script.
+Specify the background scripts
+In your extension, you include a background script or scripts, if you need them, using the "background" key in manifest.json. For Manifest V2 extensions, the persistent property must be false to create a non-persistent script. It can be omitted for Manifest V3 extensions or must be set to false, as script are always non-persistent in Manifest V3. Including "type": "module" loads the background scripts as ES modules.
+json
+"background": {
+"scripts": ["background-script.js"],
+"persistent": false,
+"type": "module"
+}
+These scripts execute in the extension's background page, so they run in the same context, like scripts loaded into a web page.
+However, if you need certain content in the background page, you can specify one. You then specify your script from the page rather than using the "scripts" property. Before the introduction of the "type" property to the "background" key, this was the only option to include ES modules. You specify a background page like this:
+manifest.json
+json
+"background": {
+"page": "background-page.html",
+"persistent": false
+}
+background-page.html
+html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script type="module" src="background-script.js"></script>
+</head>
+</html>
+You cannot specify background scripts and a background page.
+To support background scripts on browsers that use service workers (such as Chrome) and those that use event pages, specify both scripts and service_worker in the background key. The script-on-click example demonstrates this cross-browser pattern.
+Initialize the extension
+Listen to runtime.onInstalled to initialize an extension on installation. Use this event to set a state or for one-time initialization.
+For extensions with event pages, this is where stateful APIs, such as a context menu created using menus.create, should be used. This is because stateful APIs don't need to be run each time the event page reloads; they only need to run when the extension is installed.
+js
+browser.runtime.onInstalled.addListener(() => {
+browser.contextMenus.create({
+id: "sampleContextMenu",
+title: "Sample Context Menu",
+contexts: ["selection"],
+});
+});
+Add listeners
+Structure background scripts around events the extension depends on. Defining relevant events enables background scripts to lie dormant until those events are fired and prevents the extension from missing essential triggers.
+Listeners must be registered synchronously from the start of the page.
+js
+browser.runtime.onInstalled.addListener(() => {
+browser.contextMenus.create({
+id: "sampleContextMenu",
+title: "Sample Context Menu",
+contexts: ["selection"],
+});
+});
+// This will run when a bookmark is created.
+browser.bookmarks.onCreated.addListener(() => {
+// do something
+});
+Do not register listeners asynchronously, as they will not be properly triggered. So, rather than:
+js
+window.onload = () => {
+// WARNING! This event is not persisted, and will not restart the event page.
+browser.bookmarks.onCreated.addListener(() => {
+// do something
+});
+};
+Do this:
+js
+browser.tabs.onUpdated.addListener(() => {
+// This event is run in the top level scope of the event page, and will persist, allowing
+// it to restart the event page if necessary.
+});
+Extensions can remove listeners from their background scripts by calling removeListener, such as with runtime.onMessage removeListener. If all listeners for an event are removed, the browser no longer loads the extension's background script for that event.
+js
+browser.runtime.onMessage.addListener(
+function messageListener(message, sender, sendResponse) {
+browser.runtime.onMessage.removeListener(messageListener);
+},
+);
+Filter events
+When your extension only needs to act on a subset of events, such as when a web page is opened from a specific domain, use event filters where they are available.
+For example, you can add a filter to the webNavigation.onCompleted event to start your background script when certain URLs load, like this:
+js
+browser.webNavigation.onCompleted.addListener(
+() => {
+console.log("This is my favorite website!");
+},
+{ url: [{ urlMatches: "https://www.mozilla.org/" }] },
+);
+When targeting Firefox desktop only, you can also add filters to tabs.onUpdated to achieve a similar outcome.
+React to listeners
+Listeners exist to trigger functionality once an event has fired. To react to an event, structure the desired reaction inside the listener event.
+When responding to events in the context of a specific tab or frame, use the tabId and frameId from the event details instead of relying on the "current tab". Specifying the target ensures your extension does not invoke an extension API on the wrong target when the "current tab" changes while waking the event page.
+For example, runtime.onMessage can respond to runtime.sendMessage calls as follows:
+js
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+if (message.data === "setAlarm") {
+browser.alarms.create({ delayInMinutes: 5 });
+} else if (message.data === "runLogic") {
+browser.scripting.executeScript({
+target: {
+tabId: sender.tab.id,
+frameIds: [sender.frameId],
+},
+files: ["logic.js"],
+});
+} else if (message.data === "changeColor") {
+browser.scripting.executeScript({
+target: {
+tabId: sender.tab.id,
+frameIds: [sender.frameId],
+},
+func: () => {
+document.body.style.backgroundColor = "orange";
+},
+});
+}
+});
+Unload background scripts
+Data should be persisted periodically to not lose important information if an extension crashes without receiving runtime.onSuspend. Use the storage API to assist with this.
+js
+// Or storage.session if the variable does not need to persist pass browser shutdown.
+browser.storage.local.set({ variable: variableInformation });
+Message ports cannot prevent an event page from shutting down. If an extension uses message passing, the ports are closed when the event page idles. Listening to the runtime.Port onDisconnect lets you discover when open ports are closing, however the listener is under the same time constraints as runtime.onSuspend.
+js
+browser.runtime.onConnect.addListener((port) => {
+port.onMessage.addListener((message) => {
+if (message === "hello") {
+let response = { greeting: "welcome!" };
+port.postMessage(response);
+} else if (message === "goodbye") {
+console.log("Disconnecting port from this end");
+port.disconnect();
+}
+});
+port.onDisconnect.addListener(() => {
+console.log("Port was disconnected from the other end");
+});
+});
+Background scripts unload after a few seconds of inactivity. However, if during the suspension of a background script another event wakes the background script, runtime.onSuspendCanceled is called and the background script continues running. If any cleanup is required, listen to runtime.onSuspend.
+js
+browser.runtime.onSuspend.addListener(() => {
+console.log("Unloading.");
+browser.browserAction.setBadgeText({ text: "" });
+});
+However, persisting data should be preferred rather than relying on runtime.onSuspend. It doesn't allow for as much cleanup as may be needed and does not help in case of a crash.
+Convert to non-persistent
+If you've a persistent background script, this section provides instructions on converting it to the non-persistent model.
+Update your manifest.json file
+In your extension's manifest.json file, change the persistent property of "background" key to false for your script or page.
+json
+"background": {
+…,
+"persistent": false
+}
+Move event listeners
+Listeners must be at the top-level to activate the background script if an event is triggered. Registered listeners may need to be restructured to the synchronous pattern and moved to the top-level.
+js
+browser.runtime.onStartup.addListener(() => {
+// run startup function
+});
+Record state changes
+Scripts now open and close as needed. So, do not rely on global variables.
+js
+var count = 101;
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+if (message === "count") {
+++count;
+sendResponse(count);
+}
+});
+Instead, use the storage API to set and return states and values:
+Use storage.session for in-memory storage that is cleared when the extension or browser shuts down. By default, storage.session is only available to extension contexts and not to content scripts.
+Use storage.local for a larger storage area that persists across browser and extension restarts.
+js
+browser.runtime.onMessage.addListener(async (message, sender) => {
+if (message === "count") {
+let items = await browser.storage.session.get({ myStoredCount: 101 });
+let count = items.myStoredCount;
+++count;
+await browser.storage.session.set({ myStoredCount: count });
+return count;
+}
+});
+The preceding example sends an asynchronous response using a promise, which is not supported in Chrome until Chrome bug 1185241 is resolved.
+A cross-browser alternative is to return true and use sendResponse.
+js
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+if (message === "count") {
+browser.storage.session.get({ myStoredCount: 101 }).then(async (items) => {
+let count = items.myStoredCount;
+++count;
+await browser.storage.session.set({ myStoredCount: count });
+sendResponse(count);
+});
+return true;
+}
+});
+Change timers into alarms
+DOM-based timers, such as setTimeout(), do not remain active after an event page has idled. Instead, use the alarms API if you need a timer to wake an event page.
+js
+browser.alarms.create({ delayInMinutes: 3.0 });
+Then add a listener.
+js
+browser.alarms.onAlarm.addListener(() => {
+alert("Hello, world!");
+});
+Update calls for background script functions
+Extensions commonly host their primary functionality in the background script. Some extensions access functions and variables defined in the background page through the window returned by runtime.getBackgroundPage.
+The method returns null when:
+extension pages are isolated, such as extension pages in Private Browsing mode or container tabs.
+the background page is not running. This is uncommon with persistent background pages but very likely when using an Event Page, as an Event Page can be suspended.
+Note:
+The recommended way to invoke functionality in the background script is to communicate with it through runtime.sendMessage() or runtime.connect().
+The getBackgroundPage() methods discussed in this section cannot be used in a cross-browser extension, because Manifest Version 3 extensions in Chrome cannot use background or event pages.
+If your extension requires a reference to the window of the background page, use runtime.getBackgroundPage to ensure the event page is running.
+If the call is optional (that is, only needed if the event page is alive) then use runtime.getBackgroundPage.
+js
+document.getElementById("target").addEventListener("click", async () => {
+let backgroundPage = browser.runtime.getBackgroundPage();
+// Warning: backgroundPage is likely null.
+backgroundPage.backgroundFunction();
+});
+js
+document.getElementById("target").addEventListener("click", async () => {
+// runtime.getBackgroundPage() wakes up the event page if it was not running.
+let backgroundPage = await browser.runtime.getBackgroundPage();
+backgroundPage.backgroundFunction();
+});
+Help improve MDN
+Was this page helpful to you?
+Yes
+No
+Learn how to contribute
+This page was last modified on Nov 10, 2026 by MDN contributors.
+View this page on GitHub • Report a problem with this content
+Filter sidebar
+Clear filter input
+Browser extensions
+Getting started
+What are extensions?
+Your first extension
+Your second extension
+Anatomy of an extension
+Example extensions
+What next?
+Concepts
+JavaScript APIs
+Content scripts
+Background scripts
+activeTab permission
+Match patterns
+Work with files
+Internationalization
+Content Security Policy
+Native messaging
+Native manifests
+User actions
+Differences between API implementations
+Chrome incompatibilities
+User interface
+Toolbar button
+Address bar button
+Sidebars
+Context menu items
+Options page
+Extension pages
+Notifications
+Address bar suggestions
+devtools panels
+Browser styles
+Popups
+How to
+Intercept HTTP requests
+Modify a web page
+Insert external content
+Share objects with page scripts
+Add a button to the toolbar
+Implement a settings page
+Work with documentId
+Work with the Tabs API
+Work with the Bookmarks API
+Work with the Cookies API
+Work with contextual identities
+Interact with the clipboard
+Use Web Authn API in web extensions
+Extend the developer tools
+Build a cross-browser extension
+JavaScript APIs
+Browser support for JavaScript APIs
+action
+alarms
+bookmarks
+browserAction
+browserSettings
+browsingData
+captivePortal
+clipboard
+commands
+contentScripts
+contextualIdentities
+cookies
+declarativeNetRequest
+devtools
+dns
+dom
+downloads
+events
+extension
+extensionTypes
+find
+history
+i18n
+identity
+idle
+management
+menus
+notifications
+omnibox
+pageAction
+permissions
+pkcs11
+privacy
+proxy
+publicSuffix
+runtime
+scripting
+search
+sessions
+sidebarAction
+storage
+tabGroups
+tabs
+theme
+topSites
+types
+userScripts
+userScripts (Legacy)
+webNavigation
+webRequest
+windows
+Manifest keys
+action
+author
+background
+browser_action
+browser_specific_settings
+chrome_settings_overrides
+chrome_url_overrides
+commands
+content_scripts
+content_security_policy
+dark_theme
+declarative_net_request
+default_locale
+description
+developer
+devtools_page
+dictionaries
+externally_connectable
+homepage_url
+host_permissions
+icons
+incognito
+manifest_version
+name
+omnibox
+optional_host_permissions
+optional_permissions
+options_page
+options_ui
+page_action
+permissions
+protocol_handlers
+sandbox
+short_name
+sidebar_action
+storage
+theme
+theme_experiment
+user_scripts
+version
+version_name
+web_accessible_resources
+Extension Workshop
+Develop
+Publish
+Manage
+Enterprise
+Contact us
+Channels
+Add-ons blog
+Add-ons forum
+Add-ons chat
+Your blueprint for a better internet.
+MDN
+About
+Blog
+Mozilla careers
+Advertise with us
+MDN Plus
+Product help
+Contribute
+MDN Community
+Community resources
+Writing guidelines
+MDN Discord
+MDN on GitHub
+Developers
+Web technologies
+Learn web development
+Guides
+Tutorials
+Glossary
+Hacks blog
+Website Privacy Notice
+Telemetry Settings
+Legal
+Community Participation Guidelines
+Portions of this content are ©1998–2026 by individual mozilla.org contributors. Content available under a Creative Commons license.

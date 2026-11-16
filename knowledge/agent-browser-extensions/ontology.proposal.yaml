@@ -1,0 +1,44 @@
+# ontology.proposal.yaml: proposed additions to the starter ontology written by `pack init`.
+# Owner approval: 2026-11-16T15:17:19+07:00 via Antigravity ask_question (answers A1-A4).
+# A1: Capability-Tiered Engine Architecture (1 Agent RPC + Tier-1 Chromium + Tier-2 Firefox/Safari).
+# A2: Solve legitimate browser/platform technical barriers + enforce non-bypass HITL handoff at CAPTCHA/2FA/Paywall.
+# A3: Product repo design-os-browser-extension; pack at knowledge/agent-browser-extensions.
+# A4: Approved schema and full Pack v1 build execution.
+#
+# Pack question:
+# "How should an AI agent architect a WebExtension bridge across Chromium, Firefox, and Safari to achieve low-latency, deep DOM/state observation and verified action dispatch within sanctioned browser boundaries?"
+
+object_types:
+  browser-engine:
+    folder: entities
+    properties:
+      - {name: family, type: enum, values: [chromium, gecko, webkit]}
+  bridge-primitive:
+    folder: entities
+    properties:
+      - {name: layer, type: enum, values: [transport, execution-world, input-dispatch, lifecycle, safety-fencing]}
+      - {name: portability, type: enum, values: [universal, chromium-only, polyfillable, host-assisted]}
+  interaction-barrier:
+    folder: entities
+    properties:
+      - {name: category, type: enum, values: [platform-isolation, lifecycle-limit, cross-engine-gap, human-only-gate]}
+
+link_types:
+  - {link_type: compares, from: sourced-document, to: [sourced-document, browser-engine, bridge-primitive], cardinality: many-to-many}
+  - {link_type: about, from: [sourced-document, claim], to: [entity, browser-engine, bridge-primitive, interaction-barrier], cardinality: many-to-many}
+  - {link_type: overcomes, from: bridge-primitive, to: interaction-barrier, cardinality: many-to-many}
+
+documents:
+  - {id: cross-browser-capability-matrix, object_type: comparison, question: "How do Chromium, Firefox, and Safari WebExtension capabilities diverge, and how does one Agent RPC contract map across them?"}
+  - {id: transport-and-mv3-lifecycle, object_type: guide, question: "How do agent bridges establish sub-50ms IPC and survive MV3 service worker termination and Chrome 136+ CDP limits?"}
+  - {id: execution-worlds-and-state-reading, object_type: guide, question: "How should an extension read deep page/framework state across ISOLATED and MAIN worlds without violating CSP or trusting tampered globals?"}
+  - {id: trusted-input-shadow-and-oopif, object_type: guide, question: "How does an extension dispatch trusted input and inspect closed Shadow DOM and cross-origin OOPiFs across browser engines?"}
+  - {id: fast-snapshot-and-fenced-dispatch, object_type: guide, question: "How should an agent extension compress DOM observations and fence mutations against stale pages and ambiguous timeouts?"}
+  - {id: security-and-human-handoff, object_type: decision-record, question: "Where are the hard security and anti-bot boundaries, and how must the extension quarantine untrusted DOM text and hand off CAPTCHA/2FA/paywalls to humans?"}
+
+rationale:
+  - browser-engine: Agents query engine-specific tiers (chromium, gecko, webkit) directly via K query instead of parsing prose tables.
+  - bridge-primitive: Core architectural mechanisms (CDP debugger, MAIN world bridge, native stdio, session fencing) are shared across all guides and queried by layer and portability.
+  - interaction-barrier: Separates technical platform barriers (CSP, MV3 sleep, untrusted events, closed Shadow DOM) from non-bypassable human gates (CAPTCHA, 2FA, payment).
+  - overcomes link: Enables single-hop lookup of which bridge-primitive resolves a given interaction-barrier.
+  - cost: Every browser-engine requires family; every bridge-primitive requires layer and portability; every interaction-barrier requires category.
