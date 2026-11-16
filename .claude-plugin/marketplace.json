@@ -1,0 +1,15 @@
+{
+  "name": "design-os-browser-extension",
+  "metadata": {
+    "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Hybrid Reader, SQLite local cache, CLI (`browser-agent`), and 12-tool MCP stdio server."
+  },
+  "owner": {
+    "name": "Jang Trinh"
+  },
+  "plugins": [
+    {
+      "name": "design-os-browser-extension",
+      "source": "./"
+    }
+  ]
+}

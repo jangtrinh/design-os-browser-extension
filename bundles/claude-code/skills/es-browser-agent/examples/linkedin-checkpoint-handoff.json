@@ -1,0 +1,16 @@
+{
+  "name": "linkedin-checkpoint-handoff",
+  "concept": "zero-drift-read",
+  "targetUrl": "https://www.linkedin.com/checkpoint/challenge/verify-session",
+  "cacheSql": "SELECT public_identifier, full_name, source FROM profiles LIMIT 5",
+  "statusCodes": [451],
+  "actions": [
+    {
+      "id": "step_status_gate",
+      "action": "linkedin.status",
+      "params": {},
+      "expectOutcome": "BLOCKED",
+      "expectHumanGate": "BLOCKED_CHALLENGE"
+    }
+  ]
+}

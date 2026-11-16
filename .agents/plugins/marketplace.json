@@ -1,0 +1,20 @@
+{
+  "name": "design-os-browser-extension",
+  "interface": {
+    "displayName": "DESIGN:OS Browser Agent"
+  },
+  "plugins": [
+    {
+      "name": "design-os-browser-extension",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

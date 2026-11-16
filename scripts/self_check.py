@@ -1,4 +1,4 @@
-"""Offline deterministic repository, TypeScript toolchain, build/test, and knowledge-pack self-check."""
+"""Offline deterministic repository, TypeScript toolchain, skill-forge gate, and knowledge-pack self-check."""
 
 import os
 import re
@@ -27,13 +27,30 @@ REQUIRED_FILES = [
     "vitest.config.ts",
     ".mcp.json",
     ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
     ".codex-plugin/plugin.json",
-    "skills/design-os-browser-agent/SKILL.md",
+    ".agents/plugins/marketplace.json",
+    ".grok-plugin/plugin.json",
+    "skills/es-browser-agent/SKILL.md",
+    "skills/es-browser-agent/concepts.md",
+    "skills/es-browser-agent/rules.md",
+    "skills/es-browser-agent/look.md",
+    "skills/es-browser-agent/contract.md",
+    "skills/es-browser-agent/ATTRIBUTION.md",
+    "skills/es-browser-agent/build.mjs",
+    "skills/es-browser-agent/validate.mjs",
+    "skills/es-browser-agent/look.mjs",
+    "workflows/linkedin-agent-workflow.md",
+    "workflows/new-site-extension-workflow.md",
+    "commands/doctor.md",
+    "commands/linkedin.md",
     "knowledge/agent-browser-extensions/ontology.yaml",
     "knowledge/agent-browser-extensions/index.json",
     "scripts/verify_bridge_primitives.py",
     "scripts/build.mjs",
     "scripts/e2e_visual_proof.mjs",
+    "scripts/skill_contract.mjs",
+    "scripts/sync_host_bundles.mjs",
 ]
 PORTABLE_CHECK_FILES = [
     "README.md",
@@ -50,12 +67,26 @@ PORTABLE_CHECK_FILES = [
     "package.json",
     ".mcp.json",
     ".claude-plugin/plugin.json",
+    ".claude-plugin/marketplace.json",
     ".codex-plugin/plugin.json",
-    "skills/design-os-browser-agent/SKILL.md",
+    ".agents/plugins/marketplace.json",
+    ".grok-plugin/plugin.json",
+    "skills/es-browser-agent/SKILL.md",
+    "skills/es-browser-agent/concepts.md",
+    "skills/es-browser-agent/rules.md",
+    "skills/es-browser-agent/look.md",
+    "skills/es-browser-agent/contract.md",
+    "skills/es-browser-agent/ATTRIBUTION.md",
+    "workflows/linkedin-agent-workflow.md",
+    "workflows/new-site-extension-workflow.md",
+    "commands/doctor.md",
+    "commands/linkedin.md",
     "knowledge/agent-browser-extensions/ontology.proposal.yaml",
     "scripts/verify_bridge_primitives.py",
     "scripts/build.mjs",
     "scripts/e2e_visual_proof.mjs",
+    "scripts/skill_contract.mjs",
+    "scripts/sync_host_bundles.mjs",
     "scripts/self_check.py",
 ]
 
@@ -107,6 +138,8 @@ def main():
     if ver < (7, 0, 2):
         fail(f"TypeScript >= 7.0.2 required, found {ver}")
 
+    run_step(["node", "scripts/skill_contract.mjs", "--check"], "skill_contract.mjs --check")
+    run_step(["node", "scripts/sync_host_bundles.mjs", "--check"], "sync_host_bundles.mjs --check")
     run_step(["npm", "run", "typecheck"], "npm run typecheck")
     run_step(["npm", "run", "build"], "npm run build")
     run_step(["npm", "test"], "npm test")

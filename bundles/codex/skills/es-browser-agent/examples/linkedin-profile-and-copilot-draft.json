@@ -1,0 +1,42 @@
+{
+  "name": "linkedin-profile-and-copilot-draft",
+  "concept": "copilot-draft",
+  "targetUrl": "https://www.linkedin.com/in/linh-nguyen-staff-ai",
+  "cacheSql": "SELECT public_identifier, full_name, source FROM profiles ORDER BY captured_at DESC LIMIT 10",
+  "actions": [
+    {
+      "id": "step_profile",
+      "action": "linkedin.profile.get",
+      "params": {
+        "publicId": "linh-nguyen-staff-ai"
+      },
+      "expectOutcome": "COMMITTED",
+      "expectHumanGate": "CLEAR"
+    },
+    {
+      "id": "step_observe",
+      "action": "browser.observe",
+      "params": {
+        "maxNodes": 40
+      },
+      "expectOutcome": "COMMITTED",
+      "expectHumanGate": "CLEAR"
+    },
+    {
+      "id": "step_act_focus",
+      "action": "browser.act",
+      "params": {
+        "op": "click_ref",
+        "ref": 1
+      },
+      "expectOutcome": "COMMITTED",
+      "expectHumanGate": "CLEAR"
+    }
+  ],
+  "draft": {
+    "kind": "message",
+    "target": "linh-nguyen-staff-ai",
+    "body": "Hi Linh — reviewed your WebExtensions architecture notes; happy to share our fenced RPC benchmarks.",
+    "prefill": true
+  }
+}

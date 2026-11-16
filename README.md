@@ -78,6 +78,21 @@ node cli/dist/browser-agent.js linkedin cache --sql "SELECT public_identifier, f
 node cli/dist/browser-agent.js mcp
 ```
 
+---
+
+## Use with your AI Agent — Skills & Workflows
+
+Install the canonical skill and workflows into Claude Code, Codex CLI, Antigravity, and Gemini CLI directly from this checkout:
+
+```bash
+node scripts/skill_contract.mjs
+node scripts/sync_host_bundles.mjs --install-local
+```
+
+- **Skill entrypoints:** [`skills/es-browser-agent/SKILL.md`](skills/es-browser-agent/SKILL.md), [`rules.md`](skills/es-browser-agent/rules.md), [`look.md`](skills/es-browser-agent/look.md), and [`contract.md`](skills/es-browser-agent/contract.md).
+- **Agent interaction workflows:** [`workflows/linkedin-agent-workflow.md`](workflows/linkedin-agent-workflow.md) (LinkedIn Search/Read/Cache/Copilot/Handoff SOP) and [`workflows/new-site-extension-workflow.md`](workflows/new-site-extension-workflow.md) (building new adapters from `knowledge/agent-browser-extensions/`).
+- **Portable host bundles:** `bundles/claude-code`, `bundles/codex`, `bundles/gemini`, `bundles/grok-build` (verified via `node scripts/sync_host_bundles.mjs --check`).
+
 Query the underlying `UKMC.v2` knowledge pack via [`design-os-knowledge-builder`](https://github.com/jangtrinh/design-os-knowledge-builder):
 
 ```bash

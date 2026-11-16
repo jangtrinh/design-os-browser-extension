@@ -14,7 +14,9 @@
 ## Entrypoints
 
 - [README](README.md): Repository overview, workspace layout, CLI/MCP quickstart, and test commands.
-- [Agent Skill](skills/design-os-browser-agent/SKILL.md): Usage guide for driving Chrome/Firefox LinkedIn workflows via `browser-agent` CLI and MCP.
+- [Agent Skill](skills/es-browser-agent/SKILL.md): Canonical `es:skill-forge v2` tool-product skill for driving Chrome/Firefox LinkedIn workflows via `browser-agent` CLI and MCP (`node scripts/sync_host_bundles.mjs --install-local`).
+- [LinkedIn Agent Workflow](workflows/linkedin-agent-workflow.md): Operational SOP covering preflight, SQLite cache-first lookup, zero-drift reads, fenced dispatch, Copilot drafts, and Human Gate Handoff.
+- [New Site Extension Workflow](workflows/new-site-extension-workflow.md): Step-by-step guide for building new site adapters from `knowledge/agent-browser-extensions/`.
 - [MCP Config](.mcp.json): Stdio MCP registration (`design-os-browser-agent`).
 - [AGENTS](AGENTS.md): Progressive lookup commands (`knowledge_builder.cli query`) and architecture rules.
 - [CONTEXT](CONTEXT.md): Canonical glossary (`Capability-Tiered Adapter`, `Agent RPC`, `Fenced Dispatch`, `Page Epoch`, `Human Gate Handoff`, `Zero-Drift Hybrid Reader`, `Copilot Approval Queue`).

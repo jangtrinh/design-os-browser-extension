@@ -16,7 +16,9 @@
     "build": "node scripts/build.mjs all",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p extension/tsconfig.json --noEmit",
     "test": "vitest run --config vitest.config.ts",
-    "test:e2e": "node scripts/e2e_visual_proof.mjs"
+    "test:e2e": "node scripts/e2e_visual_proof.mjs",
+    "skill:contract": "node scripts/skill_contract.mjs",
+    "skill:sync": "node scripts/sync_host_bundles.mjs"
   },
   "dependencies": {
     "ws": "^8.18.0"
