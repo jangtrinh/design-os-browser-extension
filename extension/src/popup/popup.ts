@@ -1,7 +1,9 @@
 import type { CopilotQueueItem, LinkedInStatusReport } from '../../../shared/linkedin-schema.js';
 import type { EngineCapabilities } from '../../../shared/capability-tier.js';
 import type { HumanGateState } from '../../../shared/rpc-envelope.js';
+import type { ActApproval } from '../core/act-approvals.js';
 import { getRuntimeApi } from '../core/webext-polyfill.js';
+import { renderActApprovals } from './act-approvals-view.js';
 
 interface PopupStateResponse {
   ok: boolean;
@@ -20,6 +22,7 @@ interface PopupStateResponse {
   humanGate?: HumanGateState;
   statusError?: { code?: string; message?: string } | null;
   queue?: CopilotQueueItem[];
+  actApprovals?: ActApproval[];
 }
 
 function el<T extends HTMLElement>(id: string): T {
@@ -91,6 +94,10 @@ function renderState(res: PopupStateResponse): void {
   if (res.config?.brokerUrl && document.activeElement !== brokerInput) {
     brokerInput.value = res.config.brokerUrl;
   }
+
+  renderActApprovals(res.actApprovals ?? [], (approvalId, decision) => {
+    void sendPopupCommand({ cmd: 'decide_act', approvalId, decision }).then(() => refreshState());
+  });
 
   const queue = res.queue ?? [];
   const actionable = queue.filter((q) => q.status === 'pending' || q.status === 'prefilled');

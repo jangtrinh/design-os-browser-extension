@@ -107,6 +107,7 @@ api?.runtime?.onMessage?.addListener((rawMsg, _sender, sendResponse) => {
           humanGate: statusRes.humanGate ?? 'CLEAR',
           statusError: statusRes.error ?? null,
           queue: (queueRes.data as { items?: unknown[] } | undefined)?.items ?? [],
+          actApprovals: engine.actApprovals.list(),
         });
         return;
       }
@@ -138,6 +139,20 @@ api?.runtime?.onMessage?.addListener((rawMsg, _sender, sendResponse) => {
         };
         // Only the trusted popup message handler supplies 'extension-popup'.
         const out = await engine.handleRpc(rpc, 'extension-popup');
+        sendResponse(out);
+        return;
+      }
+
+      if (cmd === 'decide_act') {
+        // Human decision on a write browser.act; only this popup path supplies 'extension-popup'.
+        const out = await engine.handleRpc(
+          {
+            id: `popup_act_${Date.now()}`,
+            action: 'browser.act.decide',
+            params: { approvalId: String(msg.approvalId ?? ''), decision: msg.decision === 'approved' ? 'approved' : 'rejected' },
+          },
+          'extension-popup',
+        );
         sendResponse(out);
         return;
       }

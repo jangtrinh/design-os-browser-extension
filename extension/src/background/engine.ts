@@ -14,6 +14,8 @@ import type {
   RpcResponse,
 } from '../../../shared/rpc-envelope.js';
 import { CopilotQueueManager } from '../adapters/linkedin/copilot-composer.js';
+import { ActApprovalStore, digestValue } from '../core/act-approvals.js';
+import { ACT_OPS, evaluateActPolicy, isAllowedUrl, type ActOp, type ActTarget } from '../core/act-policy.js';
 import { detectHumanGate } from '../core/human-gate-detector.js';
 import { PageEpochStore } from '../core/page-epoch-store.js';
 import {
@@ -33,6 +35,7 @@ export interface EngineDeps {
 
 const READS_HOUR_LIMIT = 120;
 const PREFILLS_HOUR_LIMIT = 30;
+const ACT_WRITES_HOUR_LIMIT = 30;
 const ONE_HOUR_MS = 3_600_000;
 
 interface IsolatedReply {
@@ -51,10 +54,12 @@ export class ExtensionEngine {
   readonly capabilities: EngineCapabilities;
   readonly epochStore: PageEpochStore;
   readonly copilotQueue: CopilotQueueManager;
+  readonly actApprovals = new ActApprovalStore();
   private readonly onHumanGateBlocked?: (state: HumanGateState, reason: string, url: string) => void;
 
   private readTimestamps: number[] = [];
   private prefillTimestamps: number[] = [];
+  private actWriteTimestamps: number[] = [];
   private passiveCapturedCount = 0;
   private lastActionAt: string | undefined;
   private lastHumanGate: { state: HumanGateState; reason?: string; url?: string } = { state: 'CLEAR' };
@@ -84,11 +89,14 @@ export class ExtensionEngine {
     const cutoff = Date.now() - ONE_HOUR_MS;
     this.readTimestamps = this.readTimestamps.filter((t) => t >= cutoff);
     this.prefillTimestamps = this.prefillTimestamps.filter((t) => t >= cutoff);
+    this.actWriteTimestamps = this.actWriteTimestamps.filter((t) => t >= cutoff);
     return {
       readsLastHour: this.readTimestamps.length,
       readsHourLimit: READS_HOUR_LIMIT,
       prefillsLastHour: this.prefillTimestamps.length,
       prefillsHourLimit: PREFILLS_HOUR_LIMIT,
+      actWritesLastHour: this.actWriteTimestamps.length,
+      actWritesHourLimit: ACT_WRITES_HOUR_LIMIT,
       passiveCapturedCount: this.passiveCapturedCount,
       ...(this.lastActionAt ? { lastActionAt: this.lastActionAt } : {}),
     };
@@ -110,6 +118,14 @@ export class ExtensionEngine {
     return true;
   }
 
+  private bumpActWrite(): boolean {
+    const snap = this.getPacingSnapshot();
+    if ((snap.actWritesLastHour ?? 0) >= ACT_WRITES_HOUR_LIMIT) return false;
+    this.actWriteTimestamps.push(Date.now());
+    this.lastActionAt = new Date().toISOString();
+    return true;
+  }
+
   private blockedResponse(
     id: string,
     state: HumanGateState,
@@ -124,6 +140,72 @@ export class ExtensionEngine {
       humanGate: state,
       ...(fence ? { fence } : {}),
       error: { code, message, humanGate: state, retryable: false },
+    };
+  }
+
+  /**
+   * Allowlist + read/write classification for browser.act. Returns a response when the act
+   * must not run now (rejected, needs human approval, or pacing), otherwise null.
+   */
+  private async checkActPolicy(req: RpcRequest, tabId: number, pageUrl: string, fence: PageFence): Promise<RpcResponse | null> {
+    const op = String(req.params?.op ?? '');
+    const ref = typeof req.params?.ref === 'number' ? req.params.ref : -1;
+    const value = typeof req.params?.value === 'string' ? req.params.value : undefined;
+    if (!(ACT_OPS as readonly string[]).includes(op)) {
+      return this.blockedResponse(req.id, 'BLOCKED_POLICY', 'ACT_OP_NOT_ALLOWED', `Op "${op}" is not in the act allowlist.`, fence);
+    }
+    if (!isAllowedUrl(pageUrl)) {
+      return this.blockedResponse(req.id, 'BLOCKED_POLICY', 'ACT_DOMAIN_NOT_ALLOWED', 'browser.act is not allowed on this host.', fence);
+    }
+    const described = await sendTabMessage<IsolatedReply>(tabId, {
+      __designOsIsolatedRpc: true,
+      op: 'describe_ref',
+      fence,
+      params: { ref },
+    });
+    if (!described?.ok || !described.data) {
+      return {
+        id: req.id,
+        ok: false,
+        outcome: described?.outcome ?? 'REJECTED_STALE',
+        fence,
+        error: described?.error ?? { code: 'BROWSER_REF_MISSING', message: 'Target ref could not be described.', retryable: false },
+      };
+    }
+    const target = described.data as ActTarget;
+    const decision = evaluateActPolicy({ op, target, pageUrl });
+    if (decision.allowed) {
+      return this.bumpRead()
+        ? null
+        : this.blockedResponse(req.id, 'BLOCKED_CHALLENGE', 'PACING_LIMIT_EXCEEDED', 'Hourly read cap reached.', fence);
+    }
+    if (!decision.needsHuman) {
+      return this.blockedResponse(req.id, 'BLOCKED_POLICY', decision.code, decision.message, fence);
+    }
+
+    const call = { op: op as ActOp, ref, tabId, epoch: fence.epoch, value };
+    const approvalId = typeof req.params?.approvalId === 'string' ? req.params.approvalId : '';
+    if (approvalId && this.actApprovals.consume(approvalId, call)) {
+      return this.bumpActWrite()
+        ? null
+        : this.blockedResponse(req.id, 'BLOCKED_POLICY', 'PACING_LIMIT_EXCEEDED', 'Hourly approved-write cap reached.', fence);
+    }
+    const pending =
+      this.actApprovals.list().find((a) => a.approvalId === approvalId && a.status === 'pending') ??
+      this.actApprovals.request({
+        op: call.op,
+        ref,
+        tabId,
+        epoch: fence.epoch,
+        pageUrl,
+        target,
+        ...(value !== undefined ? { valueLength: value.length, valueDigest: digestValue(value) } : {}),
+        reason: decision.message,
+      });
+    this.onHumanGateBlocked?.('BLOCKED_POLICY', decision.message, pageUrl);
+    return {
+      ...this.blockedResponse(req.id, 'BLOCKED_POLICY', decision.code, decision.message, fence),
+      data: { approvalId: pending.approvalId, target: { role: target.role, name: target.name.slice(0, 80) } },
     };
   }
 
@@ -177,6 +259,22 @@ export class ExtensionEngine {
       };
     }
 
+    if (action === 'browser.act.approvals') {
+      return { id: req.id, ok: true, outcome: 'COMMITTED', humanGate: this.lastHumanGate.state, data: { items: this.actApprovals.list() } };
+    }
+
+    if (action === 'browser.act.decide') {
+      // Only the trusted popup handler passes 'extension-popup'; agent-rpc decisions are refused.
+      const res = this.actApprovals.decide(
+        String(req.params?.approvalId ?? ''),
+        req.params?.decision === 'approved' ? 'approved' : 'rejected',
+        trustedOrigin,
+      );
+      return res.ok
+        ? { id: req.id, ok: true, outcome: 'COMMITTED', humanGate: 'CLEAR', data: { decision: res.message } }
+        : this.blockedResponse(req.id, 'BLOCKED_POLICY', 'ACT_DECISION_REFUSED', res.message);
+    }
+
     const tab = await resolveTargetTab(req.fence?.tabId);
     if (!tab || typeof tab.id !== 'number') {
       return {
@@ -194,6 +292,14 @@ export class ExtensionEngine {
     const targetUrl = typeof req.params?.url === 'string' && req.params.url.startsWith('http')
       ? req.params.url
       : undefined;
+    if (targetUrl && !isAllowedUrl(targetUrl)) {
+      return this.blockedResponse(
+        req.id,
+        'BLOCKED_POLICY',
+        'NAVIGATION_DOMAIN_NOT_ALLOWED',
+        'The url parameter must point to an allowlisted host (LinkedIn or local fixtures).',
+      );
+    }
     if (targetUrl && targetUrl !== tab.url) {
       await navigateAndWait(tab.id, targetUrl, this.epochStore);
       tab.url = targetUrl;
@@ -332,7 +438,9 @@ export class ExtensionEngine {
     }
 
     if (action === 'browser.act') {
-      const opType = req.params?.op === 'fill_ref' ? 'fill_ref' : 'click_ref';
+      const gateRes = await this.checkActPolicy(req, tab.id, activeUrl, req.fence ?? fence);
+      if (gateRes) return gateRes;
+      const opType = req.params?.op as ActOp;
       const dispatched = await this.epochStore.withFencedTimeout(
         req.fence ?? fence,
         req.timeoutMs ?? 8000,
