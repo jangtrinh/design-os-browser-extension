@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "DESIGN:OS Browser Agent",
+  "version": "0.2.0",
+  "description": "Capability-Tiered Agent RPC bridge with LinkedIn Zero-Drift Hybrid Reader and Human-in-the-Loop Copilot Queue.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://127.0.0.1/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "DESIGN:OS Browser Agent"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/*",
+        "http://127.0.0.1/*"
+      ],
+      "js": [
+        "passive-observer.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://www.linkedin.com/*",
+        "http://127.0.0.1/*"
+      ],
+      "js": [
+        "isolated-bridge.js"
+      ],
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ]
+}

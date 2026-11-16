@@ -21,5 +21,13 @@ Monotonic session/navigation freshness fence stored in `browser.storage.session`
 _Avoid_: in-memory global state, persistent ref cache
 
 **Human Gate Handoff**:
-Mandatory non-bypass pause transition (`BLOCKED_CHALLENGE`, `BLOCKED_AUTH`, `BLOCKED_PAYMENT`, `BLOCKED_POLICY`) handing live visible browser control back to the human user at CAPTCHAs, anti-bot gates, 2FA, or paywalls.
+Mandatory non-bypass pause transition (`BLOCKED_CHALLENGE`, `BLOCKED_AUTH`, `BLOCKED_PAYMENT`, `BLOCKED_POLICY`) handing live visible browser control back to the human user at CAPTCHAs, anti-bot gates, 2FA, paywalls, or unapproved queue decisions.
 _Avoid_: CAPTCHA solver, stealth bypass, anti-bot evasion, untrusted click fallback
+
+**Zero-Drift Hybrid Reader**:
+Target-site data extraction combining `ISOLATED`-world semantic DOM/ARIA + hydration reading with a passive `MAIN`-world response observer (`passive-observer.ts`) normalizing `included[]` JSON entities without hardcoded API query hashes or synthetic fetches.
+_Avoid_: hardcoded queryId table, hidden background XHR scraping
+
+**Copilot Approval Queue**:
+Human-gated staging store in `storage.local` where agent write drafts (`prefilled` in the visible composer or `pending`) park with `sent: false` and can only be marked approved by clicks inside `extension-popup`.
+_Avoid_: auto-send outreach, unsupervised message blast

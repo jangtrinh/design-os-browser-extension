@@ -13,7 +13,9 @@
 
 ## Entrypoints
 
-- [README](README.md): Repository overview, workspace layout, and quickstart commands.
+- [README](README.md): Repository overview, workspace layout, CLI/MCP quickstart, and test commands.
+- [Agent Skill](skills/design-os-browser-agent/SKILL.md): Usage guide for driving Chrome/Firefox LinkedIn workflows via `browser-agent` CLI and MCP.
+- [MCP Config](.mcp.json): Stdio MCP registration (`design-os-browser-agent`).
 - [AGENTS](AGENTS.md): Progressive lookup commands (`knowledge_builder.cli query`) and architecture rules.
-- [CONTEXT](CONTEXT.md): Canonical glossary (`Capability-Tiered Adapter`, `Agent RPC`, `Fenced Dispatch`, `Page Epoch`, `Human Gate Handoff`).
+- [CONTEXT](CONTEXT.md): Canonical glossary (`Capability-Tiered Adapter`, `Agent RPC`, `Fenced Dispatch`, `Page Epoch`, `Human Gate Handoff`, `Zero-Drift Hybrid Reader`, `Copilot Approval Queue`).
 - [Ontology](knowledge/agent-browser-extensions/ontology.yaml): `browser-engine`, `bridge-primitive`, `interaction-barrier`, and `overcomes` schema.

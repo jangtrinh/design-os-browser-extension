@@ -1,0 +1,40 @@
+{
+  "name": "design-os-browser-extension",
+  "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Hybrid Reader, SQLite local cache, CLI (`browser-agent`), and stdio MCP server.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Jang Trinh",
+    "url": "https://github.com/jangtrinh"
+  },
+  "homepage": "https://github.com/jangtrinh/design-os-browser-extension#readme",
+  "repository": "https://github.com/jangtrinh/design-os-browser-extension",
+  "license": "LicenseRef-PolyForm-Shield-1.0.0",
+  "keywords": [
+    "browser-extension",
+    "webextensions",
+    "linkedin",
+    "ai-agents",
+    "mcp",
+    "design-os"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DESIGN:OS Browser Agent",
+    "shortDescription": "Drive the user's real Chromium or Firefox session for LinkedIn search, structured reads, local SQLite cache, and Copilot draft prefill.",
+    "longDescription": "Zero-drift hybrid DOM/passive-response WebExtension bridge wired to `browser-agent` CLI (`--json`) and 12 MCP tools over loopback WebSocket `127.0.0.1:4347` with fenced `(pageId, epoch, lease)` dispatch and strict Human Gate Handoff.",
+    "developerName": "DESIGN:OS",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/jangtrinh/design-os-browser-extension",
+    "privacyPolicyURL": "https://github.com/jangtrinh/design-os-browser-extension/blob/main/PRIVACY.md",
+    "defaultPrompt": [
+      "Check the active LinkedIn tab with linkedin_status, extract the profile via linkedin_get_profile, and store it cleanly.",
+      "Search LinkedIn people results with linkedin_search and query previously cached profiles with linkedin_query_cache.",
+      "Stage a reply draft via linkedin_draft_write with prefill enabled without ever clicking Send."
+    ],
+    "brandColor": "#0A66C2"
+  }
+}

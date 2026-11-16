@@ -24,11 +24,12 @@ python3 -m knowledge_builder.cli query --root "$P" --linked-to firefox-gecko --l
 ## Workspace Layout
 
 - `knowledge/agent-browser-extensions/` — Verified `UKMC.v2` ontology-first knowledge pack (`ontology.yaml`, 6 modules, 32 claims, 27 sources, 18 entities).
-- `extension/` — Target cross-browser WebExtension source and per-engine manifests.
-- `cli/` — Host-side Native Messaging / loopback WebSocket bridge CLI.
-- `shared/` — Typed `Agent RPC` envelope, capability schema, and error taxonomy.
-- `tests/` — Cross-engine contract, fencing, and browser integration tests.
-- `scripts/` — Deterministic invariant checks (`verify_bridge_primitives.py`, `self_check.py`).
+- `shared/` — Shared TypeScript `>= 7.0.2` `Agent RPC` envelope, capability schema, UTF-8 native framing, and LinkedIn schemas.
+- `extension/` — Capability-Tiered WebExtension MV3 engine (`chromium` + `firefox` manifests), `Page Epoch` store, Operate popup, and LinkedIn Zero-Drift Hybrid Adapter.
+- `cli/` — Loopback WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI (`--json`), and 12-tool stdio MCP server.
+- `skills/design-os-browser-agent/` — Host agent skill paired with `.claude-plugin/`, `.codex-plugin/`, and `.mcp.json`.
+- `tests/` — Vitest cross-engine contract, fencing, human-gate, SQLite cache, and MCP suite.
+- `scripts/` — Esbuild bundler (`build.mjs`), live Chrome MV3 E2E visual proof harness (`e2e_visual_proof.mjs`), and deterministic self-checks (`verify_bridge_primitives.py`, `self_check.py`).
 
 ## Non-Negotiable Architecture & Repo Rules
 

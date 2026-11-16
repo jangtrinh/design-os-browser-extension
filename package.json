@@ -1,0 +1,32 @@
+{
+  "name": "design-os-browser-extension",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Adapter, SQLite local cache, CLI (`browser-agent`), and stdio MCP server backed by a UKMC.v2 knowledge pack.",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jangtrinh/design-os-browser-extension.git"
+  },
+  "homepage": "https://github.com/jangtrinh/design-os-browser-extension#readme",
+  "bin": {
+    "browser-agent": "cli/dist/browser-agent.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs all",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p extension/tsconfig.json --noEmit",
+    "test": "vitest run --config vitest.config.ts",
+    "test:e2e": "node scripts/e2e_visual_proof.mjs"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.10",
+    "esbuild": "^0.25.0",
+    "playwright-core": "^1.52.0",
+    "typescript": "^7.0.2",
+    "vitest": "^3.0.0"
+  }
+}
