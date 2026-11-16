@@ -27,7 +27,9 @@ Generic browser-extension snippets fail when AI agents build bridges for real us
 | [`shared/`](shared/) | Typed `Agent RPC` envelope, capability schema, UTF-8 native framing, and LinkedIn schemas | Implemented & Typechecked |
 | [`extension/`](extension/) | Cross-browser MV3 engine (`chromium` + `firefox`), `Page Epoch` store, Operate popup, and LinkedIn adapter | Built (`extension/dist/{chromium,firefox}`) |
 | [`cli/`](cli/) | Loopback WebSocket broker (`127.0.0.1:4347`), `node:sqlite` cache, `browser-agent` CLI, and MCP stdio server | Built (`cli/dist/browser-agent.js`) |
-| [`skills/design-os-browser-agent/SKILL.md`](skills/design-os-browser-agent/SKILL.md) | Agent runtime guide + host manifests ([`.claude-plugin/`](.claude-plugin/plugin.json), [`.codex-plugin/`](.codex-plugin/plugin.json), [`.mcp.json`](.mcp.json)) | Ready |
+| [`skills/es-browser-agent/SKILL.md`](skills/es-browser-agent/SKILL.md) | Tool-product agent skill (`concepts`, `rules`, `look`, generated `contract`, `build`/`validate`/`look` scripts) | Ready (`A1–A9` Verified) |
+| [`workflows/`](workflows/) & [`commands/`](commands/) | Agent interaction playbooks ([LinkedIn SOP](workflows/linkedin-agent-workflow.md), [New Site Adapter SOP](workflows/new-site-extension-workflow.md), `/doctor`, `/linkedin`) | Ready & Installed |
+| [`bundles/`](bundles/) | Synced portable bundles for `claude-code`, `codex`, `gemini`, and `grok-build` (`scripts/sync_host_bundles.mjs`) | Drift-Checked (`--check`) |
 | [`tests/`](tests/) | Unit & integration suite (`vitest`) covering fencing, Human Gate Handoff, passive normalizer, SQLite, and MCP | Passing |
 | [`scripts/`](scripts/) | Esbuild bundler (`build.mjs`), live Chromium MV3 E2E proof (`e2e_visual_proof.mjs`), and `self_check.py` | Ready |
 
