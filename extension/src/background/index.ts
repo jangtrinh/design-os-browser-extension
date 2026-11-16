@@ -36,7 +36,7 @@ const engine = new ExtensionEngine({
 });
 
 const api = getRuntimeApi();
-const version = api?.runtime?.getManifest?.().version ?? '0.2.0';
+const version = api?.runtime?.getManifest?.().version ?? '0.3.0';
 
 let syncedAccountGuards: BridgeGuardSyncMessage['guards'] = [];
 

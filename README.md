@@ -148,7 +148,7 @@ The 18 entities are 3 browser engines, 8 bridge primitives and 7 interaction bar
 | [`skills/es-browser-agent/`](skills/es-browser-agent/) | Tool-product skill (`SKILL.md`, `concepts.md`, `rules.md`, `look.md`, `contract.md`, `build`/`validate`/`look` scripts) |
 | [`workflows/`](workflows/) & [`commands/`](commands/) | Agent playbooks ([LinkedIn workflow](workflows/linkedin-agent-workflow.md), [New Site workflow](workflows/new-site-extension-workflow.md), `/doctor`, `/linkedin`) |
 | [`bundles/`](bundles/) | Synced portable bundles for `claude-code`, `codex`, `gemini`, and `grok-build` |
-| [`tests/`](tests/) | 16 Vitest suites covering fencing, Human Gate Handoff, normalizer, SQLite/MCP, manifests, `A1–A9` skill gates, and Shared Browser Layer (#8–#26) |
+| [`tests/`](tests/) | 17 Vitest suites covering fencing, Human Gate Handoff, normalizer, SQLite/MCP, manifests, `A1–A9` skill gates, and Shared Browser Layer (#8–#26) |
 | [`scripts/`](scripts/) | `build.mjs`, `e2e_visual_proof.mjs`, `skill_contract.mjs`, `sync_host_bundles.mjs`, `self_check.py`, `verify_bridge_primitives.py` |
 
 ## Limits

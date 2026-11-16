@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DESIGN:OS Browser Agent",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Capability-Tiered Agent RPC bridge with LinkedIn Zero-Drift Hybrid Reader and Human-in-the-Loop Copilot Queue.",
   "permissions": [
     "storage",
