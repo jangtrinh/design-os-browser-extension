@@ -6,7 +6,7 @@
 | Owner | PM (writes), Jang (approves), Dev (builds), QA (accepts) |
 | Date | 2026-11-16 (ICT) |
 | Repo | jangtrinh/design-os-browser-extension |
-| Tracking issue | {{UMBRELLA}} |
+| Tracking issue | #8 |
 | Builds on | Pilot [docs/pilot/2026-11-16-linkedin-live/README.md](../pilot/2026-11-16-linkedin-live/README.md) (#3, `ac7a03f`); Dev PRs #4 (ARIA readers + analytics/comments), #5 (`/rpc` auth + Host/Origin), #6 (`browser_act` allowlist), #7 (`doctor`) |
 
 ## 0. Decisions this spec records
@@ -260,24 +260,24 @@ Priority rule: foundations every reader needs are P1. Readers that feed a daily 
 
 | # | Reader / foundation | Site(s) | Feeds routine | Priority | Issue |
 |---|---|---|---|---|---|
-| F1 | Shared reader cache, JSON envelope and freshness rules | all | all | P1 | {{F1}} |
-| F2 | Per-site pacing budget, back-off and audit log | all | all | P1 | {{F2}} |
-| F3 | Account guard | all | all | P1 | {{F3}} |
-| F4 | Evidence recorder + shared redaction | all | all | P1 | {{F4}} |
-| R1 | LinkedIn nightly analytics snapshot | linkedin | none yet (read by hand today) | P2 | {{R1}} |
-| R2 | X metrics incl. X Articles impressions | x | J "X nightly metrics" | P2 | {{R2}} |
-| R3 | YouTube Studio + Product Hunt metrics | youtube-studio, producthunt | J "YouTube growth daily", Unikorn PH checks | P2 | {{R3}} |
-| R4 | Reddit metrics (karma, post and comment scores) | reddit | Growth and Community Reddit work | P2 | {{R4}} |
-| R5 | Unified comment and mention feed, pre-sorted into 3 tiers | linkedin, threads, x (via connector) | Community engagement, J "X reply monitor" | P2 | {{R5}} |
-| R6 | Engagement scout (reply-worthy posts on Threads/LinkedIn) | threads, linkedin | Community "Daily social engagement batch" | P2 | {{R6}} |
-| R7 | Following / follower list reader | facebook, x, linkedin, threads | J "FB personal unfollow batches" (read step) | P2 | {{R7}} |
-| R8 | Duplicate-text lookup | linkedin, threads, reddit, x | Community paced post batches (pre-post check) | P2 | {{R8}} |
-| R9 | Profile link checker | profile pages on all sites | Growth profile-links work | P3 | {{R9}} |
-| R10 | Subreddit rules and flair reader | reddit | Community and Growth Reddit drafts | P3 | {{R10}} |
-| R11 | Listings and competitor pages reader | generic | Growth "Daily growth auto-research & submit" (live checks), competitor research | P3 | {{R11}} |
-| R12 | Unikorn product page + comments snapshot | unikorn | Unikorn "Unikorn + PH daily care" | P3 | {{R12}} |
-| R13 | Job board reader | jobs | Career "Morning job digest" | P3 | {{R13}} |
-| R14 | Link and proof checks that need the signed-in session | generic | `jev-read` callers | P3 | {{R14}} |
+| F1 | Shared reader cache, JSON envelope and freshness rules | all | all | P1 | #9 |
+| F2 | Per-site pacing budget, back-off and audit log | all | all | P1 | #10 |
+| F3 | Account guard | all | all | P1 | #11 |
+| F4 | Evidence recorder + shared redaction | all | all | P1 | #12 |
+| R1 | LinkedIn nightly analytics snapshot | linkedin | none yet (read by hand today) | P2 | #13 |
+| R2 | X metrics incl. X Articles impressions | x | J "X nightly metrics" | P2 | #14 |
+| R3 | YouTube Studio + Product Hunt metrics | youtube-studio, producthunt | J "YouTube growth daily", Unikorn PH checks | P2 | #15 |
+| R4 | Reddit metrics (karma, post and comment scores) | reddit | Growth and Community Reddit work | P2 | #16 |
+| R5 | Unified comment and mention feed, pre-sorted into 3 tiers | linkedin, threads, x (via connector) | Community engagement, J "X reply monitor" | P2 | #17 |
+| R6 | Engagement scout (reply-worthy posts on Threads/LinkedIn) | threads, linkedin | Community "Daily social engagement batch" | P2 | #18 |
+| R7 | Following / follower list reader | facebook, x, linkedin, threads | J "FB personal unfollow batches" (read step) | P2 | #19 |
+| R8 | Duplicate-text lookup | linkedin, threads, reddit, x | Community paced post batches (pre-post check) | P2 | #20 |
+| R9 | Profile link checker | profile pages on all sites | Growth profile-links work | P3 | #21 |
+| R10 | Subreddit rules and flair reader | reddit | Community and Growth Reddit drafts | P3 | #22 |
+| R11 | Listings and competitor pages reader | generic | Growth "Daily growth auto-research & submit" (live checks), competitor research | P3 | #23 |
+| R12 | Unikorn product page + comments snapshot | unikorn | Unikorn "Unikorn + PH daily care" | P3 | #24 |
+| R13 | Job board reader | jobs | Career "Morning job digest" | P3 | #25 |
+| R14 | Link and proof checks that need the signed-in session | generic | `jev-read` callers | P3 | #26 |
 
 Why this order:
 
@@ -410,24 +410,24 @@ These keep their current routes (box browser computerUse, connectors). Per decis
 
 | Idea / routine | Issue |
 |---|---|
-| Umbrella tracking | {{UMBRELLA}} |
-| F1 Shared reader cache, schema, freshness | {{F1}} |
-| F2 Pacing budget, back-off, audit log | {{F2}} |
-| F3 Account guard | {{F3}} |
-| F4 Evidence recorder + redaction | {{F4}} |
-| R1 LinkedIn nightly analytics snapshot | {{R1}} |
-| R2 X metrics incl. Articles impressions (J "X nightly metrics") | {{R2}} |
-| R3 YouTube Studio + Product Hunt metrics (J "YouTube growth daily", Unikorn PH checks) | {{R3}} |
-| R4 Reddit metrics | {{R4}} |
-| R5 Unified comment and mention feed, 3 tiers (J "X reply monitor" via connector) | {{R5}} |
-| R6 Engagement scout (Community "Daily social engagement batch") | {{R6}} |
-| R7 Following / follower lists (J "FB personal unfollow batches", read step) | {{R7}} |
-| R8 Duplicate-text lookup (Community paced batches; pre-check for every posting routine) | {{R8}} |
-| R9 Profile link checker (Growth profile-links) | {{R9}} |
-| R10 Subreddit rules and flair reader | {{R10}} |
-| R11 Listings and competitor pages (Growth daily auto-research) | {{R11}} |
-| R12 Unikorn page + comments snapshot (Unikorn daily care) | {{R12}} |
-| R13 Job board reader (Career morning digest) | {{R13}} |
-| R14 Link and proof checks that need the signed-in session | {{R14}} |
+| Umbrella tracking | #8 |
+| F1 Shared reader cache, schema, freshness | #9 |
+| F2 Pacing budget, back-off, audit log | #10 |
+| F3 Account guard | #11 |
+| F4 Evidence recorder + redaction | #12 |
+| R1 LinkedIn nightly analytics snapshot | #13 |
+| R2 X metrics incl. Articles impressions (J "X nightly metrics") | #14 |
+| R3 YouTube Studio + Product Hunt metrics (J "YouTube growth daily", Unikorn PH checks) | #15 |
+| R4 Reddit metrics | #16 |
+| R5 Unified comment and mention feed, 3 tiers (J "X reply monitor" via connector) | #17 |
+| R6 Engagement scout (Community "Daily social engagement batch") | #18 |
+| R7 Following / follower lists (J "FB personal unfollow batches", read step) | #19 |
+| R8 Duplicate-text lookup (Community paced batches; pre-check for every posting routine) | #20 |
+| R9 Profile link checker (Growth profile-links) | #21 |
+| R10 Subreddit rules and flair reader | #22 |
+| R11 Listings and competitor pages (Growth daily auto-research) | #23 |
+| R12 Unikorn page + comments snapshot (Unikorn daily care) | #24 |
+| R13 Job board reader (Career morning digest) | #25 |
+| R14 Link and proof checks that need the signed-in session | #26 |
 | Post queue + approval token, FB unfollow cleanup, YouTube metadata apply, Unikorn image attach, approval gate, approval panel, posting/upvoting routines | Later, no issue (section 11) |
 | Dev prerequisites | #4, #5, #6, #7 |
