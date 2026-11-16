@@ -18,6 +18,7 @@ Read [concepts.md](concepts.md) and pick one mode (`cache-query`, `zero-drift-re
 | --- | --- | --- |
 | Repeat query over saved entities | `cache-query` (`linkedin cache` / `linkedin_query_cache`) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
 | Live search/profile/post/analytics/comments/inbox read | `zero-drift-read` (`ISOLATED` accessibility-tree readers) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
+| Multi-site read / checks / feeds | `shared-reader` (`reader list`, `read`, `check`, `guard`) | [extension-adapter-workflow.md](references/extension-adapter-workflow.md) |
 | Draft message/comment/post/note | `copilot-draft` (prefill composer, `sent: false`) | [linkedin-interaction-workflow.md](references/linkedin-interaction-workflow.md) |
 | Extend engine to another website | `new-domain-adapter` (`knowledge/agent-browser-extensions/`) | [extension-adapter-workflow.md](references/extension-adapter-workflow.md) |
 
@@ -69,6 +70,7 @@ Without a browser use verbatim: `LOOK: NOT RUN — browser runtime or local Chro
 | `BROWSER_PAGE_STALE` / `BROWSER_DISPATCH_UNCERTAIN` | Re-run `browser_observe` for fresh `(pageId, epoch, leaseId)` and read state; never blind-retry (`R4`). |
 | `COPILOT_HUMAN_APPROVAL_REQUIRED` | Human must click **Mark Ready (Human)** / **Discard** inside `extension-popup` (`R5`). |
 | `BLOCKED_CHALLENGE` / `429` / `451` / `BLOCKED_AUTH` | Stop immediately (`0` retries); hand visible tab to user (`R6`). |
+| `PAUSED_BY_GUARD` | Run `reader guard --site <site>`; human must click **Resolved, resume** in popup `#guard-panel`. |
 | `SQL_READ_ONLY_VIOLATION` | Rewrite as single `SELECT` / `WITH` statement without semicolons or comments (`R7`). |
 | `contract:` drift diagnostic | Regenerate via `node scripts/skill_contract.mjs` (`R1`). |
 

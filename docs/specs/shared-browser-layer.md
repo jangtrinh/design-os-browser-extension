@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | DRAFT, not approved. No routine switches to the extension until Jang approves that routine's switch. |
+| Status | IMPLEMENTED IN REPO (PRs #4–#7, #28–#30; Foundations #9–#12 and Readers #13–#26 shipped). Live external bot routine cutovers remain gated per-routine after 3 shadow runs and Jang's explicit approval. |
 | Owner | PM (writes), Jang (approves), Dev (builds), QA (accepts) |
 | Date | 2026-11-16 (ICT) |
 | Repo | jangtrinh/design-os-browser-extension |
@@ -13,7 +13,7 @@
 
 1. **The extension is the shared browser layer that bots call over MCP** for routines that touch a website through a browser. Source: Jang, 2026-11-16 18:10 ICT: "Giao PM viết spec và mở issue cho các ý tưởng trong repo extension", and 18:11 ICT: "Tất cả routine tương tác với web đều đưa thành extension hết".
 2. **Its primary purpose is read-only collection of information.** Source: Jang, 2026-11-16 18:14 ICT: "Mục tiêu các extentions nên dùng để cào thông tin". Readers come first. Write and post actions are in [Later](#11-later-out-of-scope-for-now) and keep their current routes.
-3. **No routine switches over until Jang approves that routine's switch.** This spec and its issues authorize no code. Code starts only when Jang requests it.
+3. **No routine switches over until Jang approves that routine's switch.** Originally drafted as a roadmap before Jang authorized repo implementation, implementation in the repo is now complete (#9–#26 shipped), while live external bot routine cutovers remain strictly gated per-routine after 3 shadow runs and Jang's explicit approval.
 
 ## 1. Problem
 

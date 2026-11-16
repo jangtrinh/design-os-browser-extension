@@ -1,11 +1,18 @@
+import { parseGenericListingStatus, parseGenericPageSnapshot } from '../../../extension/src/adapters/generic/reader.js';
+import { parseJobsDetail, parseJobsSearchResults } from '../../../extension/src/adapters/jobs/reader.js';
 import { parseProductHuntProductPage } from '../../../extension/src/adapters/producthunt/reader.js';
 import { parseRedditThingScore, parseRedditUserSelf } from '../../../extension/src/adapters/reddit/metrics-reader.js';
+import { parseRedditSubredditRules } from '../../../extension/src/adapters/reddit/rules-reader.js';
 import { parseSocialFollowList } from '../../../extension/src/adapters/social-lists/following-reader.js';
 import { parseEngagementScout, parseThreadsPostReplies } from '../../../extension/src/adapters/threads/reader.js';
+import { parseUnikornProductComments, parseUnikornProductPage } from '../../../extension/src/adapters/unikorn/reader.js';
 import { parseXAccountAnalytics, parseXArticleStats, parseXArticlesList } from '../../../extension/src/adapters/x/reader.js';
 import { parseYouTubeStudioChannelAnalytics, parseYouTubeStudioVideosAnalytics } from '../../../extension/src/adapters/youtube-studio/reader.js';
 import { DEFAULT_MAX_AGE_BY_CLASS } from '../../../shared/reader-schema.js';
 import { registerDuplicateTextCheck } from './checks/duplicate-text.js';
+import { registerLinkStatusCheck } from './checks/link-status.js';
+import { registerProfileLinksCheck } from './checks/profile-links.js';
+import { registerSubredditRulesCheck } from './checks/subreddit-rules.js';
 import { registerLinkedInNightlyComposite } from './linkedin-nightly.js';
 import { registerReaderView } from './reader-registry.js';
 import { registerUnifiedCommentFeed } from './unified-comments.js';
@@ -200,4 +207,108 @@ export function registerAllReaders(): void {
 
   // R8 (#20): Duplicate-text check
   registerDuplicateTextCheck();
+
+  // R9 (#22): Reddit subreddit rules
+  registerReaderView({
+    descriptor: {
+      site: 'reddit',
+      view: 'subreddit.rules',
+      description: 'Read subreddit posting rules, required flairs, karma floors, and wiki limits.',
+      requiredFields: ['subreddit'],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: ['www.reddit.com', 'old.reddit.com', 'reddit.com'],
+    },
+    resolveTargetUrl: (p) => `https://www.reddit.com/r/${String(p.subreddit ?? 'all')}/about/rules/`,
+    parse: (snap, params) => parseRedditSubredditRules(snap, params),
+  });
+
+  // R10 & R11 (#23): Generic listing status & competitor page snapshot
+  registerReaderView({
+    descriptor: {
+      site: 'generic',
+      view: 'listing.status',
+      description: 'Check directory/listing status for a product (listed flag, rank, upvotes).',
+      requiredFields: ['listed'],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: [],
+    },
+    resolveTargetUrl: () => undefined,
+    parse: (snap, params) => parseGenericListingStatus(snap, params),
+  });
+  registerReaderView({
+    descriptor: {
+      site: 'generic',
+      view: 'page.snapshot',
+      description: 'Extract read-only competitor pricing plans, headings, and public features.',
+      requiredFields: [],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: [],
+    },
+    resolveTargetUrl: () => undefined,
+    parse: (snap, params) => parseGenericPageSnapshot(snap, params),
+  });
+
+  // R12 (#24): Unikorn product page & comments
+  registerReaderView({
+    descriptor: {
+      site: 'unikorn',
+      view: 'product.page',
+      description: 'Read Unikorn product page upvotes, rank, views, rating, and changelog.',
+      requiredFields: ['slug', 'name'],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: ['unikorn.vn', 'www.unikorn.vn'],
+    },
+    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'design-os')}`,
+    parse: (snap, params) => parseUnikornProductPage(snap, params),
+  });
+  registerReaderView({
+    descriptor: {
+      site: 'unikorn',
+      view: 'product.comments',
+      description: 'Read rendered comments on a Unikorn product with delta new detection.',
+      requiredFields: ['slug'],
+      freshnessClass: 'comments',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.comments,
+      allowedHosts: ['unikorn.vn', 'www.unikorn.vn'],
+    },
+    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'design-os')}#comments`,
+    parse: (snap, params) => parseUnikornProductComments(snap, params),
+  });
+
+  // R13 (#25): Jobs search results & job detail
+  registerReaderView({
+    descriptor: {
+      site: 'jobs',
+      view: 'search.results',
+      description: 'Read job search listings from LinkedIn Jobs, Wellfound, or Dribbble.',
+      requiredFields: [],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: ['www.linkedin.com', 'linkedin.com', 'wellfound.com', 'www.wellfound.com', 'dribbble.com', 'www.dribbble.com'],
+    },
+    resolveTargetUrl: () => 'https://www.linkedin.com/jobs/search/',
+    parse: (snap, params) => parseJobsSearchResults(snap, params),
+  });
+  registerReaderView({
+    descriptor: {
+      site: 'jobs',
+      view: 'job.detail',
+      description: 'Read job opening title, company, location, remote, seniority, and salary.',
+      requiredFields: ['title'],
+      freshnessClass: 'listings',
+      defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
+      allowedHosts: ['www.linkedin.com', 'linkedin.com', 'wellfound.com', 'www.wellfound.com', 'dribbble.com', 'www.dribbble.com'],
+    },
+    resolveTargetUrl: () => undefined,
+    parse: (snap, params) => parseJobsDetail(snap, params),
+  });
+
+  // R14 (#21, #22, #26): Read-only checks
+  registerSubredditRulesCheck();
+  registerLinkStatusCheck();
+  registerProfileLinksCheck();
 }

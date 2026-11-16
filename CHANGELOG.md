@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 — 2026-11-16
+
+### Added
+- Implemented Shared Browser Layer (`dos.reader.v1`, Issues #8–#26) for unattended multi-bot daily routines:
+  - **Wave 1 Foundations (#9–#12):** Shared reader cache (`reader_results`, `reader_latest`, `reader_series` in SQLite), shared per-site pacing budgets and back-off, human-gated Account Guard (`PAUSED_BY_GUARD`), and evidence recorder with `third-party-v1` redaction policy.
+  - **Wave 2 Daily Readers (#13–#20):** 8 high-frequency readers across LinkedIn analytics, X metrics & Articles impressions, YouTube Studio + Product Hunt metrics, Reddit metrics, unified 3-tier comment/mention feeds, engagement scout, following/follower lists, and duplicate-text lookup.
+  - **Wave 3 Occasional Readers & Checks (#21–#26):** Profile link checker, subreddit rules/flair reader, directory listings/competitor pages reader, Unikorn product snapshot, job boards reader, and signed-in link/proof checks.
+  - **Account Guard Popup UI:** `#guard-panel` in extension popup displaying paused site guards with human-only `"Resolved, resume"` button and audit logging.
+  - **22-Tool MCP Stdio Server:** Expanded stdio MCP server from 14 to 22 tools with `reader_list`, `reader_read`, `reader_check`, `reader_query_cache`, `pacing_status`, `guard_status`, `evidence_get`, and `audit_query`.
+
 ## 0.2.0 — 2026-11-16
 
 ### Added

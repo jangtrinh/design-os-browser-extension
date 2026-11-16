@@ -113,7 +113,7 @@ export function redactReaderPayload<T>(payload: T, opts: RedactOptions): RedactR
       }
 
       const isThirdPartyItem = parentObj?.third_party === true;
-      if (key && SLUG_KEYS.has(key) && !(keepListNames || keepCommentFeed)) {
+      if (key && SLUG_KEYS.has(key) && !(keepListNames || keepCommentFeed) && !(key === 'slug' && opts.view === 'product.page')) {
         const res = hashThirdPartyValue(node, 'member', allow);
         if (res.redacted) fieldsRedacted += 1;
         return res.value;

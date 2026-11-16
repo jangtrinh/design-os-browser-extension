@@ -41,3 +41,8 @@ Every rule maps one runtime invariant to its CLI/MCP usage ("Keep it") and deter
 - **Statement:** Extension popup UI and `look.mjs` inspection sheets pass `ui gate`, `slop-detect`, machine probes `L1`–`L4`, and eye checks `L5`–`L8` in `look.md`.
 - **Keep it:** Run `node skills/es-browser-agent/look.mjs --repo-root . --output-dir <run> --sheet <png>` and inspect the PNG.
 - **Rejected when:** `look.mjs` exits `1` or an eye check (`L5`–`L8`) fails visual inspection.
+
+## R9 — Shared Reader Pacing & Account Guard (`reader-safety`)
+- **Statement:** Shared readers (`reader_read`, `reader_check`, `dos.reader.v1`) must query `reader_query_cache` / `reader cache --sql` first, obey per-site pacing budgets, and immediately halt upon `PAUSED_BY_GUARD` without retrying. Guard clearing is human-only in the extension popup (`#guard-panel`).
+- **Keep it:** Discover views via `reader_list` (`reader list`), query `reader_query_cache`, and respect `PAUSED_BY_GUARD` / `PACING_EXHAUSTED` responses.
+- **Rejected when:** `reader-safety: page loaded during active guard pause or pacing exhaustion`.
