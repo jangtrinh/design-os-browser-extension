@@ -4,7 +4,12 @@ import {
   type RpcRequest,
   type RpcResponse,
 } from '../../../shared/rpc-envelope.js';
+import type { ReaderSiteId } from '../../../shared/reader-schema.js';
 import { LinkedInSqliteCache } from '../db/sqlite-cache.js';
+import { ReaderAuditLog } from '../reader/audit-log.js';
+import { getEvidenceById } from '../reader/evidence-recorder.js';
+import { listReaderViews } from '../reader/reader-registry.js';
+import { ReaderRuntime } from '../reader/reader-runtime.js';
 import { readPairingToken } from './pairing.js';
 import { TOKEN_HEADER } from './request-guard.js';
 
@@ -116,5 +121,67 @@ export async function queryCacheWithFallback(
     } finally {
       cache.close();
     }
+  }
+}
+
+export async function callBrokerReaderApi(
+  path: string,
+  payload: Record<string, unknown> = {},
+  cfg: BrokerClientConfig = {},
+): Promise<Record<string, unknown>> {
+  const baseUrl = resolveBrokerBaseUrl(cfg);
+  try {
+    const res = await fetch(`${baseUrl}${path}`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(22_000),
+    });
+    return (await res.json()) as Record<string, unknown>;
+  } catch (err) {
+    // Offline local fallbacks for pure DB/filesystem/registry endpoints.
+    if (path === '/reader/list') {
+      const site = typeof payload.site === 'string' ? (payload.site as ReaderSiteId) : undefined;
+      return { ok: true, views: listReaderViews(site) };
+    }
+    if (path === '/reader/evidence') {
+      return getEvidenceById(String(payload.evidence_id ?? '')) as unknown as Record<string, unknown>;
+    }
+    if (path === '/reader/query' || path === '/reader/pacing' || path === '/reader/guard' || path === '/reader/audit') {
+      const cache = new LinkedInSqliteCache();
+      try {
+        const rt = new ReaderRuntime({
+          cache,
+          collectPage: async () => ({ ok: false, error_code: 'BROKER_OFFLINE', message: 'Broker offline' }),
+        });
+        if (path === '/reader/query') {
+          return rt.queryCache(payload as Parameters<ReaderRuntime['queryCache']>[0]) as unknown as Record<string, unknown>;
+        }
+        if (path === '/reader/pacing') {
+          const site = typeof payload.site === 'string' ? (payload.site as ReaderSiteId) : undefined;
+          return { ok: true, pacing: rt.pacingStatus(site) };
+        }
+        if (path === '/reader/guard') {
+          const site = typeof payload.site === 'string' ? (payload.site as ReaderSiteId) : undefined;
+          return { ok: true, guards: rt.guardStatus(site) };
+        }
+        const audit = new ReaderAuditLog(cache.getDatabase(), false);
+        return { ok: true, rows: audit.query(payload as Parameters<ReaderAuditLog['query']>[0]) };
+      } catch (dbErr) {
+        return { ok: false, error: { code: 'READER_LOCAL_ERROR', message: dbErr instanceof Error ? dbErr.message : String(dbErr) } };
+      } finally {
+        cache.close();
+      }
+    }
+    return {
+      ok: false,
+      gate: 'CLEAR',
+      error_code: 'BROKER_UNREACHABLE',
+      error: {
+        code: 'BROKER_UNREACHABLE',
+        message: `Cannot reach ${baseUrl}${path}. Start daemon with \`browser-agent daemon start\`. (${err instanceof Error ? err.message : String(err)})`,
+        retryable: true,
+      },
+    };
   }
 }

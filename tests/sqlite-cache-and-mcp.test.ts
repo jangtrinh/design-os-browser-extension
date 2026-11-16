@@ -58,7 +58,7 @@ describe('Native framing, SQLite cache, and MCP stdio server', () => {
     }
   });
 
-  it('answers MCP initialize and tools/list across all 14 tools', async () => {
+  it('answers MCP initialize and tools/list across all 22 tools', async () => {
     const initReply = await handleMcpJsonRpcMessage({
       jsonrpc: '2.0',
       id: 1,
@@ -74,7 +74,15 @@ describe('Native framing, SQLite cache, and MCP stdio server', () => {
       params: {},
     });
     const tools = (listReply?.result as { tools: typeof MCP_TOOLS }).tools;
-    expect(tools).toHaveLength(14);
+    expect(tools).toHaveLength(22);
+    expect(tools.map((t) => t.name)).toContain('reader_list');
+    expect(tools.map((t) => t.name)).toContain('reader_read');
+    expect(tools.map((t) => t.name)).toContain('reader_query_cache');
+    expect(tools.map((t) => t.name)).toContain('reader_check');
+    expect(tools.map((t) => t.name)).toContain('pacing_status');
+    expect(tools.map((t) => t.name)).toContain('guard_status');
+    expect(tools.map((t) => t.name)).toContain('evidence_get');
+    expect(tools.map((t) => t.name)).toContain('audit_query');
     expect(tools.map((t) => t.name)).toContain('linkedin_read_analytics');
     expect(tools.map((t) => t.name)).toContain('linkedin_read_comments');
     expect(tools.map((t) => t.name)).toContain('linkedin_get_profile');

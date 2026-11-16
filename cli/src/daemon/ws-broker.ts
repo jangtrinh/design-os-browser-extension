@@ -3,10 +3,19 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import type { AddressInfo } from 'node:net';
 import { WebSocketServer, type WebSocket } from 'ws';
 import type { EngineCapabilities } from '../../../shared/capability-tier.js';
+import type {
+  CollectedPageSnapshot,
+  EvidenceMode,
+  ReaderCaller,
+  ReaderCheckKind,
+  ReaderGateState,
+  ReaderSiteId,
+} from '../../../shared/reader-schema.js';
 import {
   DEFAULT_BROKER_HOST,
   DEFAULT_BROKER_PORT,
   PROTOCOL_VERSION,
+  type BridgeGuardSyncMessage,
   type BridgeHelloOk,
   type BridgeRpcMessage,
   type BridgeWireMessage,
@@ -14,6 +23,7 @@ import {
   type RpcResponse,
 } from '../../../shared/rpc-envelope.js';
 import { LinkedInSqliteCache } from '../db/sqlite-cache.js';
+import { ReaderRuntime } from '../reader/reader-runtime.js';
 import { renderFixtureRoute } from './fixture-pages.js';
 import { loadOrCreatePairingToken } from './pairing.js';
 import { checkAuthorizedRequest, checkHostAndOrigin, type GuardFailure } from './request-guard.js';
@@ -31,6 +41,7 @@ export interface RunningBroker {
   port: number;
   token: string;
   cache: LinkedInSqliteCache;
+  reader: ReaderRuntime;
   close(): Promise<void>;
   getExtensionCapabilities(): EngineCapabilities | null;
   isExtensionConnected(): boolean;
@@ -85,18 +96,94 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
     }
   >();
 
+  const dispatchExtensionRpc = (rpcReq: RpcRequest): Promise<RpcResponse> => {
+    if (!activeSocket || activeSocket.readyState !== activeSocket.OPEN) {
+      return Promise.resolve({
+        id: rpcReq.id,
+        ok: false,
+        outcome: 'BLOCKED',
+        error: {
+          code: 'EXTENSION_OFFLINE',
+          message:
+            'Browser extension is not attached to ws://127.0.0.1:' +
+            `${port}/ws. Open the extension popup, paste the pairing token from \`browser-agent daemon token --reveal\`, and click Save & Connect.`,
+          retryable: true,
+        },
+      });
+    }
+    const timeoutMs = rpcReq.timeoutMs ?? 15_000;
+    return new Promise<RpcResponse>((resolve) => {
+      const timer = setTimeout(() => {
+        pendingRpc.delete(rpcReq.id);
+        resolve({
+          id: rpcReq.id,
+          ok: false,
+          outcome: 'UNCERTAIN',
+          error: {
+            code: 'RPC_BROKER_TIMEOUT',
+            message: `Extension did not respond within ${timeoutMs}ms. Reconcile read-only state before retrying.`,
+            retryable: false,
+          },
+        });
+      }, timeoutMs);
+
+      pendingRpc.set(rpcReq.id, { action: rpcReq.action, resolve, timer });
+      const wire: BridgeRpcMessage = { type: 'rpc', request: rpcReq };
+      activeSocket?.send(JSON.stringify(wire));
+    });
+  };
+
+  const reader = new ReaderRuntime({
+    cache,
+    allowFixtureLoopback: enableFixtures,
+    onGuardChange: (guards) => {
+      if (activeSocket && activeSocket.readyState === activeSocket.OPEN) {
+        const msg: BridgeGuardSyncMessage = { type: 'guard_sync', guards };
+        activeSocket.send(JSON.stringify(msg));
+      }
+    },
+    collectPage: async (req) => {
+      const rpcRes = await dispatchExtensionRpc({
+        id: randomUUID(),
+        action: 'reader.collect',
+        params: {
+          url: req.targetUrl,
+          scrollSteps: typeof req.params.scroll_steps === 'number' ? req.params.scroll_steps : 0,
+          captureScreenshot: req.captureScreenshot,
+        },
+        callerOrigin: 'agent-rpc',
+        timeoutMs: 20_000,
+      });
+      const payload = (rpcRes.data ?? {}) as {
+        snapshot?: CollectedPageSnapshot;
+        screenshotBase64?: string;
+        gateReason?: string;
+      };
+      return {
+        ok: rpcRes.ok,
+        snapshot: payload.snapshot,
+        screenshotBase64: payload.screenshotBase64,
+        gate: rpcRes.humanGate as ReaderGateState | undefined,
+        gateReason: payload.gateReason ?? rpcRes.error?.message,
+        error_code: rpcRes.error?.code,
+        message: rpcRes.error?.message,
+      };
+    },
+  });
+
   const server = createServer(async (req, res) => {
     const reqUrl = new URL(req.url ?? '/', `http://${host}:${port}`);
 
-    // Every route: loopback Host only (DNS rebinding) and no web-page Origin (drive-by pages).
     const hostOrigin = checkHostAndOrigin(req, port);
     if (hostOrigin) {
       sendGuardFailure(res, hostOrigin);
       return;
     }
 
-    // Routes that read cached data or drive the paired browser also need the pairing token.
-    if (req.method === 'POST' && (reqUrl.pathname === '/rpc' || reqUrl.pathname === '/cache/query')) {
+    if (
+      (req.method === 'POST' && (reqUrl.pathname === '/rpc' || reqUrl.pathname === '/cache/query')) ||
+      reqUrl.pathname.startsWith('/reader/')
+    ) {
       const authFailure = checkAuthorizedRequest(req, port, token);
       if (authFailure) {
         sendGuardFailure(res, authFailure);
@@ -116,6 +203,78 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
         extensionVersion,
         dbPath: cache.dbPath,
       });
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/list') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const site = typeof body.site === 'string' ? (body.site as ReaderSiteId) : undefined;
+      sendJson(res, 200, { ok: true, views: reader.listViews(site) });
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/read') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const caller = (body.caller as ReaderCaller | undefined) ?? { bot: 'cli', routine: 'manual' };
+      const envelope = await reader.read({
+        site: String(body.site ?? 'generic') as ReaderSiteId,
+        view: String(body.view ?? ''),
+        target: typeof body.target === 'string' ? body.target : undefined,
+        params: (body.params as Record<string, unknown> | undefined) ?? {},
+        max_age_s: typeof body.max_age_s === 'number' ? body.max_age_s : undefined,
+        evidence: (body.evidence as EvidenceMode | undefined) ?? 'json',
+        caller,
+      });
+      sendJson(res, 200, envelope);
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/check') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const caller = (body.caller as ReaderCaller | undefined) ?? { bot: 'cli', routine: 'manual' };
+      const envelope = await reader.check(
+        String(body.check ?? '') as ReaderCheckKind,
+        (body.params as Record<string, unknown> | undefined) ?? {},
+        caller,
+      );
+      sendJson(res, 200, envelope);
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/query') {
+      try {
+        const body = await readJsonBody(req);
+        sendJson(res, 200, reader.queryCache(body as Parameters<ReaderRuntime['queryCache']>[0]));
+      } catch (err) {
+        sendJson(res, 400, { ok: false, error: { code: 'SQL_QUERY_REJECTED', message: err instanceof Error ? err.message : String(err) } });
+      }
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/pacing') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const site = typeof body.site === 'string' ? (body.site as ReaderSiteId) : undefined;
+      sendJson(res, 200, { ok: true, pacing: reader.pacingStatus(site) });
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/guard') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const site = typeof body.site === 'string' ? (body.site as ReaderSiteId) : undefined;
+      sendJson(res, 200, { ok: true, guards: reader.guardStatus(site) });
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/evidence') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      const result = reader.getEvidence(String(body.evidence_id ?? ''));
+      sendJson(res, result.ok ? 200 : 404, result);
+      return;
+    }
+
+    if (req.method === 'POST' && reqUrl.pathname === '/reader/audit') {
+      const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}));
+      sendJson(res, 200, reader.queryAudit(body as Parameters<ReaderRuntime['queryAudit']>[0]));
       return;
     }
 
@@ -150,51 +309,19 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
       }
 
       if (!activeSocket || activeSocket.readyState !== activeSocket.OPEN) {
-        sendJson(res, 503, {
-          ok: false,
-          outcome: 'BLOCKED',
-          error: {
-            code: 'EXTENSION_OFFLINE',
-            message:
-              'Browser extension is not attached to ws://127.0.0.1:' +
-              `${port}/ws. Open the extension popup, paste the pairing token from \`browser-agent daemon token --reveal\`, and click Save & Connect.`,
-            retryable: true,
-          },
-        });
+        sendJson(res, 503, await dispatchExtensionRpc({ id: 'offline', action: '', params: {} }));
         return;
       }
 
       const id = String(body.id ?? randomUUID());
       const action = String(body.action ?? '');
-      const rpcReq: RpcRequest = {
+      const rpcResponse = await dispatchExtensionRpc({
         id,
         action,
         params: (body.params as Record<string, unknown> | undefined) ?? {},
         ...(body.fence ? { fence: body.fence as RpcRequest['fence'] } : {}),
-        // Force external callers to 'agent-rpc' so human popup approval cannot be forged.
         callerOrigin: 'agent-rpc',
         timeoutMs: typeof body.timeoutMs === 'number' ? body.timeoutMs : 15_000,
-      };
-
-      const timeoutMs = rpcReq.timeoutMs ?? 15_000;
-      const rpcResponse = await new Promise<RpcResponse>((resolve) => {
-        const timer = setTimeout(() => {
-          pendingRpc.delete(id);
-          resolve({
-            id,
-            ok: false,
-            outcome: 'UNCERTAIN',
-            error: {
-              code: 'RPC_BROKER_TIMEOUT',
-              message: `Extension did not respond within ${timeoutMs}ms. Reconcile read-only state before retrying.`,
-              retryable: false,
-            },
-          });
-        }, timeoutMs);
-
-        pendingRpc.set(id, { action, resolve, timer });
-        const wire: BridgeRpcMessage = { type: 'rpc', request: rpcReq };
-        activeSocket?.send(JSON.stringify(wire));
       });
 
       sendJson(res, 200, rpcResponse);
@@ -263,6 +390,11 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
           protocolVersion: PROTOCOL_VERSION,
         };
         ws.send(JSON.stringify(okReply));
+        const guardSync: BridgeGuardSyncMessage = {
+          type: 'guard_sync',
+          guards: reader.guard.listGuards(),
+        };
+        ws.send(JSON.stringify(guardSync));
         return;
       }
 
@@ -272,6 +404,13 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
       }
 
       if (msg.type === 'event') {
+        if (
+          msg.event === 'guard_resolved_by_human_popup' &&
+          msg.payload?.callerOrigin === 'extension-popup' &&
+          typeof msg.payload?.site === 'string'
+        ) {
+          reader.guard.resolveByHumanPopup(msg.payload.site as ReaderSiteId, 'extension-popup');
+        }
         cache.recordEvent(msg.event, msg.payload);
         return;
       }
@@ -284,6 +423,9 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
         if (msg.response.ok && msg.response.data !== undefined) {
           try {
             cache.upsertFromActionResult(entry.action, msg.response.data);
+            if (entry.action.startsWith('linkedin.') && typeof msg.response.data === 'object' && msg.response.data !== null) {
+              reader.mirrorLegacyLinkedInRead(entry.action, msg.response.data as Record<string, unknown>);
+            }
           } catch {
             // Do not fail RPC delivery if SQLite cache indexing hits an unexpected shape
           }
@@ -322,6 +464,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
     port,
     token,
     cache,
+    reader,
     getExtensionCapabilities: () => extensionCaps,
     isExtensionConnected: () => Boolean(activeSocket && activeSocket.readyState === activeSocket.OPEN),
     async close() {

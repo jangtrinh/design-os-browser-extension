@@ -2,7 +2,7 @@ import { PageEpochStore } from '../core/page-epoch-store.js';
 import { getRuntimeApi, queryTabs, updateTabUrl } from '../core/webext-polyfill.js';
 import type { WebExtTab } from '../core/webext-types.js';
 
-export async function resolveTargetTab(preferredTabId?: number): Promise<WebExtTab | null> {
+export async function resolveTargetTab(preferredTabId?: number, targetUrl?: string): Promise<WebExtTab | null> {
   if (typeof preferredTabId === 'number') {
     const api = getRuntimeApi();
     const all = await queryTabs({});
@@ -20,16 +20,34 @@ export async function resolveTargetTab(preferredTabId?: number): Promise<WebExtT
     }
   }
 
+  const allTabs = await queryTabs({});
+  if (targetUrl) {
+    try {
+      const targetHost = new URL(targetUrl).hostname.toLowerCase();
+      const matched = allTabs.find((t: WebExtTab) => {
+        if (!t.url?.startsWith('http')) return false;
+        try {
+          return new URL(t.url).hostname.toLowerCase() === targetHost;
+        } catch {
+          return false;
+        }
+      });
+      if (matched) return matched;
+    } catch {
+      // ignore invalid targetUrl
+    }
+  }
+
   const activeTabs = await queryTabs({ active: true, currentWindow: true });
   const active = activeTabs[0];
-  if (active?.url && (active.url.includes('linkedin.com') || active.url.includes('127.0.0.1'))) {
+  if (active?.url && active.url.startsWith('http')) {
     return active;
   }
 
-  const allTabs = await queryTabs({});
   return (
     allTabs.find((t: WebExtTab) => t.url?.includes('linkedin.com')) ??
     allTabs.find((t: WebExtTab) => t.url?.includes('127.0.0.1') && t.url?.includes('/fixture/')) ??
+    allTabs.find((t: WebExtTab) => t.url?.startsWith('http')) ??
     active ??
     null
   );

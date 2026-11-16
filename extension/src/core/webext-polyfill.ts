@@ -189,3 +189,30 @@ export async function sendTabMessage<T = unknown>(tabId: number, message: unknow
     });
   });
 }
+
+export async function captureVisibleTabPng(windowId?: number): Promise<string | undefined> {
+  const tabs = getRawApi()?.tabs;
+  if (!tabs?.captureVisibleTab) return undefined;
+  return new Promise((resolve) => {
+    try {
+      const maybe = tabs.captureVisibleTab!(windowId, { format: 'png' });
+      if (maybe && typeof (maybe as Promise<string>).then === 'function') {
+        (maybe as Promise<string>).then(
+          (url) => resolve(url),
+          () => resolve(undefined),
+        );
+        return;
+      }
+    } catch {
+      // callback fallback
+    }
+    try {
+      tabs.captureVisibleTab!(windowId, { format: 'png' }, (dataUrl) => {
+        if (getRawApi()?.runtime?.lastError?.message) resolve(undefined);
+        else resolve(dataUrl || undefined);
+      });
+    } catch {
+      resolve(undefined);
+    }
+  });
+}

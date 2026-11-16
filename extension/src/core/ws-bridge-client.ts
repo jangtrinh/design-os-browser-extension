@@ -1,13 +1,16 @@
+import type {
+  BridgeEvent,
+  BridgeGuardSyncMessage,
+  BridgeHello,
+  BridgeRpcResultMessage,
+  BridgeWireMessage,
+  RpcRequest,
+  RpcResponse,
+} from '../../../shared/rpc-envelope.js';
 import {
   DEFAULT_BROKER_HOST,
   DEFAULT_BROKER_PORT,
   WS_KEEPALIVE_INTERVAL_MS,
-  type BridgeEvent,
-  type BridgeHello,
-  type BridgeRpcResultMessage,
-  type BridgeWireMessage,
-  type RpcRequest,
-  type RpcResponse,
 } from '../../../shared/rpc-envelope.js';
 import type { EngineCapabilities } from '../../../shared/capability-tier.js';
 import type { KeyValueStore } from './webext-polyfill.js';
@@ -38,6 +41,7 @@ export class WsBridgeClient {
   private readonly extensionVersion: string;
   private readonly onRpcRequest: (req: RpcRequest) => Promise<RpcResponse>;
   private readonly onStatusChange?: (status: WsConnectionStatus) => void;
+  private readonly onGuardSync?: (guards: BridgeGuardSyncMessage['guards']) => void;
 
   private ws: WebSocket | null = null;
   private keepaliveTimer: ReturnType<typeof setInterval> | null = null;
@@ -55,12 +59,14 @@ export class WsBridgeClient {
     extensionVersion: string;
     onRpcRequest: (req: RpcRequest) => Promise<RpcResponse>;
     onStatusChange?: (status: WsConnectionStatus) => void;
+    onGuardSync?: (guards: BridgeGuardSyncMessage['guards']) => void;
   }) {
     this.store = options.store;
     this.capabilities = options.capabilities;
     this.extensionVersion = options.extensionVersion;
     this.onRpcRequest = options.onRpcRequest;
     this.onStatusChange = options.onStatusChange;
+    this.onGuardSync = options.onGuardSync;
   }
 
   async loadConfig(): Promise<StoredBridgeConfig> {
@@ -244,6 +250,11 @@ export class WsBridgeClient {
     }
 
     if (parsed.type === 'pong') {
+      return;
+    }
+
+    if (parsed.type === 'guard_sync') {
+      this.onGuardSync?.(parsed.guards);
       return;
     }
 

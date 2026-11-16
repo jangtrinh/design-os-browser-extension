@@ -1,5 +1,5 @@
 import { DEFAULT_BROKER_HOST, DEFAULT_BROKER_PORT } from '../../../shared/rpc-envelope.js';
-import { callBrokerRpc, fetchBrokerHealth, queryCacheWithFallback } from '../daemon/client.js';
+import { callBrokerReaderApi, callBrokerRpc, fetchBrokerHealth, queryCacheWithFallback } from '../daemon/client.js';
 import { readLinkedInComments } from './linkedin-comments.js';
 import { loadOrCreatePairingToken, resolvePairingFilePath } from '../daemon/pairing.js';
 import { redactToken } from '../daemon/request-guard.js';
@@ -42,7 +42,8 @@ export function parseCliArgs(argv: string[]): ParsedFlags {
 }
 
 function outJson(payload: unknown, exitCode = 0): number {
-  process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
+  const verdict = exitCode === 0 ? 'AGENT_OK' : 'AGENT_FAIL';
+  process.stdout.write(`${JSON.stringify(payload, null, 2)}\n${verdict} ${JSON.stringify(payload)}\n`);
   return exitCode;
 }
 
@@ -71,6 +72,14 @@ function getHelpText(): string {
     '  linkedin draft --kind <message|comment|post|connect_note> --target <id> --body <text> [--prefill] [--url <url>] [--json]',
     '  linkedin queue [--status <pending|prefilled|approved|rejected>] [--json]',
     '  linkedin cache --sql "SELECT ..." [--json]',
+    '  reader list [--site <site>] [--json]',
+    '  reader read --site <site> --view <view> [--target <url>] [--max-age-s <n>] [--evidence <off|json|json+screenshot>] [--bot <name>] [--routine <name>] [--json]',
+    '  reader check --check <duplicate_text|profile_links|link_status|subreddit_rules> [--params <json>] [--json]',
+    '  reader cache [--sql "SELECT ..." | --site <site> --view <view>] [--json]',
+    '  reader pacing [--site <site>] [--json]',
+    '  reader guard [--site <site>] [--json]',
+    '  reader evidence --evidence-id <id> [--json]',
+    '  reader audit [--since <iso>] [--site <site>] [--caller <bot>] [--json]',
     '  mcp   (start MCP JSON-RPC 2.0 stdio server)',
   ].join('\n');
 }
@@ -134,12 +143,88 @@ export async function dispatchCli(argv: string[]): Promise<number> {
       );
       await new Promise<void>((resolve) => {
         const stop = (): void => {
-          void broker.close().then(() => resolve());
+          void broker.close().then(() => {
+            process.stdout.write(`AGENT_OK ${JSON.stringify({ ok: true, stopped: true })}\n`);
+            resolve();
+          });
         };
         process.once('SIGINT', stop);
         process.once('SIGTERM', stop);
       });
       return 0;
+    }
+  }
+
+  if (cmd === 'reader') {
+    if (sub === 'list') {
+      const res = await callBrokerReaderApi('/reader/list', {
+        ...(typeof flags.site === 'string' ? { site: flags.site } : {}),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'read') {
+      const extraParams = typeof flags.params === 'string' ? (JSON.parse(flags.params) as Record<string, unknown>) : {};
+      const res = await callBrokerReaderApi('/reader/read', {
+        site: String(flags.site ?? 'generic'),
+        view: String(flags.view ?? ''),
+        ...(typeof flags.target === 'string' ? { target: flags.target } : {}),
+        ...(typeof flags['max-age-s'] === 'string' ? { max_age_s: Number(flags['max-age-s']) } : {}),
+        ...(typeof flags.evidence === 'string' ? { evidence: flags.evidence } : {}),
+        caller: {
+          bot: typeof flags.bot === 'string' ? flags.bot : 'cli',
+          routine: typeof flags.routine === 'string' ? flags.routine : 'manual',
+        },
+        params: extraParams,
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'check') {
+      const paramsObj = typeof flags.params === 'string' ? (JSON.parse(flags.params) as Record<string, unknown>) : {};
+      const res = await callBrokerReaderApi('/reader/check', {
+        check: String(flags.check ?? ''),
+        params: paramsObj,
+        caller: {
+          bot: typeof flags.bot === 'string' ? flags.bot : 'cli',
+          routine: typeof flags.routine === 'string' ? flags.routine : 'manual',
+        },
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'cache') {
+      const res = await callBrokerReaderApi('/reader/query', {
+        ...(typeof flags.sql === 'string' ? { sql: flags.sql } : {}),
+        ...(typeof flags.site === 'string' ? { site: flags.site } : {}),
+        ...(typeof flags.view === 'string' ? { view: flags.view } : {}),
+        ...(typeof flags['target-key'] === 'string' ? { target_key: flags['target-key'] } : {}),
+        ...(typeof flags.since === 'string' ? { since: flags.since } : {}),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'pacing') {
+      const res = await callBrokerReaderApi('/reader/pacing', {
+        ...(typeof flags.site === 'string' ? { site: flags.site } : {}),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'guard') {
+      const res = await callBrokerReaderApi('/reader/guard', {
+        ...(typeof flags.site === 'string' ? { site: flags.site } : {}),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'evidence') {
+      const res = await callBrokerReaderApi('/reader/evidence', {
+        evidence_id: String(flags['evidence-id'] ?? ''),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
+    }
+    if (sub === 'audit') {
+      const res = await callBrokerReaderApi('/reader/audit', {
+        ...(typeof flags.since === 'string' ? { since: flags.since } : {}),
+        ...(typeof flags.site === 'string' ? { site: flags.site } : {}),
+        ...(typeof flags.caller === 'string' ? { caller: flags.caller } : {}),
+      }, brokerCfg);
+      return outJson(res, res.ok ? 0 : 1);
     }
   }
 

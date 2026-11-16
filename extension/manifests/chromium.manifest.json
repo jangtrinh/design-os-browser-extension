@@ -9,7 +9,7 @@
     "alarms"
   ],
   "host_permissions": [
-    "https://www.linkedin.com/*",
+    "https://*/*",
     "http://127.0.0.1/*"
   ],
   "background": {
@@ -34,7 +34,7 @@
     },
     {
       "matches": [
-        "https://www.linkedin.com/*",
+        "https://*/*",
         "http://127.0.0.1/*"
       ],
       "js": [

@@ -78,6 +78,11 @@ export interface WebExtApi {
       message: unknown,
       callback?: (response: unknown) => void,
     ): Promise<unknown> | void;
+    captureVisibleTab?: (
+      windowId?: number,
+      options?: { format?: 'png' | 'jpeg' },
+      callback?: (dataUrl: string) => void,
+    ) => Promise<string> | void;
     onUpdated?: {
       addListener(
         cb: (tabId: number, changeInfo: { url?: string; status?: string }, tab: WebExtTab) => void,
