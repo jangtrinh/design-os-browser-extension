@@ -38,6 +38,14 @@ function resolveOutDir() {
   return resolve(ROOT, '.tmp-e2e-proof');
 }
 
+function parseCliOutput(rawText) {
+  const lines = rawText.trim().split('\n');
+  const last = lines[lines.length - 1] ?? '';
+  const verdict = last.match(/^AGENT_(?:OK|FAIL)\s+(\{.*\})$/);
+  if (verdict) return JSON.parse(verdict[1]);
+  return JSON.parse(rawText);
+}
+
 function runCli(args, env, allowFailure = false) {
   try {
     const stdout = execFileSync(process.execPath, [resolve(ROOT, 'cli/dist/browser-agent.js'), ...args], {
@@ -45,12 +53,12 @@ function runCli(args, env, allowFailure = false) {
       env: { ...process.env, ...env },
       encoding: 'utf8',
     });
-    return { code: 0, json: JSON.parse(stdout) };
+    return { code: 0, json: parseCliOutput(stdout) };
   } catch (err) {
     if (!allowFailure) throw err;
     const e = err;
     const raw = String(e.stdout || e.stderr || '{}');
-    return { code: e.status ?? 1, json: JSON.parse(raw) };
+    return { code: e.status ?? 1, json: parseCliOutput(raw) };
   }
 }
 
@@ -310,7 +318,7 @@ async function main() {
     assert.equal(cacheRes.json.rows.length, 1);
 
     const mcpReplies = await runMcpCheck(cliEnv);
-    assert.equal(mcpReplies[1].result.tools.length, 14);
+    assert.equal(mcpReplies[1].result.tools.length, 22);
     assert.equal(mcpReplies[2].result.isError, false);
 
     // Step F: Security Checkpoint -> immediate BLOCKED_CHALLENGE halt with 0 retries

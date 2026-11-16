@@ -1,4 +1,4 @@
-import { mkdirSync } from 'node:fs';
+import { chmodSync, mkdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -23,8 +23,9 @@ function loadDatabaseSyncConstructor(): typeof DatabaseSyncType {
 
 export function resolveDefaultDbPath(): string {
   return (
+    process.env.BROWSER_AGENT_CACHE_PATH?.trim() ||
     process.env.BROWSER_AGENT_DB_PATH?.trim() ||
-    join(homedir(), '.design-os-browser-extension', 'linkedin-cache.sqlite')
+    join(homedir(), '.design-os-browser-extension', 'cache.sqlite')
   );
 }
 
@@ -65,6 +66,17 @@ export class LinkedInSqliteCache {
     const DatabaseSyncCtor = loadDatabaseSyncConstructor();
     this.db = new DatabaseSyncCtor(dbPath);
     this.initSchema();
+    if (dbPath !== ':memory:') {
+      try {
+        chmodSync(dbPath, 0o600);
+      } catch {
+        // Best-effort permission lock on platforms supporting POSIX modes
+      }
+    }
+  }
+
+  getDatabase(): DatabaseSyncType {
+    return this.db;
   }
 
   private initSchema(): void {
@@ -157,6 +169,106 @@ export class LinkedInSqliteCache {
         event_type TEXT NOT NULL,
         payload_json TEXT NOT NULL,
         created_at TEXT NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS reader_results (
+        result_id TEXT PRIMARY KEY,
+        site TEXT NOT NULL,
+        view TEXT NOT NULL,
+        target_key TEXT NOT NULL,
+        target TEXT NOT NULL,
+        captured_at TEXT NOT NULL,
+        captured_ms INTEGER NOT NULL,
+        schema TEXT NOT NULL,
+        complete INTEGER NOT NULL,
+        missing_required_json TEXT NOT NULL,
+        data_json TEXT NOT NULL,
+        evidence_id TEXT,
+        audit_id TEXT NOT NULL,
+        caller_bot TEXT NOT NULL,
+        caller_routine TEXT NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_reader_results_lookup
+        ON reader_results(site, view, target_key, captured_ms DESC);
+
+      CREATE TABLE IF NOT EXISTS reader_latest (
+        site TEXT NOT NULL,
+        view TEXT NOT NULL,
+        target_key TEXT NOT NULL,
+        result_id TEXT NOT NULL,
+        captured_at TEXT NOT NULL,
+        captured_ms INTEGER NOT NULL,
+        PRIMARY KEY (site, view, target_key)
+      );
+
+      CREATE TABLE IF NOT EXISTS reader_series (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        site TEXT NOT NULL,
+        view TEXT NOT NULL,
+        target_key TEXT NOT NULL,
+        metric TEXT NOT NULL,
+        period TEXT,
+        captured_at TEXT NOT NULL,
+        value REAL NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_reader_series_lookup
+        ON reader_series(site, view, target_key, metric, captured_at);
+
+      CREATE TABLE IF NOT EXISTS pacing_loads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        budget_key TEXT NOT NULL,
+        site TEXT NOT NULL,
+        ts_ms INTEGER NOT NULL,
+        loads INTEGER NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_pacing_loads_key_ts
+        ON pacing_loads(budget_key, ts_ms DESC);
+
+      CREATE TABLE IF NOT EXISTS pacing_state (
+        budget_key TEXT PRIMARY KEY,
+        last_load_ms INTEGER NOT NULL DEFAULT 0,
+        consecutive_stalls INTEGER NOT NULL DEFAULT 0,
+        stalled_until_ms INTEGER NOT NULL DEFAULT 0,
+        stall_pauses_day TEXT NOT NULL DEFAULT '',
+        stall_pauses_count INTEGER NOT NULL DEFAULT 0
+      );
+
+      CREATE TABLE IF NOT EXISTS account_guards (
+        site TEXT PRIMARY KEY,
+        state TEXT NOT NULL,
+        reason TEXT,
+        since TEXT,
+        evidence_id TEXT,
+        alert_emitted INTEGER NOT NULL DEFAULT 0,
+        alert_line TEXT
+      );
+
+      CREATE TABLE IF NOT EXISTS audit_log (
+        seq INTEGER PRIMARY KEY AUTOINCREMENT,
+        audit_id TEXT UNIQUE NOT NULL,
+        attempt_id TEXT NOT NULL,
+        started_at TEXT NOT NULL,
+        ended_at TEXT NOT NULL,
+        caller_bot TEXT NOT NULL,
+        caller_routine TEXT NOT NULL,
+        site TEXT NOT NULL,
+        view TEXT NOT NULL,
+        target TEXT NOT NULL,
+        kind TEXT NOT NULL,
+        cache TEXT NOT NULL,
+        page_loads INTEGER NOT NULL,
+        pacing_after_json TEXT NOT NULL,
+        gate_before TEXT NOT NULL,
+        gate_after TEXT NOT NULL,
+        result TEXT NOT NULL,
+        error_code TEXT,
+        evidence_id TEXT,
+        result_id TEXT,
+        prev_hash TEXT NOT NULL,
+        row_hash TEXT NOT NULL
       );
     `);
   }

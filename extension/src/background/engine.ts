@@ -19,12 +19,28 @@ import { ACT_OPS, evaluateActPolicy, isAllowedUrl, type ActOp, type ActTarget } 
 import { detectHumanGate } from '../core/human-gate-detector.js';
 import { PageEpochStore } from '../core/page-epoch-store.js';
 import {
+  captureVisibleTabPng,
   getLocalStore,
   getSessionStore,
   sendTabMessage,
   type KeyValueStore,
 } from '../core/webext-polyfill.js';
 import { navigateAndWait, resolveTargetTab } from './tab-router.js';
+
+function isSafeReaderNavigationUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase().replace(/^\[|\]$/g, '');
+    if (parsed.protocol === 'http:' && host === '127.0.0.1' && parsed.pathname.startsWith('/fixture/')) return true;
+    if (parsed.protocol !== 'https:') return false;
+    if (!host || host === 'localhost' || host.endsWith('.local') || host.endsWith('.internal')) return false;
+    if (/^(127\.|10\.|192\.168\.|0\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host)) return false;
+    if (/^(::1|fc[0-9a-f]{2}:|fd[0-9a-f]{2}:|fe80:)/i.test(host)) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export interface EngineDeps {
   capabilities: EngineCapabilities;
@@ -275,7 +291,10 @@ export class ExtensionEngine {
         : this.blockedResponse(req.id, 'BLOCKED_POLICY', 'ACT_DECISION_REFUSED', res.message);
     }
 
-    const tab = await resolveTargetTab(req.fence?.tabId);
+    const requestedUrl = typeof req.params?.url === 'string' && req.params.url.startsWith('http')
+      ? req.params.url
+      : undefined;
+    const tab = await resolveTargetTab(req.fence?.tabId, requestedUrl);
     if (!tab || typeof tab.id !== 'number') {
       return {
         id: req.id,
@@ -283,21 +302,26 @@ export class ExtensionEngine {
         outcome: 'BLOCKED',
         error: {
           code: 'NO_ACTIVE_TARGET_TAB',
-          message: 'No active LinkedIn or local fixture tab found in browser.',
+          message: 'No active target tab found in browser.',
           retryable: false,
         },
       };
     }
 
-    const targetUrl = typeof req.params?.url === 'string' && req.params.url.startsWith('http')
-      ? req.params.url
-      : undefined;
-    if (targetUrl && !isAllowedUrl(targetUrl)) {
+    const targetUrl = requestedUrl;
+    const urlAllowed = targetUrl
+      ? action === 'reader.collect'
+        ? isSafeReaderNavigationUrl(targetUrl)
+        : isAllowedUrl(targetUrl)
+      : true;
+    if (targetUrl && !urlAllowed) {
       return this.blockedResponse(
         req.id,
         'BLOCKED_POLICY',
         'NAVIGATION_DOMAIN_NOT_ALLOWED',
-        'The url parameter must point to an allowlisted host (LinkedIn or local fixtures).',
+        action === 'reader.collect'
+          ? 'Reader navigation rejected unsafe or private target URL.'
+          : 'The url parameter must point to an allowlisted host (LinkedIn or local fixtures).',
       );
     }
     if (targetUrl && targetUrl !== tab.url) {
@@ -357,7 +381,61 @@ export class ExtensionEngine {
     if (urlGate.state !== 'CLEAR') {
       this.lastHumanGate = { state: urlGate.state, reason: urlGate.reason, url: activeUrl };
       this.onHumanGateBlocked?.(urlGate.state, urlGate.reason ?? 'Blocked', activeUrl);
+      if (action === 'reader.collect') {
+        const screenshotBase64 = await captureVisibleTabPng(tab.windowId);
+        return {
+          ...this.blockedResponse(req.id, urlGate.state, urlGate.state, urlGate.reason ?? 'Human gate active', fence),
+          data: { ...(screenshotBase64 ? { screenshotBase64 } : {}), gateReason: urlGate.reason },
+        };
+      }
       return this.blockedResponse(req.id, urlGate.state, urlGate.state, urlGate.reason ?? 'Human gate active', fence);
+    }
+
+    if (action === 'reader.collect') {
+      const reply = await sendTabMessage<IsolatedReply>(tab.id, {
+        __designOsIsolatedRpc: true,
+        op: 'reader.collect',
+        fence,
+        params: req.params ?? {},
+      });
+      this.recordPassiveCount(reply?.passiveCapturedCount);
+      if (!reply?.ok) {
+        const gate = reply?.humanGate ?? 'BLOCKED_CHALLENGE';
+        this.lastHumanGate = { state: gate, reason: reply?.error?.message, url: activeUrl };
+        this.onHumanGateBlocked?.(gate, reply?.error?.message ?? 'Blocked', activeUrl);
+        const screenshotBase64 = await captureVisibleTabPng(tab.windowId);
+        return {
+          id: req.id,
+          ok: false,
+          outcome: reply?.outcome ?? 'BLOCKED',
+          fence,
+          humanGate: gate,
+          data: { ...(screenshotBase64 ? { screenshotBase64 } : {}), gateReason: reply?.error?.message },
+          error: reply?.error ?? { code: gate, message: 'Human gate triggered during collect', retryable: false },
+        };
+      }
+      const wantShot = Boolean(req.params?.captureScreenshot);
+      const screenshotBase64 = wantShot ? await captureVisibleTabPng(tab.windowId) : undefined;
+      return {
+        id: req.id,
+        ok: true,
+        outcome: 'COMMITTED',
+        humanGate: 'CLEAR',
+        fence,
+        data: { snapshot: reply.data, ...(screenshotBase64 ? { screenshotBase64 } : {}) },
+      };
+    }
+
+    if (action === 'browser.captureScreenshot') {
+      const screenshotBase64 = await captureVisibleTabPng(tab.windowId);
+      return {
+        id: req.id,
+        ok: Boolean(screenshotBase64),
+        outcome: screenshotBase64 ? 'COMMITTED' : 'BLOCKED',
+        humanGate: 'CLEAR',
+        fence,
+        data: { screenshotBase64 },
+      };
     }
 
     if (req.fence && (action === 'browser.act' || action === 'linkedin.composer.prefill')) {

@@ -4,6 +4,7 @@ import type { HumanGateState } from '../../../shared/rpc-envelope.js';
 import type { ActApproval } from '../core/act-approvals.js';
 import { getRuntimeApi } from '../core/webext-polyfill.js';
 import { renderActApprovals } from './act-approvals-view.js';
+import { renderAccountGuards, type SyncedGuardItem } from './guard-view.js';
 
 interface PopupStateResponse {
   ok: boolean;
@@ -23,6 +24,7 @@ interface PopupStateResponse {
   statusError?: { code?: string; message?: string } | null;
   queue?: CopilotQueueItem[];
   actApprovals?: ActApproval[];
+  accountGuards?: SyncedGuardItem[];
 }
 
 function el<T extends HTMLElement>(id: string): T {
@@ -94,6 +96,10 @@ function renderState(res: PopupStateResponse): void {
   if (res.config?.brokerUrl && document.activeElement !== brokerInput) {
     brokerInput.value = res.config.brokerUrl;
   }
+
+  renderAccountGuards(res.accountGuards ?? [], (site) => {
+    void sendPopupCommand({ cmd: 'resolve_guard', site }).then(() => refreshState());
+  });
 
   renderActApprovals(res.actApprovals ?? [], (approvalId, decision) => {
     void sendPopupCommand({ cmd: 'decide_act', approvalId, decision }).then(() => refreshState());

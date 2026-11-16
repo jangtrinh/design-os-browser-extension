@@ -115,7 +115,7 @@ function computeExpectedRepoFiles(repoRoot) {
   const metaBase = {
     name: 'design-os-browser-extension',
     description:
-      'Capability-Tiered Agent RPC WebExtension Engine, LinkedIn Zero-Drift Hybrid Reader, SQLite local cache, CLI (`browser-agent`), and 14-tool MCP stdio server.',
+      'Capability-Tiered Agent RPC WebExtension Engine, Shared Read-Only Browser Layer, SQLite local cache, CLI (`browser-agent`), and 22-tool MCP stdio server.',
     version,
     author: { name: 'Jang Trinh', url: 'https://github.com/jangtrinh' },
     homepage: 'https://github.com/jangtrinh/design-os-browser-extension#readme',
@@ -151,7 +151,7 @@ function computeExpectedRepoFiles(repoRoot) {
         shortDescription:
           'Drive the user\'s real Chromium or Firefox session for LinkedIn search, structured reads, SQLite cache, and Copilot draft prefill.',
         longDescription:
-          'Zero-drift accessibility-tree WebExtension bridge wired to `browser-agent` CLI (`--json`) and 14 MCP tools over loopback WebSocket `127.0.0.1:4347` with fenced `(pageId, epoch, lease)` dispatch and strict Human Gate Handoff.',
+          'Zero-drift accessibility-tree WebExtension bridge wired to `browser-agent` CLI (`--json`) and 22 MCP tools over loopback WebSocket `127.0.0.1:4347` with fenced `(pageId, epoch, lease)` dispatch and strict Human Gate Handoff.',
         developerName: 'DESIGN:OS',
         category: 'Developer Tools',
         capabilities: ['Read', 'Write'],

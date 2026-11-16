@@ -1,5 +1,5 @@
 import { buildCapabilities, type CapabilityTier } from '../../../shared/capability-tier.js';
-import type { RpcRequest } from '../../../shared/rpc-envelope.js';
+import type { BridgeGuardSyncMessage, RpcRequest } from '../../../shared/rpc-envelope.js';
 import { getLocalStore, getRuntimeApi, getSessionStore, hasSessionStorage } from '../core/webext-polyfill.js';
 import { WsBridgeClient } from '../core/ws-bridge-client.js';
 import { ExtensionEngine } from './engine.js';
@@ -38,11 +38,16 @@ const engine = new ExtensionEngine({
 const api = getRuntimeApi();
 const version = api?.runtime?.getManifest?.().version ?? '0.2.0';
 
+let syncedAccountGuards: BridgeGuardSyncMessage['guards'] = [];
+
 bridgeClient = new WsBridgeClient({
   store: localStore,
   capabilities,
   extensionVersion: version,
   onRpcRequest: (req) => engine.handleRpc(req, 'agent-rpc'),
+  onGuardSync: (guards) => {
+    syncedAccountGuards = guards;
+  },
 });
 
 void bridgeClient.start();
@@ -108,6 +113,7 @@ api?.runtime?.onMessage?.addListener((rawMsg, _sender, sendResponse) => {
           statusError: statusRes.error ?? null,
           queue: (queueRes.data as { items?: unknown[] } | undefined)?.items ?? [],
           actApprovals: engine.actApprovals.list(),
+          accountGuards: syncedAccountGuards,
         });
         return;
       }
@@ -154,6 +160,20 @@ api?.runtime?.onMessage?.addListener((rawMsg, _sender, sendResponse) => {
           'extension-popup',
         );
         sendResponse(out);
+        return;
+      }
+
+      if (cmd === 'resolve_guard') {
+        const site = String(msg.site ?? '');
+        // Only the trusted popup message handler can send this human clear event to the broker.
+        bridgeClient?.sendEvent('guard_resolved_by_human_popup', {
+          site,
+          callerOrigin: 'extension-popup',
+        });
+        syncedAccountGuards = syncedAccountGuards.map((g) =>
+          g.site === site ? { ...g, state: 'CLEAR', reason: null, since: null } : g,
+        );
+        sendResponse({ ok: true, site, state: 'CLEAR' });
         return;
       }
 

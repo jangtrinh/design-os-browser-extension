@@ -95,6 +95,17 @@ export interface BridgeEvent {
   timestamp: string;
 }
 
+export interface BridgeGuardSyncMessage {
+  type: 'guard_sync';
+  guards: Array<{
+    site: string;
+    state: 'CLEAR' | 'PAUSED';
+    reason?: string | null;
+    since?: string | null;
+    evidence_id?: string | null;
+  }>;
+}
+
 export type BridgeWireMessage =
   | BridgeHello
   | BridgeHelloOk
@@ -102,4 +113,5 @@ export type BridgeWireMessage =
   | BridgePong
   | BridgeRpcMessage
   | BridgeRpcResultMessage
-  | BridgeEvent;
+  | BridgeEvent
+  | BridgeGuardSyncMessage;

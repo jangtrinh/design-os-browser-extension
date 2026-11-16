@@ -1,7 +1,7 @@
 import { createInterface } from 'node:readline';
 import { PROTOCOL_VERSION } from '../../../shared/rpc-envelope.js';
 import { readLinkedInComments } from '../commands/linkedin-comments.js';
-import { callBrokerRpc, queryCacheWithFallback, type BrokerClientConfig } from '../daemon/client.js';
+import { callBrokerReaderApi, callBrokerRpc, queryCacheWithFallback, type BrokerClientConfig } from '../daemon/client.js';
 
 export interface McpToolDef {
   name: string;
@@ -147,6 +147,89 @@ export const MCP_TOOLS: McpToolDef[] = [
       properties: { sql: { type: 'string' } },
     },
   },
+  {
+    name: 'reader_list',
+    description: 'List available read-only site adapters, views, required fields, and default max_age_s without loading a page.',
+    inputSchema: {
+      type: 'object',
+      properties: { site: { type: 'string' } },
+    },
+  },
+  {
+    name: 'reader_read',
+    description: 'Read a site view into a dos.reader.v1 envelope using cache-first freshness, shared per-site pacing, Account Guard, and third-party redaction.',
+    inputSchema: {
+      type: 'object',
+      required: ['site', 'view', 'caller'],
+      properties: {
+        site: { type: 'string' },
+        view: { type: 'string' },
+        target: { type: 'string' },
+        params: { type: 'object' },
+        max_age_s: { type: 'number' },
+        evidence: { type: 'string', enum: ['off', 'json', 'json+screenshot'] },
+        caller: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'reader_query_cache',
+    description: 'Query shared reader_results/reader_latest/reader_series cache via SELECT/WITH SQL or structured site/view/since filter.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        sql: { type: 'string' },
+        site: { type: 'string' },
+        view: { type: 'string' },
+        target_key: { type: 'string' },
+        since: { type: 'string' },
+      },
+    },
+  },
+  {
+    name: 'reader_check',
+    description: 'Run a read-only comparison check (duplicate_text, profile_links, link_status, subreddit_rules). Never acts or mutates.',
+    inputSchema: {
+      type: 'object',
+      required: ['check', 'params'],
+      properties: {
+        check: { type: 'string', enum: ['duplicate_text', 'profile_links', 'link_status', 'subreddit_rules'] },
+        params: { type: 'object' },
+        caller: { type: 'object' },
+      },
+    },
+  },
+  {
+    name: 'pacing_status',
+    description: 'Inspect per-site reader pacing budgets, remaining hourly/daily loads, and stall pause state.',
+    inputSchema: { type: 'object', properties: { site: { type: 'string' } } },
+  },
+  {
+    name: 'guard_status',
+    description: 'Inspect per-site Account Guard state (CLEAR or PAUSED with reason, since, evidence_id). Clearing is human-only in popup.',
+    inputSchema: { type: 'object', properties: { site: { type: 'string' } } },
+  },
+  {
+    name: 'evidence_get',
+    description: 'Retrieve verified file paths and SHA-256 manifest for a reader evidence_id.',
+    inputSchema: {
+      type: 'object',
+      required: ['evidence_id'],
+      properties: { evidence_id: { type: 'string' } },
+    },
+  },
+  {
+    name: 'audit_query',
+    description: 'Query hash-chained read-only reader audit rows by since, site, or caller.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        since: { type: 'string' },
+        site: { type: 'string' },
+        caller: { type: 'string' },
+      },
+    },
+  },
 ];
 
 export async function handleMcpJsonRpcMessage(
@@ -215,6 +298,29 @@ export async function handleMcpJsonRpcMessage(
         jsonrpc: '2.0',
         id,
         result: { content: [{ type: 'text', text: JSON.stringify(res, null, 2) }], isError: !res.ok },
+      };
+    }
+
+    const readerApiMap: Record<string, string> = {
+      reader_list: '/reader/list',
+      reader_read: '/reader/read',
+      reader_query_cache: '/reader/query',
+      reader_check: '/reader/check',
+      pacing_status: '/reader/pacing',
+      guard_status: '/reader/guard',
+      evidence_get: '/reader/evidence',
+      audit_query: '/reader/audit',
+    };
+    const readerPath = readerApiMap[toolName];
+    if (readerPath) {
+      const res = await callBrokerReaderApi(readerPath, args, brokerCfg);
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          content: [{ type: 'text', text: JSON.stringify(res, null, 2) }],
+          isError: !res.ok,
+        },
       };
     }
 

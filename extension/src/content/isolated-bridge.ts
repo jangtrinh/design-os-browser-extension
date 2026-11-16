@@ -19,6 +19,7 @@ import type { LinkedInSearchCategory } from '../../../shared/linkedin-schema.js'
 import type { PageFence } from '../../../shared/rpc-envelope.js';
 import { buildCompactDomSnapshot, inferName, inferRole } from '../core/dom-snapshot.js';
 import { scanDocumentHumanGate } from '../core/human-gate-detector.js';
+import { collectPageSnapshot } from '../core/page-collector.js';
 import { getRuntimeApi } from '../core/webext-polyfill.js';
 
 interface IsolatedActionMessage {
@@ -26,6 +27,7 @@ interface IsolatedActionMessage {
   op:
     | 'inspect_gate'
     | 'observe'
+    | 'reader.collect'
     | 'click_ref'
     | 'fill_ref'
     | 'describe_ref'
@@ -115,6 +117,18 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
         humanGate: gate.state,
         retryable: false,
       },
+    };
+  }
+
+  if (msg.op === 'reader.collect') {
+    const scrollSteps = typeof msg.params?.scrollSteps === 'number' ? msg.params.scrollSteps : 0;
+    const maxNodes = typeof msg.params?.maxNodes === 'number' ? msg.params.maxNodes : undefined;
+    const snapshot = collectPageSnapshot(document, url, { scrollSteps, maxNodes });
+    return {
+      ok: true,
+      outcome: 'COMMITTED',
+      data: snapshot,
+      passiveCapturedCount: passiveStore.totalEntitiesIngested,
     };
   }
 
