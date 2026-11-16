@@ -1,0 +1,21 @@
+{
+  "id": "5f890068-1f5e-4afd-96e5-786502c034d4",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 11,
+    "leaseExpiresAt": 1794826173326,
+    "leaseId": "ls_7eafab1c30e5",
+    "pageId": "pg_0c0fcf283d61",
+    "tabId": 771712598,
+    "updatedAt": 1794826143326,
+    "url": "https://www.linkedin.com/in/jangtrinh/recent-activity/all/"
+  },
+  "data": {
+    "pageUrl": "https://www.linkedin.com/in/jangtrinh/recent-activity/all/",
+    "posts": [],
+    "passiveEntitiesCount": 0,
+    "capturedAt": "2026-11-16T10:49:03.331Z"
+  }
+}

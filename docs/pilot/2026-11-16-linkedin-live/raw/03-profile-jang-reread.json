@@ -1,0 +1,25 @@
+{
+  "id": "f645ead0-db23-4074-b9b5-23d6440d909c",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 5,
+    "leaseExpiresAt": 1794826095847,
+    "leaseId": "ls_5c2d436c07d9",
+    "pageId": "pg_cb03002ef8e3",
+    "tabId": 771712598,
+    "updatedAt": 1794826065847,
+    "url": "https://www.linkedin.com/in/jangtrinh/"
+  },
+  "data": {
+    "publicIdentifier": "jangtrinh",
+    "url": "https://www.linkedin.com/in/jangtrinh/",
+    "fullName": "jangtrinh",
+    "headline": "Principal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTech",
+    "experiences": [],
+    "skills": [],
+    "source": "dom",
+    "capturedAt": "2026-11-16T10:47:45.851Z"
+  }
+}

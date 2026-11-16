@@ -1,0 +1,421 @@
+{
+  "id": "96ae849d-a3f5-411b-971d-c4d8e13e8351",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 13,
+    "leaseExpiresAt": 1794826196176,
+    "leaseId": "ls_2d84163ad5b8",
+    "pageId": "pg_0df15f3c2b68",
+    "tabId": 771712598,
+    "updatedAt": 1794826166176,
+    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+  },
+  "data": {
+    "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/",
+    "title": "Post | LinkedIn",
+    "fence": {
+      "epoch": 13,
+      "leaseExpiresAt": 1794826196176,
+      "leaseId": "ls_2d84163ad5b8",
+      "pageId": "pg_0df15f3c2b68",
+      "tabId": 771712598,
+      "updatedAt": 1794826166176,
+      "url": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+    },
+    "humanGate": "CLEAR",
+    "compactText": "[ref=1] heading \"0 notifications\"\n[ref=2] button \"Skip to search\"\n[ref=3] button \"Skip to main content\"\n[ref=4] button \"Skip to sidebar\"\n[ref=5] button \"Skip to primary content\"\n[ref=6] button \"Skip to aside\"\n[ref=7] button \"Close jump menu\"\n[ref=8] textbox \"Search\" (editable)\n[ref=9] button \"Home, 1 new notification\"\n[ref=10] link \"My Network, 0 new notifications\" (href=https://www.linkedin.com/mynetwork)\n[ref=11] link \"Jobs, 0 new notifications\" (href=https://www.linkedin.com/jobs/)\n[ref=12] button \"Messaging, 0 new notifications\"\n[ref=13] link \"Notifications, 0 new notifications\" (href=https://www.linkedin.com/notifications/)\n[ref=14] button \"Me\"\n[ref=15] button \"For Business\"\n[ref=16] link \"Advertise, 0 new notifications\" (href=https://www.linkedin.com/campaignmanager/accounts/)\n[ref=17] link \"Premium\" (href=https://www.linkedin.com/in/jangtrinh/)\n[ref=18] link \"Jang TrinhPrincipal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTechHo Chi\" (href=https://www.linkedin.com/in/jangtrinh/)\n[ref=19] link \"VinSmart Future\" (href=https://www.linkedin.com/in/jangtrinh/)\n[ref=20] link \"Profile viewers638\" (href=https://www.linkedin.com/me/profile-views/)\n[ref=21] link \"Post impressions3,776\" (href=https://www.linkedin.com/analytics/creator/content/)\n[ref=22] link \"Your Premium features\" (href=https://www.linkedin.com/premium/my-premium/)\n[ref=23] heading \"Feed post\"\n[ref=24] link \"Boost\" (href=https://www.linkedin.com/campaignmanager/boost/campaigns/new/details/?origin=memberPostDetails&content=urn%3Ali%3Ashare%3A7525934959287635969&isNileReferrer=true)\n[ref=25] link \"Jang Trinh • You\" (href=https://www.linkedin.com/in/jangtrinh/)\n[ref=26] button \"Open control menu for post by Jang Trinh\"\n[ref=27] link \"Open https://lnkd.in/gP4Yay-q\" (href=https://www.linkedin.com/safety/go/?url=https%3A%2F%2Flnkd%2Ein%2FgP4Yay-q&urlhash=Eppx&mt=64c1Dq-NomhX5D_5AXVeHBySM3fpihHXRyVjm6Iwm9HK42DTkqbeVRohtAkaNNCVvQ2g7Q2JngV6O-x4h255jp8d3TY13JFh8rpXB6S4G10hBKsGE0qPy5g3js9ReThNxgCqqoo1cSpm5HwnWNmS9DtGoyioG1w_kv4eKqzjuxm4OhIQ_Q_obkhaVih-LHqg4A&isSdui=true)\n[ref=28] link \"View hashtag: #buildinpublic\" (href=https://www.linkedin.com/search/results/all/?keywords=%23buildinpublic&origin=HASH_TAG_FROM_FEED)\n[ref=29] link \"View hashtag: #designos\" (href=https://www.linkedin.com/search/results/all/?keywords=%23designos&origin=HASH_TAG_FROM_FEED)\n[ref=30] button \"Show translation\"\n[ref=31] button \"Reaction button state: Funny\"\n[ref=32] button \"Open reactions menu\"\n[ref=33] button \"Comment\"\n[ref=34] button \"Repost\"\n[ref=35] link \"Send\" (href=https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/)\n[ref=36] link \"7 reactions\" (href=https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/)\n[ref=37] link \"759 impressionsView analyticsView analytics\" (href=https://www.linkedin.com/analytics/post-summary/urn:li:activity:7525934960248156160/)\n[ref=38] textbox \"Text editor for creating comment\" (editable)\n[ref=39] button \"Show Emoji Picker\"\n[ref=40] button \"Open GIF picker\"\n[ref=41] button \"Share photo\"\n[ref=42] button \"Dismiss\"\n[ref=43] heading \"Ad Options\"\n[ref=44] button \"Why am I seeing this ad?Manage your ad preferences\"\n[ref=45] button \"Hide or report this adI don’t want to see this ad in my feed\"\n[ref=46] button \"Dismiss\"\n[ref=47] heading \"Don’t want to see this\"\n[ref=48] textbox \"(empty textbox)\" (editable)\n[ref=49] textbox \"(empty textbox)\" (editable)\n[ref=50] button \"Report this ad\"\n[ref=51] button \"Submit\"\n[ref=52] link \"About\" (href=https://about.linkedin.com/)\n[ref=53] link \"Accessibility\" (href=https://www.linkedin.com/accessibility/)\n[ref=54] link \"Help Center\" (href=https://www.linkedin.com/help/linkedin/)\n[ref=55] button \"Privacy & Terms\"\n[ref=56] link \"Ad Choices\" (href=https://www.linkedin.com/help/linkedin/answer/62931/)\n[ref=57] link \"Advertising\" (href=https://www.linkedin.com/ad/start/?trk=n_nav_ads_rr)\n[ref=58] button \"Business Services\"\n[ref=59] link \"Get the LinkedIn app\" (href=https://www.linkedin.com/mobile/)\n[ref=60] link \"More\" (href=https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/)",
+    "nodes": [
+      {
+        "ref": 1,
+        "role": "heading",
+        "name": "0 notifications",
+        "tag": "h2"
+      },
+      {
+        "ref": 2,
+        "role": "button",
+        "name": "Skip to search",
+        "tag": "button"
+      },
+      {
+        "ref": 3,
+        "role": "button",
+        "name": "Skip to main content",
+        "tag": "button"
+      },
+      {
+        "ref": 4,
+        "role": "button",
+        "name": "Skip to sidebar",
+        "tag": "button"
+      },
+      {
+        "ref": 5,
+        "role": "button",
+        "name": "Skip to primary content",
+        "tag": "button"
+      },
+      {
+        "ref": 6,
+        "role": "button",
+        "name": "Skip to aside",
+        "tag": "button"
+      },
+      {
+        "ref": 7,
+        "role": "button",
+        "name": "Close jump menu",
+        "tag": "button"
+      },
+      {
+        "ref": 8,
+        "role": "textbox",
+        "name": "Search",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 9,
+        "role": "button",
+        "name": "Home, 1 new notification",
+        "tag": "button"
+      },
+      {
+        "ref": 10,
+        "role": "link",
+        "name": "My Network, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/mynetwork"
+      },
+      {
+        "ref": 11,
+        "role": "link",
+        "name": "Jobs, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/jobs/"
+      },
+      {
+        "ref": 12,
+        "role": "button",
+        "name": "Messaging, 0 new notifications",
+        "tag": "button"
+      },
+      {
+        "ref": 13,
+        "role": "link",
+        "name": "Notifications, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/notifications/"
+      },
+      {
+        "ref": 14,
+        "role": "button",
+        "name": "Me",
+        "tag": "button"
+      },
+      {
+        "ref": 15,
+        "role": "button",
+        "name": "For Business",
+        "tag": "button"
+      },
+      {
+        "ref": 16,
+        "role": "link",
+        "name": "Advertise, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/campaignmanager/accounts/"
+      },
+      {
+        "ref": 17,
+        "role": "link",
+        "name": "Premium",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/"
+      },
+      {
+        "ref": 18,
+        "role": "link",
+        "name": "Jang TrinhPrincipal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTechHo Chi",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/"
+      },
+      {
+        "ref": 19,
+        "role": "link",
+        "name": "VinSmart Future",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/"
+      },
+      {
+        "ref": 20,
+        "role": "link",
+        "name": "Profile viewers638",
+        "tag": "a",
+        "href": "https://www.linkedin.com/me/profile-views/"
+      },
+      {
+        "ref": 21,
+        "role": "link",
+        "name": "Post impressions3,776",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/creator/content/"
+      },
+      {
+        "ref": 22,
+        "role": "link",
+        "name": "Your Premium features",
+        "tag": "a",
+        "href": "https://www.linkedin.com/premium/my-premium/"
+      },
+      {
+        "ref": 23,
+        "role": "heading",
+        "name": "Feed post",
+        "tag": "h2"
+      },
+      {
+        "ref": 24,
+        "role": "link",
+        "name": "Boost",
+        "tag": "a",
+        "href": "https://www.linkedin.com/campaignmanager/boost/campaigns/new/details/?origin=memberPostDetails&content=urn%3Ali%3Ashare%3A7525934959287635969&isNileReferrer=true"
+      },
+      {
+        "ref": 25,
+        "role": "link",
+        "name": "Jang Trinh • You",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/"
+      },
+      {
+        "ref": 26,
+        "role": "button",
+        "name": "Open control menu for post by Jang Trinh",
+        "tag": "button"
+      },
+      {
+        "ref": 27,
+        "role": "link",
+        "name": "Open https://lnkd.in/gP4Yay-q",
+        "tag": "a",
+        "href": "https://www.linkedin.com/safety/go/?url=https%3A%2F%2Flnkd%2Ein%2FgP4Yay-q&urlhash=Eppx&mt=64c1Dq-NomhX5D_5AXVeHBySM3fpihHXRyVjm6Iwm9HK42DTkqbeVRohtAkaNNCVvQ2g7Q2JngV6O-x4h255jp8d3TY13JFh8rpXB6S4G10hBKsGE0qPy5g3js9ReThNxgCqqoo1cSpm5HwnWNmS9DtGoyioG1w_kv4eKqzjuxm4OhIQ_Q_obkhaVih-LHqg4A&isSdui=true"
+      },
+      {
+        "ref": 28,
+        "role": "link",
+        "name": "View hashtag: #buildinpublic",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?keywords=%23buildinpublic&origin=HASH_TAG_FROM_FEED"
+      },
+      {
+        "ref": 29,
+        "role": "link",
+        "name": "View hashtag: #designos",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?keywords=%23designos&origin=HASH_TAG_FROM_FEED"
+      },
+      {
+        "ref": 30,
+        "role": "button",
+        "name": "Show translation",
+        "tag": "button"
+      },
+      {
+        "ref": 31,
+        "role": "button",
+        "name": "Reaction button state: Funny",
+        "tag": "button"
+      },
+      {
+        "ref": 32,
+        "role": "button",
+        "name": "Open reactions menu",
+        "tag": "button"
+      },
+      {
+        "ref": 33,
+        "role": "button",
+        "name": "Comment",
+        "tag": "button"
+      },
+      {
+        "ref": 34,
+        "role": "button",
+        "name": "Repost",
+        "tag": "button"
+      },
+      {
+        "ref": 35,
+        "role": "link",
+        "name": "Send",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+      },
+      {
+        "ref": 36,
+        "role": "link",
+        "name": "7 reactions",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+      },
+      {
+        "ref": 37,
+        "role": "link",
+        "name": "759 impressionsView analyticsView analytics",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/post-summary/urn:li:activity:7525934960248156160/"
+      },
+      {
+        "ref": 38,
+        "role": "textbox",
+        "name": "Text editor for creating comment",
+        "tag": "div",
+        "editable": true
+      },
+      {
+        "ref": 39,
+        "role": "button",
+        "name": "Show Emoji Picker",
+        "tag": "button"
+      },
+      {
+        "ref": 40,
+        "role": "button",
+        "name": "Open GIF picker",
+        "tag": "button"
+      },
+      {
+        "ref": 41,
+        "role": "button",
+        "name": "Share photo",
+        "tag": "button"
+      },
+      {
+        "ref": 42,
+        "role": "button",
+        "name": "Dismiss",
+        "tag": "button"
+      },
+      {
+        "ref": 43,
+        "role": "heading",
+        "name": "Ad Options",
+        "tag": "h2"
+      },
+      {
+        "ref": 44,
+        "role": "button",
+        "name": "Why am I seeing this ad?Manage your ad preferences",
+        "tag": "button"
+      },
+      {
+        "ref": 45,
+        "role": "button",
+        "name": "Hide or report this adI don’t want to see this ad in my feed",
+        "tag": "button"
+      },
+      {
+        "ref": 46,
+        "role": "button",
+        "name": "Dismiss",
+        "tag": "button"
+      },
+      {
+        "ref": 47,
+        "role": "heading",
+        "name": "Don’t want to see this",
+        "tag": "h2"
+      },
+      {
+        "ref": 48,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 49,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 50,
+        "role": "button",
+        "name": "Report this ad",
+        "tag": "button"
+      },
+      {
+        "ref": 51,
+        "role": "button",
+        "name": "Submit",
+        "tag": "button"
+      },
+      {
+        "ref": 52,
+        "role": "link",
+        "name": "About",
+        "tag": "a",
+        "href": "https://about.linkedin.com/"
+      },
+      {
+        "ref": 53,
+        "role": "link",
+        "name": "Accessibility",
+        "tag": "a",
+        "href": "https://www.linkedin.com/accessibility/"
+      },
+      {
+        "ref": 54,
+        "role": "link",
+        "name": "Help Center",
+        "tag": "a",
+        "href": "https://www.linkedin.com/help/linkedin/"
+      },
+      {
+        "ref": 55,
+        "role": "button",
+        "name": "Privacy & Terms",
+        "tag": "div"
+      },
+      {
+        "ref": 56,
+        "role": "link",
+        "name": "Ad Choices",
+        "tag": "a",
+        "href": "https://www.linkedin.com/help/linkedin/answer/62931/"
+      },
+      {
+        "ref": 57,
+        "role": "link",
+        "name": "Advertising",
+        "tag": "a",
+        "href": "https://www.linkedin.com/ad/start/?trk=n_nav_ads_rr"
+      },
+      {
+        "ref": 58,
+        "role": "button",
+        "name": "Business Services",
+        "tag": "div"
+      },
+      {
+        "ref": 59,
+        "role": "link",
+        "name": "Get the LinkedIn app",
+        "tag": "a",
+        "href": "https://www.linkedin.com/mobile/"
+      },
+      {
+        "ref": 60,
+        "role": "link",
+        "name": "More",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/update/urn:li:share:7525934959287635969/"
+      }
+    ]
+  }
+}

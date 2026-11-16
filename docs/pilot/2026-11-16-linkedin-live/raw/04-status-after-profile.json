@@ -1,0 +1,39 @@
+{
+  "id": "83ec5f90-0d73-4545-8c21-a293a8f314cc",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 5,
+    "leaseExpiresAt": 1794826104318,
+    "leaseId": "ls_5c2d436c07d9",
+    "pageId": "pg_cb03002ef8e3",
+    "tabId": 771712598,
+    "updatedAt": 1794826074318,
+    "url": "https://www.linkedin.com/in/jangtrinh/"
+  },
+  "data": {
+    "connected": true,
+    "activeTabId": 771712598,
+    "activeUrl": "https://www.linkedin.com/in/jangtrinh/",
+    "humanGate": "CLEAR",
+    "fence": {
+      "epoch": 5,
+      "leaseExpiresAt": 1794826104318,
+      "leaseId": "ls_5c2d436c07d9",
+      "pageId": "pg_cb03002ef8e3",
+      "tabId": 771712598,
+      "updatedAt": 1794826074318,
+      "url": "https://www.linkedin.com/in/jangtrinh/"
+    },
+    "pacing": {
+      "readsLastHour": 2,
+      "readsHourLimit": 120,
+      "prefillsLastHour": 0,
+      "prefillsHourLimit": 30,
+      "passiveCapturedCount": 0,
+      "lastActionAt": "2026-11-16T10:47:45.848Z"
+    },
+    "pendingCopilotCount": 0
+  }
+}

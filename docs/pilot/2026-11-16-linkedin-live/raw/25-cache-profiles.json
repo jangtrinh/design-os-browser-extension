@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "count": 2,
+  "rows": [
+    {
+      "public_identifier": "jangtrinh",
+      "full_name": "jangtrinh",
+      "headline": "Principal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTech",
+      "source": "dom",
+      "captured_at": "2026-11-16T10:47:45.851Z"
+    },
+    {
+      "public_identifier": "[member:66df1786]",
+      "full_name": "[member:66df1786]",
+      "headline": "· 1st",
+      "source": "dom",
+      "captured_at": "2026-11-16T10:49:55.881Z"
+    }
+  ],
+  "_redaction": "Non-Jang rows hashed."
+}

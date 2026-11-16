@@ -1,0 +1,432 @@
+{
+  "id": "838f9e46-a2cd-4d50-9088-[phone-redacted]bf",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 17,
+    "leaseExpiresAt": 1794826226010,
+    "leaseId": "ls_c876d66ccf9f",
+    "pageId": "pg_288cea248dc5",
+    "tabId": 771712598,
+    "updatedAt": 1794826196010,
+    "url": "https://www.linkedin.com/in/[member:66df1786]/"
+  },
+  "data": {
+    "url": "https://www.linkedin.com/in/[member:66df1786]/",
+    "title": "[redacted:145e37b9] | LinkedIn",
+    "fence": {
+      "epoch": 17,
+      "leaseExpiresAt": 1794826226010,
+      "leaseId": "ls_c876d66ccf9f",
+      "pageId": "pg_288cea248dc5",
+      "tabId": 771712598,
+      "updatedAt": 1794826196010,
+      "url": "https://www.linkedin.com/in/[member:66df1786]/"
+    },
+    "humanGate": "CLEAR",
+    "compactText": "[ref=1] heading \"0 notifications\"\n[ref=2] button \"Skip to search\"\n[ref=3] button \"Skip to main content\"\n[ref=4] button \"Skip to primary content\"\n[ref=5] button \"Skip to aside\"\n[ref=6] button \"Skip to footer\"\n[ref=7] button \"Close jump menu\"\n[ref=8] textbox \"Search\"\n[ref=9] button \"Home, 1 new notification\"\n[ref=10] link \"My Network, 0 new notifications\" (href=https://www.linkedin.com/mynetwork)\n[ref=11] link \"Jobs, 0 new notifications\" (href=https://www.linkedin.com/jobs/)\n[ref=12] button \"Messaging, 0 new notifications\"\n[ref=13] link \"Notifications, 0 new notifications\" (href=https://www.linkedin.com/notifications/)\n[ref=14] button \"Me\"\n[ref=15] button \"For Business\"\n[ref=16] link \"Advertise, 0 new notifications\" (href=https://www.linkedin.com/campaignmanager/accounts/)\n[ref=17] link \"[redacted:b9a6e175]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=18] button \"More\"\n[ref=19] link \"Message\" (href=https://www.linkedin.com/messaging/compose/?[query-redacted])\n[ref=20] link \"[redacted:17b765b3]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=21] link \"[redacted:f8256d11]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=22] heading \"[redacted:3a21b502]\"\n[ref=23] link \"Contact info\" (href=https://www.linkedin.com/in/[member:66df1786]/overlay/contact-info/)\n[ref=24] button \"[redacted:ae790b83]\"\n[ref=25] link \"[redacted:ea61ed3c]\" (href=https://www.linkedin.com/search/results/people/?[query-redacted])\n[ref=26] link \"[redacted:157b3d51]\" (href=https://www.linkedin.com/search/results/people/?[query-redacted])\n[ref=27] link \"[redacted:17b765b3]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=28] link \"Message\" (href=https://www.linkedin.com/messaging/compose/?[query-redacted])\n[ref=29] button \"More\"\n[ref=30] link \"[redacted:17b765b3]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=31] link \"Message\" (href=https://www.linkedin.com/messaging/compose/?[query-redacted])\n[ref=32] button \"More\"\n[ref=33] link \"[redacted:8196f235]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=34] heading \"About\"\n[ref=35] link \"[redacted:2c49bd13]\" (href=https://www.linkedin.com/in/[member:66df1786]/overlay/top-skills-details/)\n[ref=36] heading \"[redacted:c533cafa]\"\n[ref=37] link \"[redacted:0cc6239a]\" (href=https://www.linkedin.com/feed/update/urn:li:activity:7506278813786603520/)\n[ref=38] link \"[redacted:7a7c18a3]\" (href=mailto:[email-redacted])\n[ref=39] link \"[redacted:e9eaf7ae]\" (href=https://linkedin.com/in/[member:66df1786])\n[ref=40] link \"[redacted:1082cb0f]\" (href=https://www.linkedin.com/safety/go/?[query-redacted])\n[ref=41] link \"[redacted:70c50d35]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=42] link \"[redacted:2ec0184f]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=43] link \"[redacted:df74d3f0]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=44] link \"[redacted:1e257f57]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=45] link \"[redacted:af6a3d9c]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=46] link \"[redacted:fa771aab]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=47] link \"[redacted:adfa70ea]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=48] link \"[redacted:b4cfdf4d]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=49] link \"[redacted:6aa39656]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=50] link \"[redacted:6077c4fc]\" (href=https://www.linkedin.com/search/results/all/?[query-redacted])\n[ref=51] heading \"Activity\"\n[ref=52] button \"[redacted:6e3fd0de]\"\n[ref=53] textbox \"(empty textbox)\"\n[ref=54] textbox \"(empty textbox)\"\n[ref=55] textbox \"(empty textbox)\"\n[ref=56] link \"[redacted:c2869c12]\" (href=https://www.linkedin.com/in/[member:66df1786]/)\n[ref=57] button \"[redacted:ae3b39be]\"\n[ref=58] link \"[redacted:b04d8cde]\" (href=https://www.linkedin.com/feed/update/urn:li:activity:7508449935470698496/)\n[ref=59] link \"[redacted:c9ab37f1]\" (href=https://www.linkedin.com/safety/go/?[query-redacted])\n[ref=60] link \"[redacted:3ff4c9cb]\" (href=https://www.linkedin.com/safety/go/?[query-redacted])",
+    "nodes": [
+      {
+        "ref": 1,
+        "role": "heading",
+        "name": "0 notifications",
+        "tag": "h2"
+      },
+      {
+        "ref": 2,
+        "role": "button",
+        "name": "Skip to search",
+        "tag": "button"
+      },
+      {
+        "ref": 3,
+        "role": "button",
+        "name": "Skip to main content",
+        "tag": "button"
+      },
+      {
+        "ref": 4,
+        "role": "button",
+        "name": "Skip to primary content",
+        "tag": "button"
+      },
+      {
+        "ref": 5,
+        "role": "button",
+        "name": "Skip to aside",
+        "tag": "button"
+      },
+      {
+        "ref": 6,
+        "role": "button",
+        "name": "Skip to footer",
+        "tag": "button"
+      },
+      {
+        "ref": 7,
+        "role": "button",
+        "name": "Close jump menu",
+        "tag": "button"
+      },
+      {
+        "ref": 8,
+        "role": "textbox",
+        "name": "Search",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 9,
+        "role": "button",
+        "name": "Home, 1 new notification",
+        "tag": "button"
+      },
+      {
+        "ref": 10,
+        "role": "link",
+        "name": "My Network, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/mynetwork"
+      },
+      {
+        "ref": 11,
+        "role": "link",
+        "name": "Jobs, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/jobs/"
+      },
+      {
+        "ref": 12,
+        "role": "button",
+        "name": "Messaging, 0 new notifications",
+        "tag": "button"
+      },
+      {
+        "ref": 13,
+        "role": "link",
+        "name": "Notifications, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/notifications/"
+      },
+      {
+        "ref": 14,
+        "role": "button",
+        "name": "Me",
+        "tag": "button"
+      },
+      {
+        "ref": 15,
+        "role": "button",
+        "name": "For Business",
+        "tag": "button"
+      },
+      {
+        "ref": 16,
+        "role": "link",
+        "name": "Advertise, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/campaignmanager/accounts/"
+      },
+      {
+        "ref": 17,
+        "role": "link",
+        "name": "[redacted:b9a6e175]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 18,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 19,
+        "role": "link",
+        "name": "Message",
+        "tag": "a",
+        "href": "https://www.linkedin.com/messaging/compose/?[query-redacted]"
+      },
+      {
+        "ref": 20,
+        "role": "link",
+        "name": "[redacted:17b765b3]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 21,
+        "role": "link",
+        "name": "[redacted:f8256d11]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 22,
+        "role": "heading",
+        "name": "[redacted:3a21b502]",
+        "tag": "h2"
+      },
+      {
+        "ref": 23,
+        "role": "link",
+        "name": "Contact info",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/overlay/contact-info/"
+      },
+      {
+        "ref": 24,
+        "role": "button",
+        "name": "[redacted:ae790b83]",
+        "tag": "div"
+      },
+      {
+        "ref": 25,
+        "role": "link",
+        "name": "[redacted:ea61ed3c]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/people/?[query-redacted]"
+      },
+      {
+        "ref": 26,
+        "role": "link",
+        "name": "[redacted:157b3d51]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/people/?[query-redacted]"
+      },
+      {
+        "ref": 27,
+        "role": "link",
+        "name": "[redacted:17b765b3]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 28,
+        "role": "link",
+        "name": "Message",
+        "tag": "a",
+        "href": "https://www.linkedin.com/messaging/compose/?[query-redacted]"
+      },
+      {
+        "ref": 29,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 30,
+        "role": "link",
+        "name": "[redacted:17b765b3]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 31,
+        "role": "link",
+        "name": "Message",
+        "tag": "a",
+        "href": "https://www.linkedin.com/messaging/compose/?[query-redacted]"
+      },
+      {
+        "ref": 32,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 33,
+        "role": "link",
+        "name": "[redacted:8196f235]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 34,
+        "role": "heading",
+        "name": "About",
+        "tag": "h2"
+      },
+      {
+        "ref": 35,
+        "role": "link",
+        "name": "[redacted:2c49bd13]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/overlay/top-skills-details/"
+      },
+      {
+        "ref": 36,
+        "role": "heading",
+        "name": "[redacted:c533cafa]",
+        "tag": "h2"
+      },
+      {
+        "ref": 37,
+        "role": "link",
+        "name": "[redacted:0cc6239a]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/update/urn:li:activity:7506278813786603520/"
+      },
+      {
+        "ref": 38,
+        "role": "link",
+        "name": "[redacted:7a7c18a3]",
+        "tag": "a",
+        "href": "mailto:[email-redacted]"
+      },
+      {
+        "ref": 39,
+        "role": "link",
+        "name": "[redacted:e9eaf7ae]",
+        "tag": "a",
+        "href": "https://linkedin.com/in/[member:66df1786]"
+      },
+      {
+        "ref": 40,
+        "role": "link",
+        "name": "[redacted:1082cb0f]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/safety/go/?[query-redacted]"
+      },
+      {
+        "ref": 41,
+        "role": "link",
+        "name": "[redacted:70c50d35]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 42,
+        "role": "link",
+        "name": "[redacted:2ec0184f]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 43,
+        "role": "link",
+        "name": "[redacted:df74d3f0]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 44,
+        "role": "link",
+        "name": "[redacted:1e257f57]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 45,
+        "role": "link",
+        "name": "[redacted:af6a3d9c]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 46,
+        "role": "link",
+        "name": "[redacted:fa771aab]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 47,
+        "role": "link",
+        "name": "[redacted:adfa70ea]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 48,
+        "role": "link",
+        "name": "[redacted:b4cfdf4d]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 49,
+        "role": "link",
+        "name": "[redacted:6aa39656]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 50,
+        "role": "link",
+        "name": "[redacted:6077c4fc]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/search/results/all/?[query-redacted]"
+      },
+      {
+        "ref": 51,
+        "role": "heading",
+        "name": "Activity",
+        "tag": "h2"
+      },
+      {
+        "ref": 52,
+        "role": "button",
+        "name": "[redacted:6e3fd0de]",
+        "tag": "button"
+      },
+      {
+        "ref": 53,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 54,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 55,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 56,
+        "role": "link",
+        "name": "[redacted:c2869c12]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/[member:66df1786]/"
+      },
+      {
+        "ref": 57,
+        "role": "button",
+        "name": "[redacted:ae3b39be]",
+        "tag": "button"
+      },
+      {
+        "ref": 58,
+        "role": "link",
+        "name": "[redacted:b04d8cde]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/update/urn:li:activity:7508449935470698496/"
+      },
+      {
+        "ref": 59,
+        "role": "link",
+        "name": "[redacted:c9ab37f1]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/safety/go/?[query-redacted]"
+      },
+      {
+        "ref": 60,
+        "role": "link",
+        "name": "[redacted:3ff4c9cb]",
+        "tag": "a",
+        "href": "https://www.linkedin.com/safety/go/?[query-redacted]"
+      }
+    ]
+  },
+  "_redaction": "Third-party names/headlines hashed (sha256[:8]); profile slugs hashed; query strings dropped; compactText regenerated from redacted nodes."
+}

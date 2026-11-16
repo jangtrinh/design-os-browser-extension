@@ -1,0 +1,422 @@
+{
+  "id": "7620de05-3a69-483f-b45e-d1c6257bc70c",
+  "ok": true,
+  "outcome": "COMMITTED",
+  "humanGate": "CLEAR",
+  "fence": {
+    "epoch": 5,
+    "leaseExpiresAt": 1794826104473,
+    "leaseId": "ls_5c2d436c07d9",
+    "pageId": "pg_cb03002ef8e3",
+    "tabId": 771712598,
+    "updatedAt": 1794826074473,
+    "url": "https://www.linkedin.com/in/jangtrinh/"
+  },
+  "data": {
+    "url": "https://www.linkedin.com/in/jangtrinh/",
+    "title": "Jang Trinh | LinkedIn",
+    "fence": {
+      "epoch": 5,
+      "leaseExpiresAt": 1794826104473,
+      "leaseId": "ls_5c2d436c07d9",
+      "pageId": "pg_cb03002ef8e3",
+      "tabId": 771712598,
+      "updatedAt": 1794826074473,
+      "url": "https://www.linkedin.com/in/jangtrinh/"
+    },
+    "humanGate": "CLEAR",
+    "compactText": "[ref=1] heading \"0 notifications\"\n[ref=2] button \"Skip to search\"\n[ref=3] button \"Skip to main content\"\n[ref=4] button \"Skip to primary content\"\n[ref=5] button \"Skip to aside\"\n[ref=6] button \"Skip to footer\"\n[ref=7] button \"Close jump menu\"\n[ref=8] textbox \"Search\" (editable)\n[ref=9] button \"Home, 1 new notification\"\n[ref=10] link \"My Network, 0 new notifications\" (href=https://www.linkedin.com/mynetwork)\n[ref=11] link \"Jobs, 0 new notifications\" (href=https://www.linkedin.com/jobs/)\n[ref=12] button \"Messaging, 0 new notifications\"\n[ref=13] link \"Notifications, 0 new notifications\" (href=https://www.linkedin.com/notifications/)\n[ref=14] button \"Me\"\n[ref=15] button \"For Business\"\n[ref=16] link \"Advertise, 0 new notifications\" (href=https://www.linkedin.com/campaignmanager/accounts/)\n[ref=17] link \"Jang TrinhPrincipal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTech\" (href=https://www.linkedin.com/in/jangtrinh/)\n[ref=18] button \"More\"\n[ref=19] button \"Enhance profile\"\n[ref=20] link \"Add section\" (href=https://www.linkedin.com/)\n[ref=21] button \"Open to\"\n[ref=22] button \"Edit background image\"\n[ref=23] link \"Edit intro\" (href=https://www.linkedin.com/in/jangtrinh/edit/intro/)\n[ref=24] link \"Jang Trinh\" (href=https://www.linkedin.com/)\n[ref=25] heading \"Jang Trinh\"\n[ref=26] link \"Contact info\" (href=https://www.linkedin.com/in/jangtrinh/overlay/contact-info/)\n[ref=27] button \"VinSmart Future\"\n[ref=28] button \"National University of Singapore\"\n[ref=29] link \"8,741 followers\" (href=https://www.linkedin.com/feed/followers/)\n[ref=30] link \"500+ connections\" (href=https://www.linkedin.com/mynetwork/invite-connect/connections/)\n[ref=31] button \"Open to\"\n[ref=32] link \"Add section\" (href=https://www.linkedin.com/)\n[ref=33] button \"Add custom button\"\n[ref=34] button \"More\"\n[ref=35] button \"Open to\"\n[ref=36] link \"Add section\" (href=https://www.linkedin.com/)\n[ref=37] button \"More\"\n[ref=38] button \"Add custom button\"\n[ref=39] link \"Open to work · Everyone on LinkedInVietnam +3 more | On-site · Hybrid · RemoteShow details\" (href=https://www.linkedin.com/)\n[ref=40] button \"Edit\"\n[ref=41] heading \"Suggested for you\"\n[ref=42] link \"Add a project\" (href=https://www.linkedin.com/in/jangtrinh/edit/forms/project/new/)\n[ref=43] button \"Dismiss adding a project\"\n[ref=44] heading \"Analytics\"\n[ref=45] link \"638 profile viewsDiscover who’s viewed your profile.\" (href=https://www.linkedin.com/analytics/profile-views/)\n[ref=46] link \"3,776 post impressionsCheck out who’s engaging with your posts.Past 7 days\" (href=https://www.linkedin.com/analytics/creator/content/?timeRange=past_7_days&dimension=INDUSTRY&metricType=IMPRESSIONS)\n[ref=47] link \"59 search appearancesSee how often you appear in search results.\" (href=https://www.linkedin.com/analytics/search-appearances/)\n[ref=48] link \"638 profile viewsDiscover who’s viewed your profile.\" (href=https://www.linkedin.com/analytics/profile-views/)\n[ref=49] link \"3,776 post impressionsCheck out who’s engaging with your posts.Past 7 days\" (href=https://www.linkedin.com/analytics/creator/content/?timeRange=past_7_days&dimension=INDUSTRY&metricType=IMPRESSIONS)\n[ref=50] link \"59 search appearancesSee how often you appear in search results.\" (href=https://www.linkedin.com/analytics/search-appearances/)\n[ref=51] link \"Show all analytics\" (href=https://www.linkedin.com/dashboard/)\n[ref=52] heading \"About\"\n[ref=53] link \"Edit about\" (href=https://www.linkedin.com/in/jangtrinh/edit/forms/summary/new/)\n[ref=54] heading \"Activity\"\n[ref=55] link \"8,741 followers\" (href=https://www.linkedin.com/feed/followers/)\n[ref=56] link \"Create a post\" (href=https://www.linkedin.com/sharing/compose)\n[ref=57] link \"Edit default activity\" (href=https://www.linkedin.com/in/jangtrinh/edit/forms/content-collections-star-pill/new/)\n[ref=58] textbox \"(empty textbox)\" (editable)\n[ref=59] textbox \"(empty textbox)\" (editable)\n[ref=60] textbox \"(empty textbox)\" (editable)",
+    "nodes": [
+      {
+        "ref": 1,
+        "role": "heading",
+        "name": "0 notifications",
+        "tag": "h2"
+      },
+      {
+        "ref": 2,
+        "role": "button",
+        "name": "Skip to search",
+        "tag": "button"
+      },
+      {
+        "ref": 3,
+        "role": "button",
+        "name": "Skip to main content",
+        "tag": "button"
+      },
+      {
+        "ref": 4,
+        "role": "button",
+        "name": "Skip to primary content",
+        "tag": "button"
+      },
+      {
+        "ref": 5,
+        "role": "button",
+        "name": "Skip to aside",
+        "tag": "button"
+      },
+      {
+        "ref": 6,
+        "role": "button",
+        "name": "Skip to footer",
+        "tag": "button"
+      },
+      {
+        "ref": 7,
+        "role": "button",
+        "name": "Close jump menu",
+        "tag": "button"
+      },
+      {
+        "ref": 8,
+        "role": "textbox",
+        "name": "Search",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 9,
+        "role": "button",
+        "name": "Home, 1 new notification",
+        "tag": "button"
+      },
+      {
+        "ref": 10,
+        "role": "link",
+        "name": "My Network, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/mynetwork"
+      },
+      {
+        "ref": 11,
+        "role": "link",
+        "name": "Jobs, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/jobs/"
+      },
+      {
+        "ref": 12,
+        "role": "button",
+        "name": "Messaging, 0 new notifications",
+        "tag": "button"
+      },
+      {
+        "ref": 13,
+        "role": "link",
+        "name": "Notifications, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/notifications/"
+      },
+      {
+        "ref": 14,
+        "role": "button",
+        "name": "Me",
+        "tag": "button"
+      },
+      {
+        "ref": 15,
+        "role": "button",
+        "name": "For Business",
+        "tag": "button"
+      },
+      {
+        "ref": 16,
+        "role": "link",
+        "name": "Advertise, 0 new notifications",
+        "tag": "a",
+        "href": "https://www.linkedin.com/campaignmanager/accounts/"
+      },
+      {
+        "ref": 17,
+        "role": "link",
+        "name": "Jang TrinhPrincipal Product Engineer @ VinSmart Future | Scaling AI Products across HealthTech, FinTech & PropTech",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/"
+      },
+      {
+        "ref": 18,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 19,
+        "role": "button",
+        "name": "Enhance profile",
+        "tag": "button"
+      },
+      {
+        "ref": 20,
+        "role": "link",
+        "name": "Add section",
+        "tag": "a",
+        "href": "https://www.linkedin.com/"
+      },
+      {
+        "ref": 21,
+        "role": "button",
+        "name": "Open to",
+        "tag": "button"
+      },
+      {
+        "ref": 22,
+        "role": "button",
+        "name": "Edit background image",
+        "tag": "button"
+      },
+      {
+        "ref": 23,
+        "role": "link",
+        "name": "Edit intro",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/edit/intro/"
+      },
+      {
+        "ref": 24,
+        "role": "link",
+        "name": "Jang Trinh",
+        "tag": "a",
+        "href": "https://www.linkedin.com/"
+      },
+      {
+        "ref": 25,
+        "role": "heading",
+        "name": "Jang Trinh",
+        "tag": "h2"
+      },
+      {
+        "ref": 26,
+        "role": "link",
+        "name": "Contact info",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/overlay/contact-info/"
+      },
+      {
+        "ref": 27,
+        "role": "button",
+        "name": "VinSmart Future",
+        "tag": "div"
+      },
+      {
+        "ref": 28,
+        "role": "button",
+        "name": "National University of Singapore",
+        "tag": "div"
+      },
+      {
+        "ref": 29,
+        "role": "link",
+        "name": "8,741 followers",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/followers/"
+      },
+      {
+        "ref": 30,
+        "role": "link",
+        "name": "500+ connections",
+        "tag": "a",
+        "href": "https://www.linkedin.com/mynetwork/invite-connect/connections/"
+      },
+      {
+        "ref": 31,
+        "role": "button",
+        "name": "Open to",
+        "tag": "button"
+      },
+      {
+        "ref": 32,
+        "role": "link",
+        "name": "Add section",
+        "tag": "a",
+        "href": "https://www.linkedin.com/"
+      },
+      {
+        "ref": 33,
+        "role": "button",
+        "name": "Add custom button",
+        "tag": "button"
+      },
+      {
+        "ref": 34,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 35,
+        "role": "button",
+        "name": "Open to",
+        "tag": "button"
+      },
+      {
+        "ref": 36,
+        "role": "link",
+        "name": "Add section",
+        "tag": "a",
+        "href": "https://www.linkedin.com/"
+      },
+      {
+        "ref": 37,
+        "role": "button",
+        "name": "More",
+        "tag": "button"
+      },
+      {
+        "ref": 38,
+        "role": "button",
+        "name": "Add custom button",
+        "tag": "button"
+      },
+      {
+        "ref": 39,
+        "role": "link",
+        "name": "Open to work · Everyone on LinkedInVietnam +3 more | On-site · Hybrid · RemoteShow details",
+        "tag": "a",
+        "href": "https://www.linkedin.com/"
+      },
+      {
+        "ref": 40,
+        "role": "button",
+        "name": "Edit",
+        "tag": "button"
+      },
+      {
+        "ref": 41,
+        "role": "heading",
+        "name": "Suggested for you",
+        "tag": "h2"
+      },
+      {
+        "ref": 42,
+        "role": "link",
+        "name": "Add a project",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/edit/forms/project/new/"
+      },
+      {
+        "ref": 43,
+        "role": "button",
+        "name": "Dismiss adding a project",
+        "tag": "button"
+      },
+      {
+        "ref": 44,
+        "role": "heading",
+        "name": "Analytics",
+        "tag": "h2"
+      },
+      {
+        "ref": 45,
+        "role": "link",
+        "name": "638 profile viewsDiscover who’s viewed your profile.",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/profile-views/"
+      },
+      {
+        "ref": 46,
+        "role": "link",
+        "name": "3,776 post impressionsCheck out who’s engaging with your posts.Past 7 days",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/creator/content/?timeRange=past_7_days&dimension=INDUSTRY&metricType=IMPRESSIONS"
+      },
+      {
+        "ref": 47,
+        "role": "link",
+        "name": "59 search appearancesSee how often you appear in search results.",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/search-appearances/"
+      },
+      {
+        "ref": 48,
+        "role": "link",
+        "name": "638 profile viewsDiscover who’s viewed your profile.",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/profile-views/"
+      },
+      {
+        "ref": 49,
+        "role": "link",
+        "name": "3,776 post impressionsCheck out who’s engaging with your posts.Past 7 days",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/creator/content/?timeRange=past_7_days&dimension=INDUSTRY&metricType=IMPRESSIONS"
+      },
+      {
+        "ref": 50,
+        "role": "link",
+        "name": "59 search appearancesSee how often you appear in search results.",
+        "tag": "a",
+        "href": "https://www.linkedin.com/analytics/search-appearances/"
+      },
+      {
+        "ref": 51,
+        "role": "link",
+        "name": "Show all analytics",
+        "tag": "a",
+        "href": "https://www.linkedin.com/dashboard/"
+      },
+      {
+        "ref": 52,
+        "role": "heading",
+        "name": "About",
+        "tag": "h2"
+      },
+      {
+        "ref": 53,
+        "role": "link",
+        "name": "Edit about",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/edit/forms/summary/new/"
+      },
+      {
+        "ref": 54,
+        "role": "heading",
+        "name": "Activity",
+        "tag": "h2"
+      },
+      {
+        "ref": 55,
+        "role": "link",
+        "name": "8,741 followers",
+        "tag": "a",
+        "href": "https://www.linkedin.com/feed/followers/"
+      },
+      {
+        "ref": 56,
+        "role": "link",
+        "name": "Create a post",
+        "tag": "a",
+        "href": "https://www.linkedin.com/sharing/compose"
+      },
+      {
+        "ref": 57,
+        "role": "link",
+        "name": "Edit default activity",
+        "tag": "a",
+        "href": "https://www.linkedin.com/in/jangtrinh/edit/forms/content-collections-star-pill/new/"
+      },
+      {
+        "ref": 58,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 59,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      },
+      {
+        "ref": 60,
+        "role": "textbox",
+        "name": "(empty textbox)",
+        "tag": "input",
+        "editable": true
+      }
+    ]
+  }
+}
