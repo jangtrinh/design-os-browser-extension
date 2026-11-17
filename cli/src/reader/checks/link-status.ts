@@ -32,9 +32,14 @@ export const JANG_OWNED_SLUGS = [
 export const AUTH_REDIRECT_RE =
   /\/(login|authwall|uas\/login|i\/flow\/login|account\/access|checkpoint|challenge)(\/|\?|$)/i;
 
+const NOT_FOUND_TITLE_RE = /^(404\b|page not found|not found\b)|\b(404 not found|page (?:could not be|not) found|this page (?:isn't|is not) available)\b/i;
+
 export interface LinkStatusItem {
   url: string;
-  ok: boolean;
+  /** true = verified reachable, false = verified broken/blocked, null = not checked. */
+  ok: boolean | null;
+  /** false when nothing was loaded for this URL (no data is never "ok"). */
+  checked: boolean;
   status: number | null;
   final_url: string | null;
   title: string | null;
@@ -80,6 +85,7 @@ export function registerLinkStatusCheck(): void {
           items.push({
             url,
             ok: false,
+            checked: true,
             blocked_policy: true,
             status: null,
             final_url: null,
@@ -98,6 +104,7 @@ export function registerLinkStatusCheck(): void {
           items.push({
             url,
             ok: false,
+            checked: true,
             blocked_policy: true,
             status: null,
             final_url: null,
@@ -122,6 +129,7 @@ export function registerLinkStatusCheck(): void {
             items.push({
               url,
               ok: false,
+              checked: true,
               blocked_policy: true,
               reason: 'Non-allowlisted Facebook/YouTube page refused by policy.',
               status: null,
@@ -138,15 +146,19 @@ export function registerLinkStatusCheck(): void {
 
         const injected = injectedStatuses[url];
         if (!effectiveSignedIn && !injected) {
+          // Public link: this check does not load it. Hand it to jev-read and say so;
+          // never report an unloaded URL as ok (2026-11-17 finding #6).
           items.push({
             url,
-            ok: true,
+            ok: null,
+            checked: false,
             skipped_extension: true,
             route: 'jev-read',
             status: null,
-            final_url: url,
+            final_url: null,
             title: null,
             redirected_to_auth: false,
+            reason: 'Not loaded: public URL routed to jev-read. Pass signed_in:true to load it in the extension.',
           });
           continue;
         }
@@ -161,6 +173,7 @@ export function registerLinkStatusCheck(): void {
           items.push({
             url,
             ok,
+            checked: true,
             status,
             final_url: finalUrl,
             title,
@@ -188,28 +201,55 @@ export function registerLinkStatusCheck(): void {
             : typeof d.url === 'string'
               ? d.url
               : url;
-        const status = typeof d.status === 'number' ? d.status : (readEnv.ok ? 200 : 500);
+        // Status is only what was observed; never assume 200.
+        const status = typeof d.status === 'number' ? d.status : null;
         const title = typeof d.title === 'string' ? d.title : null;
         const redirectedToAuth =
-          AUTH_REDIRECT_RE.test(finalUrl) || readEnv.gate === 'BLOCKED_AUTH';
-        const ok = readEnv.ok && !redirectedToAuth && status >= 200 && status < 400;
+          AUTH_REDIRECT_RE.test(finalUrl) || readEnv.gate === 'BLOCKED_AUTH' || d.detected_gate === 'BLOCKED_AUTH';
+        const notFoundTitle = title !== null && NOT_FOUND_TITLE_RE.test(title);
+        let ok: boolean | null;
+        let checked = true;
+        let reason: string | undefined;
+        if (redirectedToAuth) {
+          ok = false;
+          reason = 'Redirected to a sign-in page.';
+        } else if (!readEnv.ok || readEnv.gate !== 'CLEAR') {
+          ok = null;
+          checked = false;
+          reason = `Page could not be read (${readEnv.error_code ?? readEnv.gate}).`;
+        } else if ((status !== null && (status < 200 || status >= 400)) || notFoundTitle) {
+          ok = false;
+          reason = notFoundTitle ? `Page title says not found: "${title}".` : undefined;
+        } else if (!readEnv.complete) {
+          ok = null;
+          checked = false;
+          reason = 'Page read was incomplete.';
+        } else {
+          ok = true;
+        }
 
         items.push({
           url,
           ok,
+          checked,
           status,
           final_url: finalUrl,
           title,
           redirected_to_auth: redirectedToAuth,
           route: 'extension',
           evidence_id: readEnv.evidence_id,
+          ...(reason ? { reason } : {}),
         });
       }
 
       const nowDate = new Date(runtime.getClockNowMs());
       const nowIso = formatIsoWithOffset(nowDate);
       const auditId = mintUlid('au', nowDate.getTime());
-      const allOk = items.every((i) => i.ok);
+      const uncheckedCount = items.filter((i) => !i.checked).length;
+      const failedCount = items.filter((i) => i.ok === false).length;
+      // No URLs, or any URL left unchecked, is never "clear".
+      const verdict = failedCount > 0 ? 'warn' : uncheckedCount > 0 || items.length === 0 ? 'unknown' : 'clear';
+      const complete = items.length > 0 && uncheckedCount === 0;
       const targetKey = `check:link_status:${sha256Hex(rawUrls.join('\n')).slice(0, 16)}`;
 
       const env: ReaderEnvelope<Record<string, unknown>> = {
@@ -222,8 +262,8 @@ export function registerLinkStatusCheck(): void {
         captured_at: nowIso,
         source: 'live',
         freshness: { max_age_s: maxAgeS, age_s: 0, stale: false },
-        complete: true,
-        missing_required: [],
+        complete,
+        missing_required: complete ? [] : ['items'],
         gate: 'CLEAR',
         pacing: {
           site: 'generic',
@@ -235,15 +275,16 @@ export function registerLinkStatusCheck(): void {
         audit_id: auditId,
         caller,
         data: {
-          verdict: allOk ? 'clear' : 'warn',
+          verdict,
           items,
           statuses: Object.fromEntries(items.map((i) => [i.url, i])),
           total: items.length,
-          ok_count: items.filter((i) => i.ok).length,
-          failed_count: items.filter((i) => !i.ok).length,
+          ok_count: items.filter((i) => i.ok === true).length,
+          failed_count: failedCount,
+          unchecked_count: uncheckedCount,
         },
-        notes: [],
-        error_code: null,
+        notes: uncheckedCount > 0 ? [`${uncheckedCount} URL(s) were not checked; verdict is unknown, not clear.`] : [],
+        error_code: complete ? null : 'UNCHECKED_LINKS',
       };
 
       runtime.recordAuditRow(env, nowIso, nowIso, 'check', 'n/a', totalPageLoads, 'CLEAR', 'CLEAR', null);

@@ -5,6 +5,7 @@ import type { ReaderSiteId } from '../../../shared/reader-schema.js';
 
 export const DEFAULT_OWNER_HANDLES = [
   'jangtrinh',
+  'jangtrinhsg',
   'jangtrinhvn',
   'designosbyjang',
   'design-os',

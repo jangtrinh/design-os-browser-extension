@@ -6,6 +6,7 @@ import {
   SITE_PACING_POLICIES,
   type ReaderCaller,
   type ReaderEnvelope,
+  type ReaderGateState,
 } from '../../../../shared/reader-schema.js';
 import { registerReaderCheck } from '../reader-registry.js';
 import type { ReaderRuntime } from '../reader-runtime.js';
@@ -135,6 +136,10 @@ export function registerSubredditRulesCheck(): void {
 
       const notes: string[] = [];
       let pageLoads = 0;
+      // Rules count as known only from an explicit override or a complete live read with >=1 rule.
+      let rulesKnown = false;
+      let upstreamGate: ReaderGateState = 'CLEAR';
+      let upstreamError: string | null = null;
 
       if (params.rules_override && typeof params.rules_override === 'object') {
         rulesSummary = {
@@ -142,6 +147,7 @@ export function registerSubredditRulesCheck(): void {
           ...(params.rules_override as Partial<SubredditRulesSummary>),
           subreddit: (params.rules_override as Partial<SubredditRulesSummary>).subreddit ?? subreddit,
         };
+        rulesKnown = true;
       } else {
         const rulesUrl =
           typeof params.rules_url === 'string' && params.rules_url.trim()
@@ -186,7 +192,14 @@ export function registerSubredditRulesCheck(): void {
                 : [],
           };
           if (readEnv.source === 'live') pageLoads += 1;
+          rulesKnown = readEnv.complete && (rulesSummary.raw_rules?.length ?? 0) > 0;
+          if (!rulesKnown) {
+            upstreamError = readEnv.error_code ?? 'RULES_UNAVAILABLE';
+            notes.push('Subreddit rules read returned no rules; cannot clear the draft.');
+          }
         } else {
+          upstreamGate = readEnv.gate;
+          upstreamError = readEnv.error_code ?? 'RULES_UNAVAILABLE';
           notes.push(`Unable to read live subreddit rules (${readEnv.error_code ?? 'ERROR'}).`);
         }
 
@@ -230,13 +243,17 @@ export function registerSubredditRulesCheck(): void {
         }
       }
 
-      const evalRes = evaluateSubredditDraft(rulesSummary, {
+      const draftEval = evaluateSubredditDraft(rulesSummary, {
         draft_title: draftTitle,
         draft_text: draftText,
         flair,
         author_karma: authorKarma,
         account_age_days: accountAgeDays,
       });
+      // No rules is never "allowed": a block page or empty read must return unknown.
+      const evalRes: { verdict: string; allowed: boolean; warnings: typeof draftEval.warnings } = rulesKnown
+        ? draftEval
+        : { verdict: 'unknown', allowed: false, warnings: draftEval.warnings };
 
       const nowDate = new Date(runtime.getClockNowMs());
       const nowIso = formatIsoWithOffset(nowDate);
@@ -253,9 +270,9 @@ export function registerSubredditRulesCheck(): void {
         captured_at: nowIso,
         source: 'live',
         freshness: { max_age_s: maxAgeS, age_s: 0, stale: false },
-        complete: true,
-        missing_required: [],
-        gate: 'CLEAR',
+        complete: rulesKnown,
+        missing_required: rulesKnown ? [] : ['rules'],
+        gate: upstreamGate,
         pacing: {
           site: 'reddit',
           loads_left_hour: SITE_PACING_POLICIES.reddit.perHour,
@@ -273,10 +290,10 @@ export function registerSubredditRulesCheck(): void {
           rules_summary: rulesSummary,
         },
         notes,
-        error_code: null,
+        error_code: rulesKnown ? null : upstreamError ?? 'RULES_UNAVAILABLE',
       };
 
-      runtime.recordAuditRow(env, nowIso, nowIso, 'check', 'n/a', pageLoads, 'CLEAR', 'CLEAR', null);
+      runtime.recordAuditRow(env, nowIso, nowIso, 'check', 'n/a', pageLoads, 'CLEAR', upstreamGate, null);
       return env;
     },
   );

@@ -6,6 +6,7 @@ import {
   SITE_PACING_POLICIES,
   type ReaderCaller,
   type ReaderEnvelope,
+  type ReaderGateState,
   type ReaderSiteId,
 } from '../../../../shared/reader-schema.js';
 import { registerReaderCheck } from '../reader-registry.js';
@@ -110,8 +111,17 @@ export function registerDuplicateTextCheck(): void {
     let candidates: DuplicateCandidate[] = Array.isArray(params.candidates)
       ? (params.candidates as DuplicateCandidate[])
       : [];
-    let repliesComplete = typeof params.replies_complete === 'boolean' ? params.replies_complete : true;
+    // Caller-supplied candidates count as complete only when the caller says so or supplies some;
+    // an empty list with no thread to read is "nothing checked", never "clear".
+    let repliesComplete =
+      typeof params.replies_complete === 'boolean' ? params.replies_complete : candidates.length > 0;
     const notes: string[] = [];
+    let upstreamGate: ReaderGateState = 'CLEAR';
+    let upstreamError: string | null = null;
+
+    if (candidates.length === 0 && !threadUrl && params.replies_complete !== true) {
+      notes.push('No candidates and no thread_url: nothing was checked; returning unknown.');
+    }
 
     if (candidates.length === 0 && threadUrl) {
       const view = site === 'linkedin' ? 'post.comments' : 'post.replies';
@@ -123,19 +133,29 @@ export function registerDuplicateTextCheck(): void {
         evidence: 'off',
         caller,
       });
-      if (!readEnv.ok) {
+      if (!readEnv.ok || readEnv.gate !== 'CLEAR') {
         repliesComplete = false;
-        notes.push(`Unable to read live thread (${readEnv.error_code ?? 'ERROR'}); returning unknown.`);
+        upstreamGate = readEnv.gate;
+        upstreamError = readEnv.error_code ?? 'READ_FAILED';
+        notes.push(`Unable to read live thread (${readEnv.error_code ?? readEnv.gate}); returning unknown.`);
       } else {
         const d = readEnv.data as Record<string, unknown>;
-        if (typeof d.replies_complete === 'boolean') repliesComplete = d.replies_complete;
+        repliesComplete = d.replies_complete === true && readEnv.complete;
         if (d.comments_rendered === false) repliesComplete = false;
-        const rows = (Array.isArray(d.items) ? d.items : Array.isArray(d.comments) ? d.comments : []) as Array<Record<string, unknown>>;
+        const rows = [
+          ...(Array.isArray(d.items) ? d.items : Array.isArray(d.comments) ? d.comments : []),
+          // Jang's own replies: the whole point of this check is to catch a repeat of them.
+          ...(Array.isArray(d.owner_items) ? d.owner_items : []),
+        ] as Array<Record<string, unknown>>;
         candidates = rows.map((r) => ({
           text: String(r.text ?? ''),
           url: String(r.url ?? threadUrl),
           author_handle: String(r.author_handle ?? r.author_name ?? ''),
         }));
+        if (!readEnv.complete) {
+          upstreamError = readEnv.error_code ?? 'INCOMPLETE';
+          notes.push('Thread read was incomplete; a non-match cannot be reported as clear.');
+        }
       }
     }
 
@@ -163,9 +183,9 @@ export function registerDuplicateTextCheck(): void {
       captured_at: nowIso,
       source: 'live',
       freshness: { max_age_s: maxAgeS, age_s: 0, stale: false },
-      complete: true,
-      missing_required: [],
-      gate: 'CLEAR',
+      complete: res.verdict !== 'unknown',
+      missing_required: res.verdict === 'unknown' ? ['replies'] : [],
+      gate: upstreamGate,
       pacing: pSingle,
       redaction: { policy: REDACTION_POLICY_ID, fields_redacted: 0 },
       evidence_id: null,
@@ -173,9 +193,9 @@ export function registerDuplicateTextCheck(): void {
       caller,
       data: res,
       notes,
-      error_code: null,
+      error_code: res.verdict === 'unknown' ? upstreamError ?? 'UNVERIFIED' : null,
     };
-    runtime.recordAuditRow(env, nowIso, nowIso, 'check', 'n/a', 0, 'CLEAR', 'CLEAR', null);
+    runtime.recordAuditRow(env, nowIso, nowIso, 'check', 'n/a', 0, 'CLEAR', upstreamGate, null);
     return env;
   });
 }

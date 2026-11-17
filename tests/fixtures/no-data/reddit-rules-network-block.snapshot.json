@@ -1,0 +1,21 @@
+{
+ "url": "https://www.reddit.com/r/FigmaDesign/about/rules/",
+ "finalUrl": "https://www.reddit.com/r/FigmaDesign/about/rules/",
+ "title": "",
+ "axNodes": [],
+ "headings": [],
+ "links": [
+  {
+   "text": "File a ticket",
+   "href": "https://support.reddithelp.com/hc/en-us/requests/new"
+  }
+ ],
+ "meta": {},
+ "bodySample": "You've been blocked by network security. If you think you've been blocked by mistake, file a ticket below and we'll look into it. File a ticket",
+ "domMarkers": [],
+ "structuralAlertTexts": [],
+ "loadingIndicators": [],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "stalled": false
+}
