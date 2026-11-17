@@ -1,4 +1,4 @@
-import { buildCapabilities, type CapabilityTier } from '../../../shared/capability-tier.js';
+import { SHIPPED_ADAPTER_IDS, buildCapabilities, type CapabilityTier } from '../../../shared/capability-tier.js';
 import type { BridgeGuardSyncMessage, RpcRequest } from '../../../shared/rpc-envelope.js';
 import { getLocalStore, getRuntimeApi, getSessionStore, hasSessionStorage } from '../core/webext-polyfill.js';
 import { WsBridgeClient } from '../core/ws-bridge-client.js';
@@ -18,7 +18,7 @@ const capabilities = buildCapabilities({
   browserName,
   passiveMainObserver: true,
   sessionStorageFence: hasSessionStorage(),
-  adapterIds: ['linkedin-zero-drift'],
+  adapterIds: [...SHIPPED_ADAPTER_IDS],
 });
 
 const localStore = getLocalStore();
