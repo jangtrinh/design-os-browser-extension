@@ -10,6 +10,23 @@ export interface EngineCapabilities {
   adapterIds: string[];
 }
 
+/**
+ * Adapters shipped in this extension build (one per directory under extension/src/adapters).
+ * `linkedin-zero-drift` is the LinkedIn adapter's historical id; keep it first for compatibility.
+ */
+export const SHIPPED_ADAPTER_IDS = [
+  'linkedin-zero-drift',
+  'generic',
+  'jobs',
+  'producthunt',
+  'reddit',
+  'social-lists',
+  'threads',
+  'unikorn',
+  'x',
+  'youtube-studio',
+] as const;
+
 export function detectHostLittleEndian(): boolean {
   const probe = new Uint16Array([0x00ff]);
   const bytes = new Uint8Array(probe.buffer);
