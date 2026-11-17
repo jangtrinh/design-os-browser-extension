@@ -1,7 +1,7 @@
 # Asset provenance
 
-## Clay mark (new, needs Jang's acceptance)
-`design-os-browser-extension.webp` (256x256 RGBA WebP) is a new mark. The hub (`jangtrinh/jangtrinh.github.io`, `assets/logos/`) has no mark for this repository, so one was generated in the hub's 3D matte soft clay family.
+## Clay mark
+`design-os-browser-extension.webp` (256x256 RGBA WebP) is the same file as the hub's `assets/logos/design-os-browser-extension.webp` in `jangtrinh/jangtrinh.github.io` (sha256 `3ac67d51e07c4f724b500a85c45ecd32582da95c18da16f24891907f511d4f7a`). It was generated in the hub's 3D matte soft clay family.
 
 - Tool: Grok Bot image generation (GenerateImage), 2026-11-16, Asia/Saigon.
 - Form: one chunky rounded cube with one short, fat, rounded peg on its right face (an abstract plug-in block). No text, no logo, no third-party mark as subject or reference.
@@ -12,9 +12,9 @@
 - A first attempt (a rounded slab with a folder-like tab) was dropped because it read as a literal folder icon.
 
 ## Covers, flow diagrams and social preview
-1600x720 covers, 1600x1000 flow, 1280x640 social. Be Vietnam Pro (400, 600, 800) with the system mono stack, rendered with headless Chrome, then quantised to an indexed palette. Family tokens: dark #09090b / #121215 / #27272a, light #fafafa / #f4f4f5 / #e4e4e7, one accent #fca849 (the mark on covers, the arrows on the flow). Footer: FREE + source-available (PolyForm Shield). `social-preview.png` is not uploaded in repository Settings.
+1600x720 covers, 1600x1000 flow, 1280x640 social, re-rendered on 2026-11-17 (Asia/Saigon) for v0.3.0. Be Vietnam Pro (400, 600, 800), rendered with headless Chrome, then quantised to an indexed palette. Family tokens: dark #09090b / #121214, light #f4f4f5 / #e4e4e7, one accent #fca849 (the mark on covers, the arrows on the flow). Footer: FREE + source-available (PolyForm Shield). `social-preview.png` is not uploaded in repository Settings.
 
-Every number on the cards comes from the repository: `pack status` and `pack check` from knowledge-builder on `knowledge/agent-browser-extensions` (6 documents by type, 32 claims, 27 sources, 18 entities by type, 6 claims with 2+ publishers, 0 uncited, 0 verify failures, gate DEEPEN at 0 of 3 low-delta rounds), and `_evidence/agent-browser-extensions-261116/captures.jsonl` (40 captures: 39 fetched, 1 executed). Version 0.1.0 is from `CHANGELOG.md`.
+Every number on the cards comes from the repository at v0.3.0: `pack status` and `pack check` on `knowledge/agent-browser-extensions` (6 documents, 32 claims, 27 sources, 18 entities, 0 verify failures, gate DEEPEN at 0 of 3 low-delta rounds); the built manifests (Firefox `strict_min_version` 128.0; permissions `storage`, `tabs`, `alarms`); `extension/src/core/act-approvals.ts` (single-use approvals, 120 000 ms TTL); `shared/rpc-envelope.ts` (port 4347); the MCP `tools/list` response (22 tools); `cli/src/reader/register-all.ts` (10 sites, 4 checks); and `npm test` (17 suites, 79 tests). Version 0.3.0 is from `package.json` and `CHANGELOG.md`.
 
 ## Look sheet
 `look-sheet-agent-browser-extensions.png` is real output of knowledge-builder `skills/es-knowledge-forge/look.py --root knowledge/agent-browser-extensions` (L1 to L4 ok). The local checkout path in the header line was covered with a grey bar for privacy, and the palette was reduced to keep the file small. Nothing else was changed.
