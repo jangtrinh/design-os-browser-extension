@@ -259,7 +259,23 @@ export class WsBridgeClient {
     }
 
     if (parsed.type === 'rpc') {
-      const response = await this.onRpcRequest(parsed.request);
+      let response: RpcResponse;
+      try {
+        response = await this.onRpcRequest(parsed.request);
+      } catch (err) {
+        // Always answer: an uncaught handler error used to leave the daemon waiting until
+        // RPC_BROKER_TIMEOUT (20 s) with no reason attached.
+        response = {
+          id: parsed.request.id,
+          ok: false,
+          outcome: 'BLOCKED',
+          error: {
+            code: 'EXTENSION_HANDLER_ERROR',
+            message: err instanceof Error ? err.message : String(err),
+            retryable: false,
+          },
+        };
+      }
       const reply: BridgeRpcResultMessage = {
         type: 'rpc_result',
         response,

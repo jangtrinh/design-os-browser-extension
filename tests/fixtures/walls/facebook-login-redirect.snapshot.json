@@ -1,0 +1,198 @@
+{
+ "url": "https://www.facebook.com/me/following",
+ "finalUrl": "https://www.facebook.com/",
+ "title": "Facebook",
+ "axNodes": [],
+ "headings": [],
+ "links": [
+  {
+   "text": "Forgotten password?",
+   "href": "https://www.facebook.com/recover/initiate/"
+  },
+  {
+   "text": "Create new account",
+   "href": "https://www.facebook.com/reg/"
+  },
+  {
+   "text": "Tiếng Việt",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "中文(台灣)",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "한국어",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "日本語",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "Français (France)",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "ภาษาไทย",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "More languages…",
+   "href": "https://www.facebook.com/#"
+  },
+  {
+   "text": "Sign up",
+   "href": "https://www.facebook.com/reg/"
+  },
+  {
+   "text": "Log in",
+   "href": "https://www.facebook.com/login/"
+  },
+  {
+   "text": "Messenger",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Facebook Lite",
+   "href": "https://www.facebook.com/lite/"
+  },
+  {
+   "text": "Video",
+   "href": "https://www.facebook.com/watch/"
+  },
+  {
+   "text": "Meta Pay",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Meta Store",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Meta Quest",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Ray-Ban Meta",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Meta AI",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Muse",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Instagram",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Threads",
+   "href": "https://l.facebook.com/l.php"
+  },
+  {
+   "text": "Privacy Policy",
+   "href": "https://www.facebook.com/privacy/policy/"
+  },
+  {
+   "text": "Privacy Centre",
+   "href": "https://www.facebook.com/privacy/center/"
+  },
+  {
+   "text": "About",
+   "href": "https://www.facebook.com/about/"
+  },
+  {
+   "text": "Create ad",
+   "href": "https://www.facebook.com/ad_campaign/landing.php"
+  },
+  {
+   "text": "Create Page",
+   "href": "https://www.facebook.com/pages/create/"
+  },
+  {
+   "text": "Developers",
+   "href": "https://developers.facebook.com/"
+  },
+  {
+   "text": "Careers",
+   "href": "https://www.facebook.com/careers/"
+  },
+  {
+   "text": "Cookies",
+   "href": "https://www.facebook.com/policies/cookies/"
+  },
+  {
+   "text": "AdChoices",
+   "href": "https://www.facebook.com/help/568137493302217"
+  },
+  {
+   "text": "Terms",
+   "href": "https://www.facebook.com/policies"
+  },
+  {
+   "text": "Help",
+   "href": "https://www.facebook.com/help/"
+  },
+  {
+   "text": "Contact uploading and non-users",
+   "href": "https://www.facebook.com/help/637205020878504"
+  }
+ ],
+ "meta": {},
+ "bodySample": "Explore the things you love. Log in to Facebook Email address or mobile number Password Log in Forgotten password? Create new account English (UK) Tiếng Việt 中文(台灣) 한국어 日本語 Français (France) ภาษาไทย More languages… Sign up Log in Messenger Facebook Lite Video Meta Pay Meta Store Meta Quest Ray-Ban Meta Meta AI Muse Instagram Threads Privacy Policy Privacy Centre About Create ad Create Page Developers Careers Cookies AdChoices Terms Help Contact uploading and non-users",
+ "domMarkers": [
+  "password-input"
+ ],
+ "structuralAlertTexts": [],
+ "loadingIndicators": [],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "stalled": false,
+ "textLines": [
+  "Explore the things you love.",
+  "Log in to Facebook",
+  "Email address or mobile number",
+  "Password",
+  "Log in",
+  "Forgotten password?",
+  "Create new account",
+  "English (UK)",
+  "Tiếng Việt",
+  "中文(台灣)",
+  "한국어",
+  "日本語",
+  "Français (France)",
+  "ภาษาไทย",
+  "More languages…",
+  "Sign up",
+  "Log in",
+  "Messenger",
+  "Facebook Lite",
+  "Video",
+  "Meta Pay",
+  "Meta Store",
+  "Meta Quest",
+  "Ray-Ban Meta",
+  "Meta AI",
+  "Muse",
+  "Instagram",
+  "Threads",
+  "Privacy Policy",
+  "Privacy Centre",
+  "About",
+  "Create ad",
+  "Create Page",
+  "Developers",
+  "Careers",
+  "Cookies",
+  "AdChoices",
+  "Terms",
+  "Help",
+  "Contact uploading and non-users"
+ ],
+ "dialogTexts": []
+}

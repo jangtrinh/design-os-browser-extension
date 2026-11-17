@@ -13,12 +13,19 @@ import type { CallerOrigin } from '../../../shared/rpc-envelope.js';
 import { ReaderAuditLog } from './audit-log.js';
 import { recordEvidenceBundle } from './evidence-recorder.js';
 
+/** Sites whose views span several independent hosts; each host gets its own guard. */
+const PER_HOST_GUARD_SITES = new Set(['generic', 'jobs']);
+
+/**
+ * Guard scope: one key per site, except multi-host sites (generic pages, job boards) where a
+ * wall on one host (LinkedIn sign-in modal) must not pause reads on another (Dribbble, Wellfound).
+ */
 export function resolveGuardScopeKey(site: string, targetUrl?: string): string {
-  if (site === 'generic' && targetUrl) {
+  if (PER_HOST_GUARD_SITES.has(site) && targetUrl) {
     try {
       const url = new URL(targetUrl);
       if (url.hostname) {
-        return `generic:${url.hostname.toLowerCase()}`;
+        return `${site}:${url.hostname.toLowerCase()}`;
       }
     } catch {
       // not a valid URL
@@ -81,7 +88,7 @@ export class AccountGuardManager {
   listGuards(): AccountGuardRecord[] {
     const baseGuards = (Object.keys(SITE_PACING_POLICIES) as ReaderSiteId[]).map((site) => this.getGuard(site));
     const extraRows = this.db
-      .prepare("SELECT * FROM account_guards WHERE site LIKE 'generic:%' AND state = 'PAUSED'")
+      .prepare("SELECT * FROM account_guards WHERE (site LIKE 'generic:%' OR site LIKE 'jobs:%') AND state = 'PAUSED'")
       .all() as Array<{
         site: string;
         state: 'CLEAR' | 'PAUSED';
@@ -199,7 +206,7 @@ export class AccountGuardManager {
       };
     }
 
-    const baseSite: ReaderSiteId = (site.startsWith('generic:') ? 'generic' : site) as ReaderSiteId;
+    const baseSite: ReaderSiteId = (site.includes(':') ? site.slice(0, site.indexOf(':')) : site) as ReaderSiteId;
     const nowIso = formatIsoWithOffset(now);
     this.db
       .prepare(
