@@ -87,6 +87,9 @@ export interface WebExtApi {
       addListener(
         cb: (tabId: number, changeInfo: { url?: string; status?: string }, tab: WebExtTab) => void,
       ): void;
+      removeListener?(
+        cb: (tabId: number, changeInfo: { url?: string; status?: string }, tab: WebExtTab) => void,
+      ): void;
     };
     onRemoved?: {
       addListener(cb: (tabId: number) => void): void;

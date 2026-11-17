@@ -66,6 +66,24 @@ interface IsolatedReply {
   error?: RpcResponse['error'];
 }
 
+const READER_COLLECT_TIMEOUT_MS = 10_000;
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`no reply from page within ${ms}ms`)), ms);
+    promise.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(timer);
+        reject(e);
+      },
+    );
+  });
+}
+
 export class ExtensionEngine {
   readonly capabilities: EngineCapabilities;
   readonly epochStore: PageEpochStore;
@@ -325,8 +343,8 @@ export class ExtensionEngine {
       );
     }
     if (targetUrl && targetUrl !== tab.url) {
-      await navigateAndWait(tab.id, targetUrl, this.epochStore);
-      tab.url = targetUrl;
+      // Keep the URL the tab really landed on: a redirect to a sign-in host is itself a gate.
+      tab.url = (await navigateAndWait(tab.id, targetUrl, this.epochStore)) || targetUrl;
     }
 
     const activeUrl = tab.url ?? '';
@@ -392,12 +410,37 @@ export class ExtensionEngine {
     }
 
     if (action === 'reader.collect') {
-      const reply = await sendTabMessage<IsolatedReply>(tab.id, {
-        __designOsIsolatedRpc: true,
-        op: 'reader.collect',
-        fence,
-        params: req.params ?? {},
-      });
+      let reply: IsolatedReply | undefined;
+      try {
+        reply = await withTimeout(
+          sendTabMessage<IsolatedReply>(tab.id, {
+            __designOsIsolatedRpc: true,
+            op: 'reader.collect',
+            fence,
+            params: req.params ?? {},
+          }),
+          READER_COLLECT_TIMEOUT_MS,
+        );
+      } catch (err) {
+        // No content script answered: the tab is showing a browser error page (e.g. x.com
+        // "Access denied, HTTP ERROR 403") or a page extensions cannot read. Never report that
+        // as an empty-but-fine page; fail loud as a gate so the guard pauses this site.
+        const reason =
+          `Page at ${activeUrl} could not be read (${err instanceof Error ? err.message : String(err)}). ` +
+          'The tab likely shows a browser error page such as HTTP 403 access denied. Resolve it in the browser tab.';
+        this.lastHumanGate = { state: 'BLOCKED_CHALLENGE', reason, url: activeUrl };
+        this.onHumanGateBlocked?.('BLOCKED_CHALLENGE', reason, activeUrl);
+        const screenshotBase64 = await captureVisibleTabPng(tab.windowId);
+        return {
+          id: req.id,
+          ok: false,
+          outcome: 'BLOCKED',
+          fence,
+          humanGate: 'BLOCKED_CHALLENGE',
+          data: { ...(screenshotBase64 ? { screenshotBase64 } : {}), gateReason: reason },
+          error: { code: 'PAGE_UNREADABLE', message: reason, humanGate: 'BLOCKED_CHALLENGE', retryable: false },
+        };
+      }
       this.recordPassiveCount(reply?.passiveCapturedCount);
       if (!reply?.ok) {
         const gate = reply?.humanGate ?? 'BLOCKED_CHALLENGE';

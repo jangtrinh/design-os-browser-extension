@@ -31,6 +31,35 @@ export function isHiddenElement(el: Element): boolean {
   return false;
 }
 
+/** True when the element takes up layout space and is not hidden by attribute or computed style. */
+export function isRenderedElement(el: Element, minWidth = 1, minHeight = 1): boolean {
+  if (isHiddenElement(el) || el.closest('[aria-hidden="true"], [hidden]')) return false;
+  const view = el.ownerDocument?.defaultView;
+  if (view?.getComputedStyle) {
+    const style = view.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+  }
+  if (typeof (el as HTMLElement).getBoundingClientRect === 'function') {
+    const rect = (el as HTMLElement).getBoundingClientRect();
+    if (rect.width < minWidth || rect.height < minHeight) return false;
+  }
+  return true;
+}
+
+/**
+ * Visible page text with line breaks (innerText). Falls back to textContent with
+ * script/style/noscript removed when layout text is unavailable.
+ */
+export function visibleTextOf(root: Element | null | undefined): string {
+  if (!root) return '';
+  const inner = (root as HTMLElement).innerText;
+  if (typeof inner === 'string') return inner;
+  if (typeof root.cloneNode !== 'function') return root.textContent ?? '';
+  const clone = root.cloneNode(true) as Element;
+  for (const el of Array.from(clone.querySelectorAll?.('script, style, noscript, template') ?? [])) el.remove();
+  return clone.textContent ?? '';
+}
+
 export function inferName(el: Element, maxLength = 120): string {
   const ariaLabel = normalizeWhitespace(el.getAttribute('aria-label'));
   if (ariaLabel) return ariaLabel.slice(0, maxLength);

@@ -1,11 +1,18 @@
 import type { CollectedPageSnapshot } from '../../../shared/reader-schema.js';
 import { collectAxNodes } from '../adapters/linkedin/ax-collector.js';
-import { normalizeWhitespace } from './dom-snapshot.js';
+import { isRenderedElement, normalizeWhitespace, visibleTextOf } from './dom-snapshot.js';
+import { CHALLENGE_MARKER_RE, isInvisibleChallengeFrameSrc } from './human-gate-detector.js';
 
 const PROMPT_INJECTION_LINE_RE =
   /(ignore\s+(all\s+)?previous\s+instructions|disregard\s+system\s+prompt|system\s*prompt\s*:|<\|im_start\|>|assistant\s*:\s*please|you\s+must\s+override)/i;
 
 const SPINNER_TEXT_RE = /(đang tải\.\.\.|loading\.\.\.|please wait|still loading)/i;
+
+const MAX_TEXT_LINES = 1500;
+const MAX_LINE_LENGTH = 300;
+const DIALOG_SELECTOR = '[role="dialog"], [role="alertdialog"], [aria-modal="true"], dialog[open]';
+const LOGIN_FORM_SELECTOR =
+  'form[action*="login" i], form[action*="signin" i], form[action*="sign_in" i], form[action*="uas/login"], input[name="session_key"]';
 
 /**
  * Pure read-only page snapshot collector for the Shared Browser Layer.
@@ -54,6 +61,27 @@ export function collectPageSnapshot(
   if (doc.querySelector('[data-test-id="premium-upsell-wall"], [data-test="paywall-gate"]')) {
     domMarkers.push('premium-upsell-wall');
   }
+  if (Array.from(doc.querySelectorAll('input[type="password"]')).some((el) => isRenderedElement(el))) {
+    domMarkers.push('password-input');
+  }
+  if (Array.from(doc.querySelectorAll(LOGIN_FORM_SELECTOR)).some((el) => isRenderedElement(el))) {
+    domMarkers.push('login-form');
+  }
+  for (const frame of Array.from(doc.querySelectorAll('iframe'))) {
+    const src = frame.getAttribute('src') ?? '';
+    // Invisible reCAPTCHA v3 / bot-score frames sit on many sign-in modals; only a frame a
+    // human can actually see and solve counts as a challenge.
+    if (CHALLENGE_MARKER_RE.test(src) && !isInvisibleChallengeFrameSrc(src) && isRenderedElement(frame, 30, 30)) {
+      domMarkers.push('challenge-iframe');
+      break;
+    }
+  }
+
+  const dialogTexts = Array.from(doc.querySelectorAll(DIALOG_SELECTOR))
+    .filter((el) => isRenderedElement(el))
+    .map((el) => normalizeWhitespace(visibleTextOf(el)).slice(0, 600))
+    .filter(Boolean)
+    .slice(0, 10);
 
   const structuralAlertTexts = Array.from(
     doc.querySelectorAll('[role="alert"], [role="dialog"] h1, [role="dialog"] h2, main > h1, .challenge-error'),
@@ -66,7 +94,13 @@ export function collectPageSnapshot(
     const txt = normalizeWhitespace(el.textContent || el.getAttribute('aria-label') || 'loading');
     if (txt) loadingIndicators.push(txt.slice(0, 120));
   }
-  const bodySample = normalizeWhitespace(doc.body?.textContent ?? '').slice(0, 4000);
+  const bodyText = visibleTextOf(doc.body);
+  const bodySample = normalizeWhitespace(bodyText).slice(0, 4000);
+  const textLines = bodyText
+    .split(/\r?\n/)
+    .map((line) => normalizeWhitespace(line).slice(0, MAX_LINE_LENGTH))
+    .filter(Boolean)
+    .slice(0, MAX_TEXT_LINES);
   const spinnerMatch = bodySample.match(SPINNER_TEXT_RE);
   if (spinnerMatch && !loadingIndicators.includes(spinnerMatch[0])) {
     loadingIndicators.push(spinnerMatch[0]);
@@ -102,5 +136,7 @@ export function collectPageSnapshot(
     hiddenInstructions,
     scrollStepsExecuted,
     stalled,
+    textLines,
+    dialogTexts,
   };
 }

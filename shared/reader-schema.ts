@@ -127,6 +127,10 @@ export interface CollectedPageSnapshot {
   hiddenInstructions: string[];
   scrollStepsExecuted: number;
   stalled?: boolean;
+  /** Visible text of the page, one entry per rendered line (innerText), capped. */
+  textLines?: string[];
+  /** Full visible text of open dialogs/modals (role=dialog, aria-modal), capped. */
+  dialogTexts?: string[];
 }
 
 export interface SitePacingPolicy {

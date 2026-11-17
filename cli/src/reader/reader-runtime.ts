@@ -29,6 +29,7 @@ import { SharedReaderStore } from './reader-store.js';
 import { detectHiddenPromptInstructions, redactReaderPayload } from './redaction.js';
 import { registerAllReaders } from './register-all.js';
 import { validateReaderTargetUrl } from './url-safety.js';
+import { detectSnapshotGate } from '../../../extension/src/core/human-gate-detector.js';
 
 export { registerReaderCheck };
 export type { ReaderCheckHandler };
@@ -436,6 +437,16 @@ export class ReaderRuntime {
           });
           return this.failEnvelopeWithGuard(ctx, startedAt, auditId, attemptId, totalPageLoads, paused.guard.reason ?? 'STALLED', paused.evidenceId, paused.alertLineOnce);
         }
+      }
+    }
+
+    // Second gate pass on the collected snapshot: login walls that redirect (YouTube Studio ->
+    // Google sign-in, Facebook -> /), login modals (Threads) and thin block pages (Reddit) render
+    // a normal-looking page the in-tab scan can let through. No data from such a page is real data.
+    if (collected.ok && collected.snapshot && (!collected.gate || collected.gate === 'CLEAR')) {
+      const snapGate = detectSnapshotGate(collected.snapshot, ctx.target);
+      if (snapGate.state === 'BLOCKED_AUTH' || snapGate.state === 'BLOCKED_CHALLENGE') {
+        collected = { ...collected, ok: false, gate: snapGate.state, gateReason: snapGate.reason };
       }
     }
 

@@ -1,0 +1,72 @@
+{
+ "url": "https://www.threads.com/@jangtrinhsg/post/DfMKyrKFT3i",
+ "finalUrl": "https://www.threads.com/@jangtrinhsg/post/DfMKyrKFT3i",
+ "title": "Example reply text on a Threads post",
+ "axNodes": [],
+ "headings": [],
+ "links": [
+  {
+   "text": "HomeHome",
+   "href": "https://www.threads.com/"
+  },
+  {
+   "text": "SearchSearch",
+   "href": "https://www.threads.com/search"
+  },
+  {
+   "text": "Log in",
+   "href": "https://www.threads.com/login"
+  },
+  {
+   "text": "author_a",
+   "href": "https://www.threads.com/@author_a"
+  },
+  {
+   "text": "jangtrinhsg",
+   "href": "https://www.threads.com/@jangtrinhsg"
+  },
+  {
+   "text": "author_b",
+   "href": "https://www.threads.com/@author_b"
+  },
+  {
+   "text": "Log in with username instead",
+   "href": "https://www.threads.com/login"
+  },
+  {
+   "text": "Threads Terms",
+   "href": "https://help.instagram.com/769983657850450"
+  }
+ ],
+ "meta": {},
+ "bodySample": "Thread 31 views author_a 10/31/26 Example post text. 21 6 jangtrinhsg 11/01/26 Example reply text. 1 Related threads author_b 6d Example related post. Log in or sign up for Threads See what people are talking about and join the conversation. Continue with Instagram",
+ "domMarkers": [],
+ "structuralAlertTexts": [],
+ "loadingIndicators": [],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "stalled": false,
+ "textLines": [
+  "Thread",
+  "31 views",
+  "author_a",
+  "10/31/26",
+  "Example post text.",
+  "21",
+  "6",
+  "jangtrinhsg",
+  "11/01/26",
+  "Example reply text.",
+  "1",
+  "Related threads",
+  "author_b",
+  "6d",
+  "Example related post.",
+  "Log in or sign up for Threads",
+  "See what people are talking about and join the conversation.",
+  "Continue with Instagram"
+ ],
+ "dialogTexts": [
+  "Say more with Threads Join Threads to share thoughts, find out what's going on, follow your people and more. Continue with Instagram"
+ ]
+}

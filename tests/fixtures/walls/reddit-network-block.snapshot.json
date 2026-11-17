@@ -1,0 +1,27 @@
+{
+ "url": "https://www.reddit.com/r/FigmaDesign",
+ "finalUrl": "https://www.reddit.com/r/FigmaDesign/?js_challenge=1",
+ "title": "",
+ "axNodes": [],
+ "headings": [],
+ "links": [
+  {
+   "text": "File a ticket",
+   "href": "https://support.reddithelp.com/hc/en-us/requests/new"
+  }
+ ],
+ "meta": {},
+ "bodySample": "You've been blocked by network security. If you think you've been blocked by mistake, file a ticket below and we'll look into it. File a ticket",
+ "domMarkers": [],
+ "structuralAlertTexts": [],
+ "loadingIndicators": [],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "stalled": false,
+ "textLines": [
+  "You've been blocked by network security.",
+  "If you think you've been blocked by mistake, file a ticket below and we'll look into it.",
+  "File a ticket"
+ ],
+ "dialogTexts": []
+}

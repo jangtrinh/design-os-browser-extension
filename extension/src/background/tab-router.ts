@@ -53,39 +53,45 @@ export async function resolveTargetTab(preferredTabId?: number, targetUrl?: stri
   );
 }
 
+type TabUpdatedListener = (tabId: number, changeInfo: { url?: string; status?: string }, tab: WebExtTab) => void;
+
+/**
+ * Navigates and waits for the load to finish. Redirects count: a login wall often lands on a
+ * different URL (studio.youtube.com -> accounts.google.com), so any `complete` after the
+ * navigation started ends the wait instead of burning the full timeout. Returns the URL the
+ * tab actually ended on.
+ */
 export async function navigateAndWait(
   tabId: number,
   targetUrl: string,
   epochStore: PageEpochStore,
   timeoutMs = 15_000,
-): Promise<void> {
+): Promise<string> {
   const api = getRuntimeApi();
-  await updateTabUrl(tabId, targetUrl);
-  await new Promise<void>((resolve) => {
-    let done = false;
-    const timer = setTimeout(() => {
-      if (!done) {
-        done = true;
-        resolve();
-      }
-    }, timeoutMs);
-
-    const finish = (): void => {
-      if (done) return;
-      done = true;
+  let finalUrl = targetUrl;
+  let sawNavigation = false;
+  let listener: TabUpdatedListener | undefined;
+  const done = new Promise<void>((resolve) => {
+    let finished = false;
+    const timer = setTimeout(() => finish(), timeoutMs);
+    function finish(): void {
+      if (finished) return;
+      finished = true;
       clearTimeout(timer);
       setTimeout(resolve, 250);
-    };
-
-    api?.tabs?.onUpdated?.addListener((updatedId, changeInfo, tab) => {
+    }
+    listener = (updatedId, changeInfo, tab) => {
       if (updatedId !== tabId) return;
-      if (
-        changeInfo.status === 'complete' &&
-        (!tab.url || tab.url === targetUrl || tab.url.startsWith(targetUrl.split('?')[0]))
-      ) {
-        finish();
-      }
-    });
+      if (changeInfo.status === 'loading' || changeInfo.url) sawNavigation = true;
+      if (tab?.url) finalUrl = tab.url;
+      const sameTarget = !tab?.url || tab.url === targetUrl || tab.url.startsWith(targetUrl.split('?')[0]);
+      if (changeInfo.status === 'complete' && (sameTarget || sawNavigation)) finish();
+    };
+    api?.tabs?.onUpdated?.addListener(listener);
   });
-  await epochStore.mintNavigation(tabId, targetUrl);
+  await updateTabUrl(tabId, targetUrl);
+  await done;
+  if (listener) api?.tabs?.onUpdated?.removeListener?.(listener);
+  await epochStore.mintNavigation(tabId, finalUrl);
+  return finalUrl;
 }
