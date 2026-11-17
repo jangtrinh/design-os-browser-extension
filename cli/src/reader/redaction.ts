@@ -120,6 +120,8 @@ export function redactReaderPayload<T>(payload: T, opts: RedactOptions): RedactR
       }
       if (key && NAME_KEYS.has(key) && isThirdPartyItem !== true && !keepListNames) {
         if (key === 'name' && opts.view?.startsWith('analytics')) return node;
+        // A product page's top-level `name` is the product, not a person (2026-11-17 finding #3).
+        if (key === 'name' && opts.view === 'product.page' && parentObj?.slug !== undefined) return node;
         if (!allow.has(node.trim().toLowerCase()) && !PILOT_METRIC_RE.test(node.trim())) {
           const isViewerOrPerson = opts.view === 'analytics.profile_views' || opts.view === 'profile.public' || opts.view === 'search.people' || isThirdPartyItem === false;
           if (isViewerOrPerson || key !== 'name') {

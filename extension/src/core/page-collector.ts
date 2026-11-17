@@ -1,4 +1,4 @@
-import type { CollectedPageSnapshot } from '../../../shared/reader-schema.js';
+import type { CollectedItemBlock, CollectedPageSnapshot } from '../../../shared/reader-schema.js';
 import { collectAxNodes } from '../adapters/linkedin/ax-collector.js';
 import { isRenderedElement, normalizeWhitespace, visibleTextOf } from './dom-snapshot.js';
 import { CHALLENGE_MARKER_RE, isInvisibleChallengeFrameSrc } from './human-gate-detector.js';
@@ -22,7 +22,7 @@ const LOGIN_FORM_SELECTOR =
 export function collectPageSnapshot(
   doc: Document,
   url: string,
-  options: { scrollSteps?: number; maxNodes?: number } = {},
+  options: { scrollSteps?: number; maxNodes?: number; itemSelector?: string } = {},
 ): CollectedPageSnapshot {
   let scrollStepsExecuted = 0;
   const maxScrollSteps = Math.max(0, Math.min(options.scrollSteps ?? 0, 12));
@@ -138,5 +138,47 @@ export function collectPageSnapshot(
     stalled,
     textLines,
     dialogTexts,
+    ...(options.itemSelector ? { items: collectItemBlocks(doc, options.itemSelector) } : {}),
   };
+}
+
+const MAX_ITEM_BLOCKS = 200;
+const MAX_ITEM_LINES = 40;
+const MAX_ITEM_LINKS = 20;
+
+/** Read-only: returns visible text lines, links and heading of each block matching `selector`. */
+export function collectItemBlocks(doc: Document, selector: string): CollectedItemBlock[] {
+  if (!selector || selector.length > 300) return [];
+  let nodes: Element[];
+  try {
+    nodes = Array.from(doc.querySelectorAll(selector));
+  } catch {
+    return [];
+  }
+  const out: CollectedItemBlock[] = [];
+  for (const el of nodes) {
+    if (out.length >= MAX_ITEM_BLOCKS) break;
+    const lines = visibleTextOf(el)
+      .split(/\r?\n/)
+      .map((line) => normalizeWhitespace(line).slice(0, MAX_LINE_LENGTH))
+      .filter(Boolean)
+      .slice(0, MAX_ITEM_LINES);
+    const links = Array.from(el.querySelectorAll?.('a[href]') ?? [])
+      .slice(0, MAX_ITEM_LINKS)
+      .map((a) => ({
+        text: normalizeWhitespace(a.textContent).slice(0, 200),
+        href: (a as HTMLAnchorElement).href || a.getAttribute('href') || '',
+      }))
+      .filter((l) => l.href);
+    const headingEl = el.querySelector?.('h1, h2, h3, h4, h5, h6');
+    const parentBlock = el.parentElement?.closest?.(selector) ?? null;
+    out.push({
+      id: el.getAttribute('id') || null,
+      parentId: parentBlock?.getAttribute('id') || null,
+      lines,
+      links,
+      heading: headingEl ? normalizeWhitespace(headingEl.textContent).slice(0, 200) || null : null,
+    });
+  }
+  return out;
 }

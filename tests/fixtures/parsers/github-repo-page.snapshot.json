@@ -1,0 +1,392 @@
+{
+ "url": "https://github.com/jangtrinh/design-os-browser-extension",
+ "finalUrl": "https://github.com/jangtrinh/design-os-browser-extension",
+ "title": "GitHub - jangtrinh/design-os-browser-extension: Research for a cross-browser AI agent browser extension: a verified UKMC.v2 knowledge pack on Chromium, Firefox and Safari. The extension itself is not built yet. · GitHub",
+ "headings": [
+  "Navigation Menu",
+  "Repository navigation",
+  "About",
+  "Topics",
+  "Resources",
+  "Code of conduct",
+  "Contributing",
+  "Security policy",
+  "Stars",
+  "Watchers",
+  "Forks",
+  "Latest commit"
+ ],
+ "meta": {},
+ "domMarkers": [],
+ "structuralAlertTexts": [],
+ "loadingIndicators": [
+  "TypeScript: 78.2%",
+  "JavaScript: 18.7%",
+  "Python: 1.2%",
+  "Other: 1.9%"
+ ],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "axNodes": [],
+ "links": [
+  {
+   "text": "Skip to content",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension#start-of-content"
+  },
+  {
+   "text": "",
+   "href": "https://github.com/"
+  },
+  {
+   "text": "Sign in",
+   "href": "https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fjangtrinh%2Fdesign-os-browser-extension"
+  },
+  {
+   "text": "GitHubRepository hosting, code review, and collaboration",
+   "href": "https://github.com/platform"
+  },
+  {
+   "text": "CopilotAI coding agent for tasks, projects, and automated work",
+   "href": "https://github.com/features/copilot"
+  },
+  {
+   "text": "ActionsCI/CD and automation",
+   "href": "https://github.com/features/actions"
+  },
+  {
+   "text": "Code QualityQuality analysis, fixes, and enforcement",
+   "href": "https://github.com/features/code-quality"
+  },
+  {
+   "text": "CodespacesCloud development environments",
+   "href": "https://github.com/features/codespaces"
+  },
+  {
+   "text": "Code SecurityVulnerability detection and remediation",
+   "href": "https://github.com/security/advanced-security/code-security"
+  },
+  {
+   "text": "Secret ProtectionSecret scanning and leak prevention",
+   "href": "https://github.com/security/advanced-security/secret-protection"
+  },
+  {
+   "text": "All Features",
+   "href": "https://github.com/features"
+  },
+  {
+   "text": "Documentation",
+   "href": "https://docs.github.com/en"
+  },
+  {
+   "text": "Training",
+   "href": "https://learn.github.com/skills"
+  },
+  {
+   "text": "Certifications",
+   "href": "https://learn.github.com/credentials"
+  },
+  {
+   "text": "Build with Copilot",
+   "href": "https://github.com/features/ai"
+  },
+  {
+   "text": "Customize Copilot",
+   "href": "https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-copilot-overview"
+  },
+  {
+   "text": "Integrations",
+   "href": "https://github.com/marketplace"
+  },
+  {
+   "text": "Trending repos",
+   "href": "https://github.com/trending"
+  },
+  {
+   "text": "GitHub Sponsors",
+   "href": "https://github.com/open-source/sponsors"
+  },
+  {
+   "text": "Developer articles",
+   "href": "https://github.com/resources/articles"
+  },
+  {
+   "text": "Enterprises",
+   "href": "https://github.com/enterprise"
+  },
+  {
+   "text": "Team",
+   "href": "https://github.com/team"
+  },
+  {
+   "text": "Startups",
+   "href": "https://github.com/enterprise/startups"
+  },
+  {
+   "text": "Nonprofits",
+   "href": "https://github.com/solutions/industry/nonprofits"
+  },
+  {
+   "text": "Healthcare",
+   "href": "https://github.com/solutions/industry/healthcare"
+  },
+  {
+   "text": "Financial services",
+   "href": "https://github.com/solutions/industry/financial-services"
+  },
+  {
+   "text": "Manufacturing",
+   "href": "https://github.com/solutions/industry/manufacturing"
+  },
+  {
+   "text": "Government",
+   "href": "https://github.com/solutions/industry/government"
+  },
+  {
+   "text": "See all industries",
+   "href": "https://github.com/solutions/industry"
+  },
+  {
+   "text": "Why GitHub",
+   "href": "https://github.com/why-github"
+  },
+  {
+   "text": "Customer Stories",
+   "href": "https://github.com/customer-stories"
+  },
+  {
+   "text": "Business insights",
+   "href": "https://github.com/solutions/executive-insights"
+  },
+  {
+   "text": "Trust Center",
+   "href": "https://github.com/trust-center"
+  },
+  {
+   "text": "GitHub Advanced SecurityEnterprise-grade code security",
+   "href": "https://github.com/security/advanced-security"
+  },
+  {
+   "text": "Copilot for businessEnterprise-grade AI features",
+   "href": "https://github.com/features/copilot/copilot-business"
+  },
+  {
+   "text": "Premium SupportEnterprise-grade 24/7 support",
+   "href": "https://github.com/enterprise/premium-support"
+  },
+  {
+   "text": "Documentation",
+   "href": "https://docs.github.com/en"
+  },
+  {
+   "text": "Resource center",
+   "href": "https://github.com/resources"
+  },
+  {
+   "text": "Events & webinars",
+   "href": "https://github.com/resources/events"
+  },
+  {
+   "text": "Community Forum",
+   "href": "https://github.com/orgs/community/discussions"
+  },
+  {
+   "text": "Customer Stories",
+   "href": "https://github.com/customer-stories"
+  },
+  {
+   "text": "Integrations",
+   "href": "https://github.com/marketplace"
+  },
+  {
+   "text": "Customer support",
+   "href": "https://help.github.com/"
+  },
+  {
+   "text": "Training",
+   "href": "https://learn.github.com/skills"
+  },
+  {
+   "text": "About",
+   "href": "https://github.com/about"
+  },
+  {
+   "text": "Partners",
+   "href": "https://github.com/partners"
+  },
+  {
+   "text": "Pricing",
+   "href": "https://github.com/pricing"
+  },
+  {
+   "text": "Sign in",
+   "href": "https://github.com/login?return_to=https%3A%2F%2Fgithub.com%2Fjangtrinh%2Fdesign-os-browser-extension"
+  },
+  {
+   "text": "Sign up",
+   "href": "https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=jangtrinh%2Fdesign-os-browser-extension"
+  },
+  {
+   "text": "Reload",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension"
+  },
+  {
+   "text": "Reload",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension"
+  },
+  {
+   "text": "Reload",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension"
+  },
+  {
+   "text": "jangtrinh",
+   "href": "https://github.com/jangtrinh"
+  },
+  {
+   "text": "design-os-browser-extension",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension"
+  },
+  {
+   "text": "Code",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension"
+  },
+  {
+   "text": "Issues",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension/issues"
+  },
+  {
+   "text": "Pull requests2 (2)",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension/pulls"
+  },
+  {
+   "text": "Actions",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension/actions"
+  },
+  {
+   "text": "Projects",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension/projects"
+  },
+  {
+   "text": "Security and quality",
+   "href": "https://github.com/jangtrinh/design-os-browser-extension/security"
+  }
+ ],
+ "bodySample": "Skip to content\nNavigation Menu\nProducts\nDevelopers\nBusinesses\nResources\nPricing\nSearch\n/\nSign in\nSign up\njangtrinh\ndesign-os-browser-extension\nRepository navigation\nCode\nIssues\nPull requests\n2\n(2)\nActions\nProjects\nSecurity and quality\nInsights\ndesign-os-browser-extension\nPublic\nNotifications\nFork0\n(0)\nStar0\n(0)\nmain\n11 Branches\n0 Tags\nCode\nLatest commit\njangtrinh\nchore(release): align version to 0.3.0 (#32)\nf51851c\n·\nHistory\n22 Commits\nFolders and files\nName Last commit message Last commit date\n.agents/plugins\nfeat: add es-browser-agent skill-forge package, workflows, and host b…\n.claude-plugin\nchore(release): align version to 0.3.0 (#32)\n.codex-plugin\nchore(release): align version to 0.3.0 (#32)\n.github/workflows\nci: run scripts/self_check.py on push and pull_request (#2)\n.grok-plugin\nchore(release): align version to 0.3.0 (#32)\nbundles\nfeat(readers): add P3 readers and checks to complete shared browser l…\ncli/src\nfeat(readers): add P3 readers and checks to complete shared browser l…\ncommands\nfeat(cli): add doctor command (#7)\ndocs\nfast-snapshot-and-fenced-dispatch.md guide Compact DOM snapshots and pageId / epoch / lease fencing before any write\nsecurity-and-human-handoff.md decision record Treating page text as untrusted, sender.origin checks, activeTab, and handing CAPTCHAs, sign-ins and payments back to the person\nThe 18 entities are 3 browser engines, 8 bridge primitives and 7 interaction barriers. Canonical glossary terms live in CONTEXT.md.\nHow it was built\nSources &",
+ "stalled": false,
+ "textLines": [
+  "Skip to content",
+  "Navigation Menu",
+  "Products",
+  "Developers",
+  "Businesses",
+  "Resources",
+  "Pricing",
+  "Search",
+  "/",
+  "Sign in",
+  "Sign up",
+  "jangtrinh",
+  "design-os-browser-extension",
+  "Repository navigation",
+  "Code",
+  "Issues",
+  "Pull requests",
+  "2",
+  "(2)",
+  "Actions",
+  "Projects",
+  "Security and quality",
+  "Insights",
+  "design-os-browser-extension",
+  "Public",
+  "Notifications",
+  "Fork0",
+  "(0)",
+  "Star0",
+  "(0)",
+  "main",
+  "11 Branches",
+  "0 Tags",
+  "Code",
+  "Latest commit",
+  "jangtrinh",
+  "chore(release): align version to 0.3.0 (#32)",
+  "f51851c",
+  "·",
+  "History",
+  "22 Commits",
+  "Folders and files",
+  "Name Last commit message Last commit date",
+  ".agents/plugins",
+  "feat: add es-browser-agent skill-forge package, workflows, and host b…",
+  ".claude-plugin",
+  "chore(release): align version to 0.3.0 (#32)",
+  ".codex-plugin",
+  "chore(release): align version to 0.3.0 (#32)",
+  ".github/workflows",
+  "ci: run scripts/self_check.py on push and pull_request (#2)",
+  ".grok-plugin",
+  "chore(release): align version to 0.3.0 (#32)",
+  "bundles",
+  "feat(readers): add P3 readers and checks to complete shared browser l…",
+  "cli/src",
+  "feat(readers): add P3 readers and checks to complete shared browser l…",
+  "commands",
+  "feat(cli): add doctor command (#7)",
+  "docs",
+  "fast-snapshot-and-fenced-dispatch.md guide Compact DOM snapshots and pageId / epoch / lease fencing before any write",
+  "security-and-human-handoff.md decision record Treating page text as untrusted, sender.origin checks, activeTab, and handing CAPTCHAs, sign-ins and payments back to the person",
+  "The 18 entities are 3 browser engines, 8 bridge primitives and 7 interaction barriers. Canonical glossary terms live in CONTEXT.md.",
+  "How it was built",
+  "Sources & Claims (UKMC.v2): 40 captured items -> 27 source objects -> 32 quoted claims across 6 documents, independently reviewed in _evidence/agent-browser-extensions-261116/review.json. Never hand-edit claims/, sources/, captures.jsonl, or index.json.",
+  "Engine & Adapter (v0.3.0): Shared TypeScript >= 7.0.2 RPC contracts (shared/), Chromium & Firefox MV3 extension builds (extension/), 127.0.0.1:4347 broker + node:sqlite + CLI + 22-tool MCP (cli/), and es:skill-forge v2 tool-product package (skills/es-browser-agent/, workflows/, bundles/).",
+  "Repository layout",
+  "Path Status in v0.3.0",
+  "knowledge/agent-browser-extensions/ Verified UKMC.v2 pack (ontology.yaml, 6 docs, 32 claims, 27 sources, 18 entities, index.json, _evidence/)",
+  "shared/ Shared TypeScript >= 7.0.2 Agent RPC envelope, capability tier, native 32-bit framing, LinkedIn schemas",
+  "extension/ Chromium & Firefox MV3 builds, Page Epoch store, Operate popup, MAIN 429/451 sentinel, LinkedIn ARIA adapter",
+  "cli/ 127.0.0.1:4347 WebSocket broker, node:sqlite cache, browser-agent CLI (--json), 22-tool MCP stdio server",
+  "skills/es-browser-agent/ Tool-product skill (SKILL.md, concepts.md, rules.md, look.md, contract.md, build/validate/look scripts)",
+  "workflows/ & commands/ Agent playbooks (LinkedIn workflow, New Site workflow, /doctor, /linkedin)",
+  "bundles/ Synced portable bundles for claude-code, codex, gemini, and grok-build",
+  "tests/ 17 Vitest suites covering fencing, Human Gate Handoff, normalizer, SQLite/MCP, manifests, A1–A9 skill gates, and Shared Browser Layer (#8–#26)",
+  "scripts/ build.mjs, e2e_visual_proof.mjs, skill_contract.mjs, sync_host_bundles.mjs, self_check.py, verify_bridge_primitives.py",
+  "Limits",
+  "Tier-3 Safari Web Extension still requires a native macOS/iOS Xcode App Container wrapper (SafariWebExtensionHandler host binary), documented in cross-browser-capability-matrix.md and not packaged as an .app bundle yet.",
+  "The knowledge pack's stopping gate (pack check) sits at DEEPEN (0/3 low-delta rounds): treat the research corpus as an extensible living pack alongside the v0.3.0 runtime.",
+  "Live LinkedIn testing operates strictly inside the user's authenticated browser session; fixture E2E runs (npm run test:e2e) cover deterministic Chromium MV3 attachment, ARIA reads of SDUI-shaped fixture pages, safe prefill, and BLOCKED_CHALLENGE halt without hitting live production accounts.",
+  "DESIGN:OS",
+  "Browser Extension is one of the DESIGN:OS tools. The others: Studio, CLI, Bridge, SVG Animation, 3D Blender, Knowledge Builder and mcp-bridge-go. More on jangtrinh.github.io.",
+  "Changelog: CHANGELOG.md · Index for AI agents: llms.txt · Agent rules: AGENTS.md",
+  "Contributing and license",
+  "CONTRIBUTING.md · CODE_OF_CONDUCT.md · SECURITY.md · PRIVACY.md",
+  "PolyForm Shield 1.0.0. FREE to use and modify, including for paid client work; you may not resell it or build a competing product from it.",
+  "If design-os-browser-extension saves you time, a star on GitHub helps other engineers and AI agents find it.",
+  "Built by Jang Trịnh, creative technologist and autonomous system architect.",
+  "GitHub · LinkedIn · Hub · YouTube · X",
+  "About",
+  "Research for a cross-browser AI agent browser extension: a verified UKMC.v2 knowledge pack on Chromium, Firefox and Safari. The extension itself is not built yet.",
+  "Topics",
+  "ai-agents",
+  "browser-extension",
+  "chrome-extension",
+  "design-os",
+  "firefox",
+  "knowledge-base",
+  "safari",
+  "webextensions",
+  "Resources",
+  "Readme",
+  "License",
+  "Code of conduct",
+  "Code of conduct",
+  "Contributing",
+  "Contributing",
+  "Security policy",
+  "Security policy",
+  "Activity",
+  "Stars",
+  "0 stars",
+  "Watchers",
+  "0 watching"
+ ]
+}

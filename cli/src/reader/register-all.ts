@@ -1,11 +1,11 @@
 import { parseGenericListingStatus, parseGenericPageSnapshot } from '../../../extension/src/adapters/generic/reader.js';
-import { parseJobsDetail, parseJobsSearchResults } from '../../../extension/src/adapters/jobs/reader.js';
+import { JOB_CARD_SELECTOR, parseJobsDetail, parseJobsSearchResults } from '../../../extension/src/adapters/jobs/reader.js';
 import { parseProductHuntProductPage } from '../../../extension/src/adapters/producthunt/reader.js';
 import { parseRedditThingScore, parseRedditUserSelf } from '../../../extension/src/adapters/reddit/metrics-reader.js';
 import { parseRedditSubredditRules } from '../../../extension/src/adapters/reddit/rules-reader.js';
 import { parseSocialFollowList } from '../../../extension/src/adapters/social-lists/following-reader.js';
 import { parseEngagementScout, parseThreadsPostReplies } from '../../../extension/src/adapters/threads/reader.js';
-import { parseUnikornProductComments, parseUnikornProductPage } from '../../../extension/src/adapters/unikorn/reader.js';
+import { UNIKORN_COMMENT_SELECTOR, parseUnikornProductComments, parseUnikornProductPage } from '../../../extension/src/adapters/unikorn/reader.js';
 import { parseXAccountAnalytics, parseXArticleStats, parseXArticlesList } from '../../../extension/src/adapters/x/reader.js';
 import { parseYouTubeStudioChannelAnalytics, parseYouTubeStudioVideosAnalytics } from '../../../extension/src/adapters/youtube-studio/reader.js';
 import { DEFAULT_MAX_AGE_BY_CLASS } from '../../../shared/reader-schema.js';
@@ -105,7 +105,7 @@ export function registerAllReaders(): void {
       defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.metrics,
       allowedHosts: ['www.producthunt.com', 'producthunt.com'],
     },
-    resolveTargetUrl: (p) => `https://www.producthunt.com/products/${String(p.slug ?? 'design-os')}`,
+    resolveTargetUrl: (p) => `https://www.producthunt.com/products/${String(p.slug ?? 'designos-studio')}`,
     parse: (snap) => parseProductHuntProductPage(snap),
   });
 
@@ -262,7 +262,7 @@ export function registerAllReaders(): void {
       defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
       allowedHosts: ['unikorn.vn', 'www.unikorn.vn'],
     },
-    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'design-os')}`,
+    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'designos-studio')}`,
     parse: (snap, params) => parseUnikornProductPage(snap, params),
   });
   registerReaderView({
@@ -274,8 +274,9 @@ export function registerAllReaders(): void {
       freshnessClass: 'comments',
       defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.comments,
       allowedHosts: ['unikorn.vn', 'www.unikorn.vn'],
+      itemSelector: UNIKORN_COMMENT_SELECTOR,
     },
-    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'design-os')}#comments`,
+    resolveTargetUrl: (p) => `https://unikorn.vn/p/${String(p.slug ?? 'designos-studio')}#comments`,
     parse: (snap, params) => parseUnikornProductComments(snap, params),
   });
 
@@ -289,6 +290,7 @@ export function registerAllReaders(): void {
       freshnessClass: 'listings',
       defaultMaxAgeS: DEFAULT_MAX_AGE_BY_CLASS.listings,
       allowedHosts: ['www.linkedin.com', 'linkedin.com', 'wellfound.com', 'www.wellfound.com', 'dribbble.com', 'www.dribbble.com'],
+      itemSelector: JOB_CARD_SELECTOR,
     },
     resolveTargetUrl: () => 'https://www.linkedin.com/jobs/search/',
     parse: (snap, params) => parseJobsSearchResults(snap, params),
