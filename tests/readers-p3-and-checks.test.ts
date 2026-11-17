@@ -697,7 +697,8 @@ describe('Wave 3 readers, checks, and audit (#21-#26)', () => {
     const dribbbleSnap = makeSnap({
       url: 'https://dribbble.com/jobs/remote',
       axNodes: [
-        { role: 'link', name: 'Visual Designer', href: 'https://dribbble.com/jobs/drb888-visual' },
+        // Real Dribbble posting URLs are /jobs/<numeric id>-<slug> (2026-11-17 capture).
+        { role: 'link', name: 'Visual Designer', href: 'https://dribbble.com/jobs/308888-Visual-Designer' },
         { role: 'text', name: 'Design Studio • Remote • 3 days ago' },
       ],
     });

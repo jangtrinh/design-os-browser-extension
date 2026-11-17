@@ -1,5 +1,13 @@
 import { shortHash8 } from '../../../../shared/hash.js';
-import type { CollectedPageSnapshot } from '../../../../shared/reader-schema.js';
+import type { CollectedItemBlock, CollectedPageSnapshot } from '../../../../shared/reader-schema.js';
+
+/** Job card blocks the collector returns as `snapshot.items` (Dribbble job board list items). */
+export const JOB_CARD_SELECTOR = 'li.job-list-item';
+
+/** Path segments under /jobs/ that are board pages, not postings. */
+const RESERVED_JOB_SLUGS = /^(new|search|post|posts|hire|alerts?|saved|collections?|filters?|remote|locations?|categories|index)$/i;
+/** Link texts that are calls to action, never a job title. */
+const CTA_TITLE_RE = /^(view job|apply now|apply|easy apply|see job|learn more|view|details|save|post a (?:full-time )?job.*)$/i;
 
 export type JobBoard = 'linkedin' | 'wellfound' | 'dribbble' | 'unknown';
 
@@ -7,7 +15,7 @@ export interface JobItem {
   id: string;
   board: JobBoard;
   title: string;
-  company: string;
+  company: string | null;
   location: string | null;
   remote: boolean;
   seniority: string | null;
@@ -33,14 +41,16 @@ export function detectBoard(url: string): JobBoard {
 function extractJobIdAndUrl(rawHref: string, base: string, board: JobBoard): { id: string; url: string } | null {
   let fullUrl = rawHref;
   try { fullUrl = new URL(rawHref, base).href; } catch { /* keep raw */ }
-  const linkedInM = fullUrl.match(/\/jobs\/view\/(\d+)/i);
+  const linkedInM = fullUrl.match(/\/jobs\/view\/(?:[^/?#]*-)?(\d+)/i);
   if (linkedInM) return { id: linkedInM[1], url: `https://www.linkedin.com/jobs/view/${linkedInM[1]}/` };
+  // Dribbble postings are /jobs/<numeric id>-<slug>; /jobs/new is "Post a Full-Time Job".
+  const dribbbleM = fullUrl.match(/dribbble\.com\/jobs\/(\d+)(-[^/?#]*)?/i);
+  if (dribbbleM) return { id: dribbbleM[1], url: fullUrl.split(/[?#]/)[0] };
+  if (board === 'dribbble' || board === 'linkedin') return null;
   const wellfoundM = fullUrl.match(/(?:wellfound\.com)?\/(?:jobs|company\/[^/]+\/jobs)\/([^/?#]+)/i);
-  if (wellfoundM) return { id: wellfoundM[1], url: fullUrl };
-  const dribbbleM = fullUrl.match(/(?:dribbble\.com)?\/jobs\/(\d+[^/?#]*)/i);
-  if (dribbbleM) return { id: dribbbleM[1], url: fullUrl };
+  if (wellfoundM && !RESERVED_JOB_SLUGS.test(wellfoundM[1])) return { id: wellfoundM[1], url: fullUrl };
   const genericM = fullUrl.match(/\/jobs\/(?:view\/)?([a-zA-Z0-9_-]+)/i);
-  return genericM ? { id: genericM[1], url: fullUrl } : null;
+  return genericM && !RESERVED_JOB_SLUGS.test(genericM[1]) ? { id: genericM[1], url: fullUrl } : null;
 }
 
 function extractMeta(text: string) {
@@ -58,6 +68,27 @@ function extractMeta(text: string) {
   };
 }
 
+/** Title from a posting URL slug, e.g. /jobs/310307-Product-Designer-Mobile-Apps. */
+function titleFromSlug(url: string): string {
+  const m = url.match(/\/jobs\/\d+-([^/?#]+)/i);
+  return m ? decodeURIComponent(m[1]).replace(/-/g, ' ').trim() : '';
+}
+
+function parseJobCard(block: CollectedItemBlock, base: string, board: JobBoard): { id: string; url: string; title: string; company: string | null; lines: string[] } | null {
+  let parsed: { id: string; url: string } | null = null;
+  for (const l of block.links) {
+    parsed = extractJobIdAndUrl(l.href, base, board);
+    if (parsed) break;
+  }
+  if (!parsed) return null;
+  const lines = block.lines.filter((l) => !CTA_TITLE_RE.test(l) && !/^(view job\s*apply now)$/i.test(l));
+  const title = block.heading && !CTA_TITLE_RE.test(block.heading) ? block.heading : titleFromSlug(parsed.url) || lines[1] || lines[0] || '';
+  const titleAt = lines.indexOf(title);
+  // Dribbble card: company line, then the h4 title, then location lines.
+  const company = titleAt > 0 ? lines[titleAt - 1] : null;
+  return { ...parsed, title, company, lines };
+}
+
 export function parseJobsSearchResults(
   snap: CollectedPageSnapshot,
   params: Record<string, unknown>
@@ -70,8 +101,17 @@ export function parseJobsSearchResults(
   const seenIds = new Set<string>(Array.isArray(params.seen_job_ids) ? params.seen_job_ids.map(String) : []);
   const seenUrls = new Set<string>(Array.isArray(params.seen_urls) ? params.seen_urls.map(String) : []);
 
-  const candidates: Array<{ id: string; url: string; title: string; nodeIndex: number }> = [];
+  const candidates: Array<{ id: string; url: string; title: string; nodeIndex: number; company?: string | null; cardLines?: string[] }> = [];
   const registeredIds = new Set<string>();
+
+  // Job cards first: they carry title, company and location together.
+  for (const block of snap.items ?? []) {
+    const card = parseJobCard(block, snap.url, board);
+    if (card && !registeredIds.has(card.id)) {
+      registeredIds.add(card.id);
+      candidates.push({ id: card.id, url: card.url, title: card.title, nodeIndex: -1, company: card.company, cardLines: card.lines });
+    }
+  }
 
   for (let i = 0; i < snap.axNodes.length; i += 1) {
     const node = snap.axNodes[i];
@@ -92,8 +132,10 @@ export function parseJobsSearchResults(
   }
 
   const items: JobItem[] = candidates.map((cand) => {
+    if (CTA_TITLE_RE.test(cand.title)) cand.title = titleFromSlug(cand.url);
     const cardSnippets: string[] = cand.title ? [cand.title] : [];
-    let company = '';
+    if (cand.cardLines) cardSnippets.push(...cand.cardLines);
+    let company = cand.company ?? '';
 
     if (cand.nodeIndex >= 0) {
       const start = Math.max(0, cand.nodeIndex - 3);
@@ -111,7 +153,7 @@ export function parseJobsSearchResults(
     const cardText = cardSnippets.join(' • ');
     if (!company) {
       const compM = cardText.match(/(?:at|@)\s+([A-Za-z0-9&.\-\s]{2,40})/i);
-      company = compM ? compM[1].trim() : 'Unknown';
+      company = compM ? compM[1].trim() : '';
     }
 
     const meta = extractMeta(cardText);
@@ -120,8 +162,8 @@ export function parseJobsSearchResults(
     return {
       id: cand.id,
       board,
-      title: cand.title || 'Job Opening',
-      company,
+      title: cand.title,
+      company: company || null,
       location: meta.location,
       remote: meta.remote,
       seniority: meta.seniority,
@@ -132,10 +174,17 @@ export function parseJobsSearchResults(
     };
   });
 
+  const notes: string[] = [];
+  const untitled = items.filter((i) => !i.title).length;
+  const noCompany = items.filter((i) => !i.company).length;
+  if (items.length === 0) notes.push('No job postings rendered; an empty list is not a complete result.');
+  if (untitled > 0) notes.push(`${untitled} posting(s) without a readable title.`);
+  if (noCompany > 0) notes.push(`${noCompany} posting(s) without a readable company.`);
+
   return {
     data: { board, url: snap.finalUrl || snap.url, total_found: items.length, items },
-    missing_required: [],
-    notes: [],
+    missing_required: [...(items.length === 0 ? ['items'] : []), ...(untitled > 0 ? ['title'] : [])],
+    notes,
   };
 }
 

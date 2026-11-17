@@ -23,10 +23,16 @@ import {
   type RpcResponse,
 } from '../../../shared/rpc-envelope.js';
 import { LinkedInSqliteCache } from '../db/sqlite-cache.js';
+import { getReaderDescriptor } from '../reader/reader-registry.js';
 import { ReaderRuntime } from '../reader/reader-runtime.js';
 import { renderFixtureRoute } from './fixture-pages.js';
 import { loadOrCreatePairingToken } from './pairing.js';
 import { checkAuthorizedRequest, checkHostAndOrigin, type GuardFailure } from './request-guard.js';
+
+/** The view's item-block selector, forwarded to the in-tab collector. */
+function itemSelectorFor(site: ReaderSiteId, view: string): string | undefined {
+  return getReaderDescriptor(site, view)?.itemSelector;
+}
 
 export interface BrokerOptions {
   host?: string;
@@ -150,6 +156,7 @@ export async function startBrokerServer(options: BrokerOptions = {}): Promise<Ru
           url: req.targetUrl,
           scrollSteps: typeof req.params.scroll_steps === 'number' ? req.params.scroll_steps : 0,
           captureScreenshot: req.captureScreenshot,
+          ...(itemSelectorFor(req.site, req.view) ? { itemSelector: itemSelectorFor(req.site, req.view) } : {}),
         },
         callerOrigin: 'agent-rpc',
         timeoutMs: 20_000,

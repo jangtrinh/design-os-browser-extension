@@ -13,6 +13,20 @@ const TIER_REGEX = new RegExp(`\\b(${TIER_NAMES.join('|')})\\b`, 'i');
 const PRICE_TOKEN_REGEX = /(?:[$€£₫]\s*\d[\d,.]*|\d[\d,.]*\s*(?:VND|đ|USD|EUR))(?:\/(?:mo|month|yr|year|seat))?|\bfree\b|\bcustom\b/i;
 const NAV_BOILERPLATE = /^(nav|menu|skip to|home|about|contact|login|sign in|sign up|register|pricing|terms|privacy|cookie|careers|blog|docs|documentation|search|all rights reserved|copyright)\b/i;
 
+const BADGE_LABEL_RE =
+  /^(?:[^\w\s]\s*)?(Featured|Verified|Top Product|Staff Pick|Product of the (?:Day|Week|Month))(?:\s+(?:tool|product|app)?\s*(?:of the (?:day|week|month|year))?)?$/i;
+
+function isSamePageAnchor(href: string, pageUrl: string): boolean {
+  if (href.startsWith('#')) return true;
+  try {
+    const a = new URL(href, pageUrl);
+    const p = new URL(pageUrl);
+    return Boolean(a.hash) && a.origin === p.origin && a.pathname.replace(/\/$/, '') === p.pathname.replace(/\/$/, '');
+  } catch {
+    return false;
+  }
+}
+
 export function parseGenericListingStatus(
   snap: CollectedPageSnapshot,
   params: Record<string, unknown>
@@ -40,9 +54,13 @@ export function parseGenericListingStatus(
   let matchedTitle: string | null = null;
   let matchedUrl: string | null = null;
 
+  const pageUrl = snap.finalUrl || snap.url;
   for (const l of snap.links) {
     const hrefLower = l.href.toLowerCase();
     const textLower = l.text.toLowerCase();
+    // Skip-links, same-page anchors and nav/footer boilerplate are never the listing
+    // ("Skip to content" -> #start-of-content on GitHub, 2026-11-17 finding #7).
+    if (isSamePageAnchor(l.href, pageUrl) || NAV_BOILERPLATE.test(l.text.trim())) continue;
     if (
       (domain && hrefLower.includes(domain)) ||
       variants.some((v) => hrefLower.includes(v) || textLower.includes(v))
@@ -66,11 +84,25 @@ export function parseGenericListingStatus(
   }
 
   const joined = allTexts.join('\n');
-  const badgeM = joined.match(/\b(Featured|Verified|Top Product|Staff Pick)\b/i);
-  const badge = badgeM ? badgeM[1] : null;
+  const shortLines = [
+    ...(snap.textLines ?? []),
+    ...snap.bodySample.split(/\r?\n/),
+    ...snap.headings,
+    ...snap.axNodes.map((n) => n.name),
+  ]
+    .flatMap((t) => t.split(/\s+[·•|]\s+/))
+    .map((t) => t.trim())
+    .filter((t) => t && t.length <= 40);
 
-  const rankM = joined.match(/(?:^|\s|·)#\s*(\d+)\b|Rank\s*#?\s*(\d+)\b/i);
-  const rank = rankM ? Number(rankM[1] ?? rankM[2]) : null;
+  // A badge is a short label on its own, not the word inside a sentence ("Verified UKMC.v2 pack").
+  const badgeLine = shortLines.find((t) => BADGE_LABEL_RE.test(t));
+  const badge = badgeLine ? badgeLine.match(BADGE_LABEL_RE)?.[1] ?? null : null;
+
+  // Rank only from an explicit rank phrase; a bare "#2084" is usually a PR/issue number.
+  const rankM = [joined, ...(snap.textLines ?? [])].join('\n').match(
+    /\brank(?:ed)?\s*#?\s*(\d+)\b|#\s*(\d+)\s+rank\b|#\s*(\d+)\s+(?:product|app|tool)?\s*(?:of the|in)\s+(?:day|week|month|year)\b/i,
+  );
+  const rank = rankM ? Number(rankM[1] ?? rankM[2] ?? rankM[3]) : null;
 
   const votesM = joined.match(/(\d[\d,.]*[KkMm]?)\s*(?:upvotes?|votes?|likes?)\b/i);
   const votes = votesM ? (parseCount(votesM[1]) ?? null) : null;
@@ -81,18 +113,21 @@ export function parseGenericListingStatus(
     notes.push('Public listing page: prefer jev-read unless signed-in session is required (spec Q6).');
   }
 
+  const title = matchedTitle || snap.title || snap.headings[0] || null;
+  if (!listed) notes.push(`"${productName}" not found on the page.`);
+
   return {
     data: {
       product_name: productName,
       listed,
-      title: matchedTitle || snap.title || snap.headings[0] || null,
+      title,
       url: matchedUrl || snap.finalUrl || snap.url,
       badge,
       rank,
       votes,
       prefer_jev_read: preferJevRead,
     },
-    missing_required: [],
+    missing_required: title ? [] : ['title'],
     notes,
   };
 }

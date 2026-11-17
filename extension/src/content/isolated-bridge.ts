@@ -123,7 +123,8 @@ function handleIsolatedRpc(msg: IsolatedActionMessage): Record<string, unknown> 
   if (msg.op === 'reader.collect') {
     const scrollSteps = typeof msg.params?.scrollSteps === 'number' ? msg.params.scrollSteps : 0;
     const maxNodes = typeof msg.params?.maxNodes === 'number' ? msg.params.maxNodes : undefined;
-    const snapshot = collectPageSnapshot(document, url, { scrollSteps, maxNodes });
+    const itemSelector = typeof msg.params?.itemSelector === 'string' ? msg.params.itemSelector : undefined;
+    const snapshot = collectPageSnapshot(document, url, { scrollSteps, maxNodes, itemSelector });
     return {
       ok: true,
       outcome: 'COMMITTED',

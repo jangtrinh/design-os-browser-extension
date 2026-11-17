@@ -1,0 +1,734 @@
+{
+ "url": "https://unikorn.vn/p/designos-studio",
+ "finalUrl": "https://unikorn.vn/p/designos-studio",
+ "title": "DESIGN:OS Studio: Native local-first interface design studio built in Rust | Unikorn.vn",
+ "headings": [
+  "DESIGN:OS Studiov0.7.15",
+  "Latest updates",
+  "Reviews & comments",
+  "t/designos-studio",
+  "DESIGN:OS Studio: Project tab for Markdown docs",
+  "DESIGN:OS Studio: Paste and match style",
+  "DESIGN:OS Studio: glass splay and bevel",
+  "More from Jang Trịnh",
+  "DESIGN:OS Vietnamese",
+  "DESIGN:OS Figma Plugin & CLI",
+  "DESIGN:OS 3D Blender Agent",
+  "Related products"
+ ],
+ "meta": {
+  "description": "Native local-first interface design studio built in Rust",
+  "og:logo": "https://unikorn.vn/logo.png",
+  "og:title": "DESIGN:OS Studio: Native local-first interface design studio built in Rust | Unikorn.vn",
+  "og:description": "Native local-first interface design studio built in Rust",
+  "og:url": "https://unikorn.vn/p/designos-studio",
+  "og:site_name": "Unikorn",
+  "og:locale": "en_US",
+  "og:image": "https://unikorn.vn/api/og/product/designos-studio",
+  "og:image:width": "1200",
+  "og:image:height": "630",
+  "og:image:alt": "DESIGN:OS Studio",
+  "og:type": "article"
+ },
+ "domMarkers": [],
+ "structuralAlertTexts": [
+  "Cookies on Unikorn"
+ ],
+ "loadingIndicators": [],
+ "hiddenInstructions": [],
+ "scrollStepsExecuted": 0,
+ "axNodes": [],
+ "links": [
+  {
+   "text": "",
+   "href": "https://unikorn.vn/"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/"
+  },
+  {
+   "text": "Submit product",
+   "href": "https://unikorn.vn/login?source=header_cta&callbackUrl=%2Fproducts%2Fnew"
+  },
+  {
+   "text": "Submit product",
+   "href": "https://unikorn.vn/login?source=header_cta&callbackUrl=%2Fproducts%2Fnew"
+  },
+  {
+   "text": "Login",
+   "href": "https://unikorn.vn/login?source=header_cta"
+  },
+  {
+   "text": "Unikorn.vn",
+   "href": "https://unikorn.vn/"
+  },
+  {
+   "text": "FeedNew",
+   "href": "https://unikorn.vn/pulse"
+  },
+  {
+   "text": "Products",
+   "href": "https://unikorn.vn/categories"
+  },
+  {
+   "text": "Talks",
+   "href": "https://unikorn.vn/talks"
+  },
+  {
+   "text": "Contests",
+   "href": "https://unikorn.vn/contests"
+  },
+  {
+   "text": "Rankings",
+   "href": "https://unikorn.vn/leaderboard"
+  },
+  {
+   "text": "Explore",
+   "href": "https://unikorn.vn/p/designos-studio#"
+  },
+  {
+   "text": "Future Builders Meetup",
+   "href": "https://unikorn.vn/fbm"
+  },
+  {
+   "text": "Home",
+   "href": "https://unikorn.vn/"
+  },
+  {
+   "text": "AI Agents",
+   "href": "https://unikorn.vn/categories/ai-agents"
+  },
+  {
+   "text": "13 reviews",
+   "href": "https://unikorn.vn/p/designos-studio#comments"
+  },
+  {
+   "text": "31 comments",
+   "href": "https://unikorn.vn/p/designos-studio#comments"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/p/designos-studio"
+  },
+  {
+   "text": "Feedback",
+   "href": "https://unikorn.vn/p/designos-studio/feedback"
+  },
+  {
+   "text": "Roadmap9",
+   "href": "https://unikorn.vn/p/designos-studio/roadmap"
+  },
+  {
+   "text": "Updates21",
+   "href": "https://unikorn.vn/p/designos-studio/updates"
+  },
+  {
+   "text": "View all",
+   "href": "https://unikorn.vn/p/designos-studio/updates"
+  },
+  {
+   "text": "Login to comment",
+   "href": "https://unikorn.vn/login?source=comment_gate"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/u/commenter-a"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/u/commenter-a"
+  },
+  {
+   "text": "Commenter A",
+   "href": "https://unikorn.vn/u/commenter-a"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/p/tien-ich-viet"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/p/diaty-split-bills"
+  },
+  {
+   "text": "",
+   "href": "https://unikorn.vn/p/diaty-loi-nhuan"
+  },
+  {
+   "text": "Tiện ích Việt",
+   "href": "https://unikorn.vn/p/tien-ich-viet"
+  }
+ ],
+ "bodySample": "Search\nEnglish\nSearch⌘KSubmit product\nSubmit productLogin\nUnikorn.vn\nFeedNew\nProducts\nTalks\nContests\nRankings\nExplore\nFuture Builders Meetup\nHome/AI Agents/DESIGN:OS Studio\nDESIGN:OS Studiov0.7.15\nNative local-first interface design studio built in Rust\nAuto-translated · View original\n5·\n13 reviews·31 comments\nGitHub\nFeedbackRoadmap9Updates21\nDoes saving .fig keep everything intact? Not completely: numbered list formatting is lost, and colors assigned or inherited on instances are recorded as fixed values.\nFigma is a trademark of Figma, Inc.; DESIGN:OS is not affiliated with Figma.\nView more\nLatest updates\nv0.7.15\nLatestDESIGN:OS Studio v0.7.15: override quay lại khi đổi variant, và lưu trang chưa mở đáng tin hơnyesterday\nDESIGN:OS Studio v0.7.15: override quay lại khi đổi variant, và lưu trang chưa mở đáng tin hơn\nDESIGN:OS Studio v0.7.15 đã ra. Đây là Figma alternative chất lượng cao, MIỄN PHÍ, làm cho AI. Tải và dùng không mất phí, source được phát hành theo giấy phép PolyForm Shield.\nĐây là bản vá giữ được nhiều override hơn khi đổi variant hoặc swap instance lồng nhau, và giữ được nhiều hơn những gì bạn đã làm khi lưu file .fig với các trang chưa từng mở. Đường thẳng nhập vào cũng giữ nét outline trên nhiều kiểu resize hơn.\nOverride trên một layer mà variant kia không có sẽ quay lại khi chuyển về, miễn là cùng một kiểm tra của lần chuyển trực tiếp vẫn cho phép mang nó theo. Swap sang component ngoài bộ variant, hoặc layer gốc đã bị xóa, thì override đang chờ bị bỏ và đượ",
+ "stalled": false,
+ "textLines": [
+  "Search",
+  "English",
+  "Search⌘KSubmit product",
+  "Submit productLogin",
+  "Unikorn.vn",
+  "FeedNew",
+  "Products",
+  "Talks",
+  "Contests",
+  "Rankings",
+  "Explore",
+  "Future Builders Meetup",
+  "Home/AI Agents/DESIGN:OS Studio",
+  "DESIGN:OS Studiov0.7.15",
+  "Native local-first interface design studio built in Rust",
+  "Auto-translated · View original",
+  "5·",
+  "13 reviews·31 comments",
+  "GitHub",
+  "FeedbackRoadmap9Updates21",
+  "Does saving .fig keep everything intact? Not completely: numbered list formatting is lost, and colors assigned or inherited on instances are recorded as fixed values.",
+  "Figma is a trademark of Figma, Inc.; DESIGN:OS is not affiliated with Figma.",
+  "View more",
+  "Latest updates",
+  "v0.7.15",
+  "LatestDESIGN:OS Studio v0.7.15: override quay lại khi đổi variant, và lưu trang chưa mở đáng tin hơnyesterday",
+  "DESIGN:OS Studio v0.7.15: override quay lại khi đổi variant, và lưu trang chưa mở đáng tin hơn",
+  "DESIGN:OS Studio v0.7.15 đã ra. Đây là Figma alternative chất lượng cao, MIỄN PHÍ, làm cho AI. Tải và dùng không mất phí, source được phát hành theo giấy phép PolyForm Shield.",
+  "Đây là bản vá giữ được nhiều override hơn khi đổi variant hoặc swap instance lồng nhau, và giữ được nhiều hơn những gì bạn đã làm khi lưu file .fig với các trang chưa từng mở. Đường thẳng nhập vào cũng giữ nét outline trên nhiều kiểu resize hơn.",
+  "Override trên một layer mà variant kia không có sẽ quay lại khi chuyển về, miễn là cùng một kiểm tra của lần chuyển trực tiếp vẫn cho phép mang nó theo. Swap sang component ngoài bộ variant, hoặc layer gốc đã bị xóa, thì override đang chờ bị bỏ và được đếm. Báo cáo khi chuyển variant giờ có hai số: ",
+  "Lưu instance trên trang chưa từng mở vẫn giữ reset, vị trí đã dời, và binding biến của các trường không bị sửa. Trang .fig được nhân bản khi chưa mở vẫn giữ override con của instance khi lưu rồi mở lại (#1696, #1697, #1698, #1700, #2047).",
+  "Collection biến .fig đánh dấu không publish được thì vẫn ẩn, và isPublishable được giữ nguyên khi đọc rồi ghi lại (#1657). Đường thẳng nhập vào, khi resize bởi agent hoặc bởi width hay height đã gắn biến, giữ nét outline kéo theo như trên canvas (#1754, #1756, #1758).",
+  "Control mode của bảng Agents hiện đúng mode mà lần gửi tiếp theo sẽ dùng (#2008). Toast xếp hàng chờ lượt: toast trạng thái mới đứng sau toast lỗi đang hiện, không đè lên (#1975). Vòng hairline kín với nét Inside hoặc Outside được xuất SVG thành một ellipse, đúng như canvas vẽ (#2055).",
+  "Trong panel component, hàng của instance lồng nhau hiện dấu biến và nút gắn biến như hàng cấp trên. Khi tab agent đang chạy được chọn, bấm một hàng của menu mode, menu đính kèm hoặc popup @ thì tới đúng hàng đó (#1905, #2045).",
+  "GIỚI HẠN CÒN MỞ",
+  "Lưu .fig vẫn chưa giữ nguyên mọi thứ (#834, vẫn mở): định dạng danh sách đánh số bị mất, và màu kế thừa hoặc gắn biến trên instance bị ghi thành giá trị cố định.",
+  "Reset một override của instance lồng nhau để lại một override tạm trên instance cha, và override đó quay lại ở lần chuyển về sau (#2048). Đường thẳng mũi tên nhập vào bị lệch nửa độ dày nét khi resize, sửa độ dày nét để lại outline lưu sẵn đã cũ, và mũ mũi tên từng đầu trong outline chưa được hỗ trợ",
+  "Tải bản macOS, Windows, Linux và đọc ghi chú đầy đủ tại: https://github.com/jangtrinh/design-os-studio/releases/tag/v0.7.15",
+  "#DESIGNOS #FigmaAlternative #FreeDesignTool #AIDesign #DesignSystem",
+  "View more",
+  "1 contributed",
+  "View all",
+  "Reviews & comments",
+  "5",
+  "13 reviews",
+  "13",
+  "0",
+  "0",
+  "0",
+  "0",
+  "Have you used this product? Leave a review!",
+  "Write a review",
+  "Login to comment",
+  "?",
+  "Post comment",
+  "All 16Reviews 13Comments 3",
+  "Commenter A",
+  "Example product and 2 other products",
+  "25 ngày trước",
+  "·25 ngày trước",
+  "Good product",
+  "Good product",
+  "1Reply",
+  "Jang TrịnhMaker",
+  "DESIGN:OS Studio and 3 other products·23 ngày trước",
+  "Cảm ơn bạn đã ghé xem và ủng hộ nhé!",
+  "LikeReply",
+  "Commenter B",
+  "29 ngày trước",
+  "·29 ngày trước",
+  "Good product",
+  "Good product",
+  "1Reply",
+  "Jang TrịnhMaker",
+  "DESIGN:OS Studio and 3 other products·23 ngày trước",
+  "Cảm ơn bạn nhiều nha!",
+  "LikeReply",
+  "Commenter C",
+  "29 ngày trước",
+  "·29 ngày trước",
+  "Sản phẩm hay và hữu ích",
+  "Sản phẩm dành cho ae vibe coders và designers, sản phẩm đang trong quá trình hoàn thiện và 5 sao cho tác giả",
+  "1Reply",
+  "Jang TrịnhMaker",
+  "DESIGN:OS Studio and 3 other products·23 ngày trước",
+  "Cảm ơn C đã dành 5 sao và lời khen!",
+  "LikeReply",
+  "Commenter D",
+  "30 ngày trước",
+  "·30 ngày trước",
+  "dự án hay, ủng hộ ad",
+  "đã clap",
+  "1Reply",
+  "Jang TrịnhMaker",
+  "DESIGN:OS Studio and 3 other products·23 ngày trước",
+  "Cảm ơn bạn đã clap và ủng hộ!",
+  "LikeReply",
+  "Commenter E",
+  "khoảng 1 tháng trước",
+  "·khoảng 1 tháng trước",
+  "Dự án rất đáng thử",
+  "Cách làm thú vị, nhất là việc kết hợp AI vào thiết kế và code",
+  "1Reply",
+  "Jang TrịnhMaker",
+  "DESIGN:OS Studio and 3 other products·23 ngày trước",
+  "Cảm ơn bạn đã dùng thử và chia sẻ!",
+  "LikeReply",
+  "Load more",
+  "AI làm việc. Bạn làm chủ dự án.",
+  "681",
+  "tênmiền.free",
+  "Tên miền .vn vừa được giải phóng (free) từ VNNIC.",
+  "452",
+  "Added to collections",
+  "DESIGN Public",
+  "Đì Zai OS by Jang&H",
+  "Design os 2-3d",
+  "+6 more products",
+  "256",
+  "points, rank #15",
+  "Point details",
+  "Clap",
+  "Clapped",
+  "View all",
+  "claps",
+  "26",
+  "views",
+  "1,494",
+  "Stars",
+  "96",
+  "SaveShare",
+  "Built by",
+  "Jang Trịnh",
+  "@jang",
+  "Supporters",
+  "No one has supported DESIGN:OS Studio yet.",
+  "Support",
+  "Hunter",
+  "Hunter Name",
+  "@hunter-name",
+  "Awards",
+  "#6 Month October 2026",
+  "#1 Week 18/10/2026",
+  "#1 Day 17/10/2026",
+  "Links",
+  "FacebookLinkedInYouTubeGitHubReleasesWebsite/DocsWhy Studio existsv0.7.10 live connectors",
+  "Tech stack",
+  "Rust",
+  "Categories",
+  "Category",
+  "AI Agents",
+  "Tags",
+  "free·AI Agents·Design Tools·Design Systems·Figma alternative",
+  "Collections",
+  "DESIGN Public·Đì Zai OS by Jang&H·Design os 2-3d",
+  "Stats",
+  "Launched",
+  "17/10/2026",
+  "Views",
+  "1,494",
+  "Points",
+  "256",
+  "Report product",
+  "Clap256"
+ ],
+ "items": [
+  {
+   "id": "reply-c096c6a1-7ad2-49f1-aed7-0697a029940c",
+   "parentId": null,
+   "lines": [
+    "Commenter A",
+    "Example product and 2 other products",
+    "25 ngày trước",
+    "·25 ngày trước",
+    "Good product",
+    "Good product",
+    "1Reply",
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã ghé xem và ủng hộ nhé!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-a"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-a"
+    },
+    {
+     "text": "Commenter A",
+     "href": "https://unikorn.vn/u/commenter-a"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/tien-ich-viet"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/diaty-split-bills"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/diaty-loi-nhuan"
+    }
+   ],
+   "heading": "Good product"
+  },
+  {
+   "id": "reply-c1c25ab2-5c00-46ac-bdc1-8a4395ad7ce4",
+   "parentId": "reply-c096c6a1-7ad2-49f1-aed7-0697a029940c",
+   "lines": [
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã ghé xem và ủng hộ nhé!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-vietnamese"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-figma-plugin-and-cli"
+    },
+    {
+     "text": "DESIGN:OS Studio",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": null
+  },
+  {
+   "id": "reply-26352e8f-c6ed-4aaa-a79a-3b2ec39c0a87",
+   "parentId": null,
+   "lines": [
+    "Commenter B",
+    "29 ngày trước",
+    "·29 ngày trước",
+    "Good product",
+    "Good product",
+    "1Reply",
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn nhiều nha!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-b"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-b"
+    },
+    {
+     "text": "Commenter B",
+     "href": "https://unikorn.vn/u/commenter-b"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": "Good product"
+  },
+  {
+   "id": "reply-a2f2075c-862a-4457-827b-5ce88c719824",
+   "parentId": "reply-26352e8f-c6ed-4aaa-a79a-3b2ec39c0a87",
+   "lines": [
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn nhiều nha!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-vietnamese"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-figma-plugin-and-cli"
+    },
+    {
+     "text": "DESIGN:OS Studio",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": null
+  },
+  {
+   "id": "reply-afca6f21-7160-49f6-abdb-1f46015d64fa",
+   "parentId": null,
+   "lines": [
+    "Commenter C",
+    "29 ngày trước",
+    "·29 ngày trước",
+    "Sản phẩm hay và hữu ích",
+    "Sản phẩm dành cho ae vibe coders và designers, sản phẩm đang trong quá trình hoàn thiện và 5 sao cho tác giả",
+    "1Reply",
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn C đã dành 5 sao và lời khen!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-c"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-c"
+    },
+    {
+     "text": "Commenter C",
+     "href": "https://unikorn.vn/u/commenter-c"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": "Sản phẩm hay và hữu ích"
+  },
+  {
+   "id": "reply-c9f739d1-4ed4-4f9b-bfb9-8680865d2221",
+   "parentId": "reply-afca6f21-7160-49f6-abdb-1f46015d64fa",
+   "lines": [
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn C đã dành 5 sao và lời khen!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-vietnamese"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-figma-plugin-and-cli"
+    },
+    {
+     "text": "DESIGN:OS Studio",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": null
+  },
+  {
+   "id": "reply-6a4ca2b9-1598-4fe9-bdbf-307d4ea38714",
+   "parentId": null,
+   "lines": [
+    "Commenter D",
+    "30 ngày trước",
+    "·30 ngày trước",
+    "dự án hay, ủng hộ ad",
+    "đã clap",
+    "1Reply",
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã clap và ủng hộ!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-d"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-d"
+    },
+    {
+     "text": "Commenter D",
+     "href": "https://unikorn.vn/u/commenter-d"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": "dự án hay, ủng hộ ad"
+  },
+  {
+   "id": "reply-088393ab-6467-4a1d-af70-125672a530c7",
+   "parentId": "reply-6a4ca2b9-1598-4fe9-bdbf-307d4ea38714",
+   "lines": [
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã clap và ủng hộ!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-vietnamese"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-figma-plugin-and-cli"
+    },
+    {
+     "text": "DESIGN:OS Studio",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": null
+  },
+  {
+   "id": "reply-a454c0d2-3d73-4772-b51f-897dbbde2db7",
+   "parentId": null,
+   "lines": [
+    "Commenter E",
+    "khoảng 1 tháng trước",
+    "·khoảng 1 tháng trước",
+    "Dự án rất đáng thử",
+    "Cách làm thú vị, nhất là việc kết hợp AI vào thiết kế và code",
+    "1Reply",
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã dùng thử và chia sẻ!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-e"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/commenter-e"
+    },
+    {
+     "text": "Commenter E",
+     "href": "https://unikorn.vn/u/commenter-e"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": "Dự án rất đáng thử"
+  },
+  {
+   "id": "reply-655897d2-c848-4a45-9787-a444f1895609",
+   "parentId": "reply-a454c0d2-3d73-4772-b51f-897dbbde2db7",
+   "lines": [
+    "Jang TrịnhMaker",
+    "DESIGN:OS Studio and 3 other products·23 ngày trước",
+    "Cảm ơn bạn đã dùng thử và chia sẻ!",
+    "LikeReply"
+   ],
+   "links": [
+    {
+     "text": "",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "Jang Trịnh",
+     "href": "https://unikorn.vn/u/jang"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-studio"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-vietnamese"
+    },
+    {
+     "text": "",
+     "href": "https://unikorn.vn/p/designos-figma-plugin-and-cli"
+    },
+    {
+     "text": "DESIGN:OS Studio",
+     "href": "https://unikorn.vn/p/designos-studio"
+    }
+   ],
+   "heading": null
+  }
+ ]
+}

@@ -111,6 +111,18 @@ export interface CollectedLinkItem {
   href: string;
 }
 
+export interface CollectedItemBlock {
+  /** Element id, when present (e.g. `reply-<uuid>`). */
+  id: string | null;
+  /** Id of the closest ancestor block matching the same selector (nested replies). */
+  parentId: string | null;
+  /** Visible text lines inside the block, in reading order. */
+  lines: string[];
+  links: CollectedLinkItem[];
+  /** Text of the first heading (h1-h6) inside the block. */
+  heading: string | null;
+}
+
 export interface CollectedPageSnapshot {
   url: string;
   finalUrl: string;
@@ -131,6 +143,8 @@ export interface CollectedPageSnapshot {
   textLines?: string[];
   /** Full visible text of open dialogs/modals (role=dialog, aria-modal), capped. */
   dialogTexts?: string[];
+  /** Repeated item blocks matched by the view's `itemSelector` (comment cards, job cards). */
+  items?: CollectedItemBlock[];
 }
 
 export interface SitePacingPolicy {
@@ -175,4 +189,6 @@ export interface ReaderViewDescriptor {
   defaultMaxAgeS: number;
   allowedHosts: string[];
   supportsScroll?: boolean;
+  /** CSS selector for repeated item blocks the collector returns in `snapshot.items`. */
+  itemSelector?: string;
 }
