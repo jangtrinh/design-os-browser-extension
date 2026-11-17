@@ -148,7 +148,9 @@ export function parseRedditSubredditRules(
       min_karma: minKarma,
       min_account_age_days: minAccountAgeDays,
     },
-    missing_required: subreddit ? [] : ['subreddit'],
-    notes: [],
+    // A rules page with zero rules is almost always a block page or an unhydrated render, not a
+    // subreddit with no rules. Never let it read as complete (2026-11-17 finding #4).
+    missing_required: [...(subreddit ? [] : ['subreddit']), ...(rules.length === 0 && !params?.is_wiki ? ['rules'] : [])],
+    notes: rules.length === 0 ? ['No rules rendered on the page.'] : [],
   };
 }
